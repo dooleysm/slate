@@ -1,0 +1,7 @@
+<h1 id="visitor">Visitor</h1>
+
+<h2 id="get-visitors-visitor_id">GET <code class="prettyprint">/visitors/{visitor_id}</code></h2>
+
+<p>It fetches the visitor&rsquo;s information for the last site visited by the visitor.</p>
+
+<p>To fetch a visitor&rsquo;s information for a specific site please use <code class="prettyprint">GET /sites/{site_id}/visitors/{visitor_id}</code></p>

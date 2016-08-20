@@ -1,0 +1,243 @@
+<h1 id="javascript-api-deprecated">JavaScript API [Deprecated]</h1>
+
+<p>SaleMove API V1 has been released please find the documentation in <a href="https://js-sdk-docs.salemove.com/extra/README.md.html">here</a></p>
+
+<p>SaleMove Legacy JS API can be used for handling specific events during the observation and engagement process. The API is bundled with the <code class="prettyprint">salemove_integration</code> script. <a href="https://js-sdk-docs.salemove.com/extra/README.md.html">Promises</a> are used to provide access to the JS SDK.</p>
+<pre class="highlight plaintext"><code>sm.getApi().then(
+    function(api){
+      console.log("I got the api!", api);
+      window.salemoveApi = api;
+    },
+    function(err){ console.log("An error occured: ", err)}
+  );
+</code></pre>
+
+<p>The promise is resolved as soon as the SaleMove is fully bootstrapped.</p>
+
+<h2 id="event-types">Event Types</h2>
+
+<p>There are few events that are fired during the observatio and engagement process. As an example when an engagement starts the event <code class="prettyprint">ENGAGEMENT_START</code> is fired and the handler for such an event (if set) is called. All the available events are accesable via the <code class="prettyprint">salemoveAPI.EVENTS</code> collection.</p>
+
+<table><thead>
+<tr>
+<th>Event</th>
+<th>Description</th>
+<th>Payload</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">ENGAGEMENT_START</code></td>
+<td>Fired when an engagement starts - proactive or reactive</td>
+<td>An object with the engagement Id.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">ENGAGEMENT_END</code></td>
+<td>Fired when an engagement ends either by the operator or the visitor</td>
+<td>An object with the engagement Id.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">OPERATOR_LIST_UPDATE</code></td>
+<td>Fired when an operator goes online or offline</td>
+<td>An array of Operators</td>
+</tr>
+<tr>
+<td><code class="prettyprint">OPERATOR_STATUS_UPDATE</code></td>
+<td>Fired when an operator&rsquo;s attribute gest updated (e.g. availability status)</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<h3 id="engagement-start">Engagement Start</h3>
+
+<p>Fired when an engagement starts (proactive or reactive). The callback receives a JSON object with the engagement Id as a parameter.</p>
+<pre class="highlight plaintext"><code>salemoveApi.addEventListener(
+  salemoveApi.EVENTS.ENGAGEMENT_START,
+  function(engagement){
+    console.log('The engagement with id ' + engagement.engagementId + ' started');
+  }
+);
+</code></pre>
+
+<h3 id="engagement-end">Engagement End</h3>
+
+<p>Fired when an engagement ends either by the operator or the visitor. The callback receives a JSON object with the engagement Id as a parameter.</p>
+<pre class="highlight plaintext"><code>salemoveApi.addEventListener(
+  salemoveApi.EVENTS.ENGAGEMENT_END,
+  function(engagement){
+    console.log('The engagement with id ' + engagement.engagementId + ' ended');
+  }
+);
+</code></pre>
+
+<h3 id="engagment-list-update">Engagment List Update</h3>
+
+<p>Fired when an operator goes online or offline. The callback receives an Array of online operators as a parameter. Every operator in the list contains the following attributes: id, name, picture, and state (availability and media availability).</p>
+<pre class="highlight plaintext"><code>salemoveApi.addEventListener(
+  salemoveApi.EVENTS.OPERATOR_LIST_UPDATE,
+  function(operatorList){
+    console.log(operatorList)
+  }
+);
+</code></pre>
+
+<p>Output</p>
+<pre class="highlight plaintext"><code>[{
+  id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
+  name: 'John Doe',
+  picture: {
+    url: 'http://some.url/picture.png'
+  },
+  state: {
+    available: true,
+    media: ['audio', 'chat']
+  }
+},
+{
+  id: 'ef117ae4-f8a9-45e9-874c-087e19c8dbe6',
+  name: 'John Snow',
+  picture: {
+    url: 'http://some.url/another_picture.png'
+  },
+  state: {
+    available: false,
+    media: ['video','audio', 'chat']
+  }
+}]
+</code></pre>
+
+<h3 id="operator-status-update">Operator Status Update</h3>
+
+<p>Fired when an operator updates his/her availability or his/her media availability. The callback receives an JSON object as a parameter. The object contains the following operator&rsquo;s attributes: id, name, picture, state (availability and media availability).</p>
+
+<table><thead>
+<tr>
+<th>Operator Attribute</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">id</code></td>
+<td>Operator Id</td>
+</tr>
+<tr>
+<td><code class="prettyprint">name</code></td>
+<td>Operator Name</td>
+</tr>
+<tr>
+<td><code class="prettyprint">picture</code></td>
+<td>An object with an attribute <code class="prettyprint">url</code> containing the Operator&rsquo;s picture URL</td>
+</tr>
+<tr>
+<td><code class="prettyprint">state</code></td>
+<td>An object with two attributes <code class="prettyprint">available</code> and <code class="prettyprint">media</code>. The <code class="prettyprint">available</code> attribute indicates if the operator is available for starting and engagement. The <code class="prettyprint">media</code> attribute indicates what the operator is available for. The <code class="prettyprint">media</code> attribute possible values are: <code class="prettyprint">video</code>, <code class="prettyprint">audio</code>, <code class="prettyprint">chat</code></td>
+</tr>
+</tbody></table>
+<pre class="highlight plaintext"><code>salemoveApi.addEventListener(
+  salemoveApi.EVENTS.OPERATOR_STATUS_UPDATE,
+  function(operatorNewStatus){
+    console.log(operatorNewStatus)
+  }
+);
+</code></pre>
+
+<p>Output</p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="err">id:</span><span class="w"> </span><span class="err">'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',</span><span class="w">
+  </span><span class="err">name:</span><span class="w"> </span><span class="err">'John</span><span class="w"> </span><span class="err">Doe',</span><span class="w">
+  </span><span class="err">picture:</span><span class="w"> </span><span class="err">{</span><span class="w">
+    </span><span class="err">url:</span><span class="w"> </span><span class="err">'http://some.url/picture.png'</span><span class="w">
+  </span><span class="p">}</span><span class="err">,</span><span class="w">
+  </span><span class="err">state:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="err">available:</span><span class="w"> </span><span class="err">true,</span><span class="w">
+    </span><span class="err">media:</span><span class="w"> </span><span class="err">['audio',</span><span class="w"> </span><span class="err">'chat']</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="err">}</span><span class="w">
+</span></code></pre>
+
+<p>The following example keeps track of operators online and their availability statuses.</p>
+<pre class="highlight plaintext"><code>sm.getApi().then(function(api) {
+  var operators = [];
+
+  onOperatorStatusChange = function(updatedOperator) {
+    operators = operators.map(function(operator) {
+      if (operator.id == updatedOperator.id) {
+        return updatedOperator;
+      } else {
+        return operator;
+      }
+    });
+    updateElementUI();
+  }
+
+  onOperatorListChange = function(updatedOperators) {
+    operators = updatedOperators;
+    updateElementUI();
+  }
+
+  updateElementUI = function() {
+    filterAvailableOperators = function(operators) {
+      return operators.filter(function(operator) {
+        return operator.state.available;
+      });
+    }
+
+    var availableOperators = filterAvailableOperators(operators);
+    if (availableOperators.length == 0) {
+      alert("No operators are available.");
+      // Update application to indicate that no operators are available
+    }
+    else {
+      alert("At least one operator is now available.");
+      // Update application to indicate that at least one operator is available
+    }
+  }
+
+  api.addEventListener(api.EVENTS.OPERATOR_LIST_UPDATE, onOperatorListChange);
+  api.addEventListener(api.EVENTS.OPERATOR_STATUS_UPDATE, onOperatorStatusChange);
+});
+</code></pre>
+
+<h2 id="listeners">Listeners</h2>
+
+<p>The function <code class="prettyprint">addEventListener</code> is provided to add a callback for any of the events supported. The <code class="prettyprint">addEventListener</code> function accepts two parameters namely <code class="prettyprint">EventName</code> and <code class="prettyprint">Callback</code>. The <code class="prettyprint">EventName</code> parameter is one of the events suppported by the JS API and the <code class="prettyprint">Callback</code> is a function fired when the event is triggered.</p>
+<pre class="highlight plaintext"><code>addEventListener(&lt;EventName&gt;, &lt;Callback&gt;)
+</code></pre>
+<pre class="highlight plaintext"><code>salemoveApi.addEventListener(
+  salemoveApi.EVENTS.ENGAGEMENT_END,
+  function(engagement){
+    console.log('the engagement with id ' + engagement.engagementId + ' ended!')
+  }
+);
+</code></pre>
+
+<p>The function <code class="prettyprint">removeEventListener</code> is provided to remove a callback previously set for an event.</p>
+<pre class="highlight plaintext"><code>removeEventListener(&lt;EventName&gt;,&lt;CallBack&gt;)
+</code></pre>
+<pre class="highlight plaintext"><code>callback = function(engagement){
+  console.log('The engagement with id' + engagement.engagementId + 'ended!');
+}
+...
+salemoveApi.addEventListener(
+  salemoveApi.EVENTS.
+  callback
+);
+...
+salemoveApi.removeEventListener(
+  salemoveApi.EVENTS.ENGAGEMENT_END,
+  callback
+);
+`
+</code></pre>
+
+<h2 id="headers">Headers</h2>
+
+<p>There are few REST end-points that can be accessed only by a currently online visitor. The visitor needs to send few headers to the API for authentication. The JS API provides the function <code class="prettyprint">getRequestHeaders</code> that returns the collection of Headers needed to make an AJAX request.</p>
+<pre class="highlight plaintext"><code>$.ajax({
+  type: 'GET',
+  url: 'https://api.salemove.com/visitor',
+  headers: salemoveApi.getRequestHeaders(),
+  success: function(response){
+    ajaxResponse = response;
+  }
+});
+</code></pre>

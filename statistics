@@ -1,0 +1,686 @@
+<h1 id="statistics">Statistics</h1>
+
+<p>Queries are made in JSON using an HTTP REST style request. The query language is based on <a href="http://druid.io/docs/latest/querying/querying.html">Druid query language</a>.</p>
+
+<h2 id="query-types">Query Types</h2>
+
+<p>There are two types of queries: <strong>timeseries</strong> and <strong>group by</strong> queries.</p>
+
+<h3 id="query-type-timeseries">Query Type: Timeseries</h3>
+
+<p>These types of queries take a <code class="prettyprint">timeseries</code> query object and return an array of JSON objects where each object represents a value asked for by the timeseries query.</p>
+
+<p>An example timeseries query object against <code class="prettyprint">/engagements/stats/count</code> endpoint is shown below
+<code class="prettyprint">
+{
+  &quot;query_type&quot;: &quot;timeseries&quot;,
+  &quot;granularity&quot;: &quot;all&quot;,
+  &quot;start_date&quot;: &quot;2015-01-01T00:00:00Z&quot;,
+  &quot;end_date&quot;: &quot;2016-01-01T00:00:00Z&quot;,
+  &quot;filter&quot;: {
+    &quot;type&quot;: &quot;selector&quot;,
+    &quot;dimension&quot;: &quot;type&quot;,
+    &quot;value&quot;: &quot;reactive&quot;
+  }
+}
+</code></p>
+
+<p>A <code class="prettyprint">timeseries</code> query includes the following parts:</p>
+
+<table><thead>
+<tr>
+<th>property</th>
+<th style="text-align: center">description</th>
+<th style="text-align: right">required?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>query_type</td>
+<td style="text-align: center">This String should always be &ldquo;timeseries&rdquo;.</td>
+<td style="text-align: right">yes</td>
+</tr>
+<tr>
+<td>granularity</td>
+<td style="text-align: center">Defines the granularity to bucket query results. See <a href="#statistics-granularities">Granularities</a></td>
+<td style="text-align: right">yes</td>
+</tr>
+<tr>
+<td>start_date</td>
+<td style="text-align: center">A ISO-8601 timestamp. Defines the query start date (inclusive).</td>
+<td style="text-align: right">yes</td>
+</tr>
+<tr>
+<td>end_date</td>
+<td style="text-align: center">A ISO-8601 timestamp. Defines the query end date (exclusive).</td>
+<td style="text-align: right">yes</td>
+</tr>
+<tr>
+<td>filter</td>
+<td style="text-align: center">See <a href="#statistics-filters">Filters</a></td>
+<td style="text-align: right">yes</td>
+</tr>
+</tbody></table>
+
+<h3 id="query-type-group-by">Query Type: Group by</h3>
+
+<p>These types of queries take a <code class="prettyprint">group by</code> query object and return an array of JSON objects where each object represents a grouping asked for by the query. <strong>Note</strong>: If you only want to do straight aggregates for some time range, we highly recommend using <code class="prettyprint">timeseries</code> queries instead. The performance will be substantially better.</p>
+
+<p>An example <code class="prettyprint">group by</code> query object against <code class="prettyprint">/engagements/stats/count</code> endpoint is shown below
+<code class="prettyprint">js
+    {
+      &quot;query_type&quot;: &quot;timeseries&quot;,
+      &quot;dimensions&quot;: [&quot;operator_id&quot;],
+      &quot;granularity&quot;: &quot;all&quot;,
+      &quot;start_date&quot;: &quot;2015-01-01T00:00:00Z&quot;,
+      &quot;end_date&quot;: &quot;2016-01-01T00:00:00Z&quot;,
+      &quot;filter&quot;: {&quot;type&quot;: &quot;selector&quot;, &quot;dimension&quot;: &quot;type&quot;, &quot;value&quot;: &quot;reactive&quot;}
+    }
+</code></p>
+
+<p>A <code class="prettyprint">group by</code> query includes the following parts:</p>
+
+<table><thead>
+<tr>
+<th>property</th>
+<th style="text-align: center">description</th>
+<th style="text-align: right">required?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>query_type</td>
+<td style="text-align: center">This String should always be &ldquo;group_by&rdquo;.</td>
+<td style="text-align: right">yes</td>
+</tr>
+<tr>
+<td>dimensions</td>
+<td style="text-align: center">A JSON list of dimensions to do group by over.</td>
+<td style="text-align: right">yes</td>
+</tr>
+<tr>
+<td>granularity</td>
+<td style="text-align: center">Defines the granularity to bucket query results. See <a href="#statistics-granularities">Granularities</a></td>
+<td style="text-align: right">yes</td>
+</tr>
+<tr>
+<td>start_date</td>
+<td style="text-align: center">A ISO-8601 timestamp. Defines the query start date (inclusive).</td>
+<td style="text-align: right">yes</td>
+</tr>
+<tr>
+<td>end_date</td>
+<td style="text-align: center">A ISO-8601 timestamp. Defines the query end date (exclusive).</td>
+<td style="text-align: right">yes</td>
+</tr>
+<tr>
+<td>filter</td>
+<td style="text-align: center">See <a href="#statistics-filters">Filters</a></td>
+<td style="text-align: right">yes</td>
+</tr>
+</tbody></table>
+
+<h2 id="granularities">Granularities</h2>
+
+<p><a name="statistics-granularities"></a></p>
+
+<p>The granularity field determines how data gets aggregated. Supported granularities are <code class="prettyprint">all</code>, <code class="prettyprint">hour</code> and <code class="prettyprint">day</code>. <code class="prettyprint">all</code> buckets everything into a single bucket.</p>
+
+<h2 id="filters">Filters</h2>
+
+<p><a name="statistics-filters"></a></p>
+
+<p>A filter is a JSON object indicating which rows of data should be included in the computation for a query. It’s essentially the equivalent of the WHERE clause in SQL. You can use the following types of filters.</p>
+
+<h3 id="selector-filter">Selector filter</h3>
+
+<p>The simplest filter is a selector filter. The selector filter will match a specific dimension with a specific value. Selector filters can be used as the base filters for more complex Boolean expressions of filters.</p>
+
+<p>The grammar for a SELECTOR filter is as follows:
+<code class="prettyprint">
+  &quot;filter&quot;: {&quot;type&quot;: &quot;selector&quot;, &quot;dimension&quot;: &lt;dimension_string&gt;, &quot;value&quot;: &lt;dimension_value_string&gt;}
+</code></p>
+
+<h3 id="logical-expression-filters">Logical expression filters</h3>
+
+<h4 id="and">AND</h4>
+
+<p>The grammar for an AND filter is as follows:
+<code class="prettyprint">
+  &quot;filter&quot;: {&quot;type&quot;: &quot;and&quot;, &quot;fields&quot;: [&lt;filter&gt;, &lt;filter&gt;, ...]}
+</code></p>
+
+<h4 id="or">OR</h4>
+
+<p>The grammar for an OR filter is as follows:
+<code class="prettyprint">
+  &quot;filter&quot;: {&quot;type&quot;: &quot;or&quot;, &quot;fields&quot;: [&lt;filter&gt;, &lt;filter&gt;, ...]}
+</code></p>
+
+<h4 id="not">NOT</h4>
+
+<p>The grammar for a NOT filter is as follows:
+<code class="prettyprint">
+  &quot;filter&quot;: {&quot;type&quot;: &quot;not&quot;, &quot;field&quot;: &lt;filter&gt;}
+</code></p>
+
+<h3 id="post-engagements-stats-count"><code class="prettyprint">POST /engagements/stats/count</code></h3>
+
+<p>Returns engagement count.</p>
+
+<p>Possible dimensions that can be used in filters:</p>
+
+<table><thead>
+<tr>
+<th>Dimension</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td>Site ID</td>
+</tr>
+<tr>
+<td><code class="prettyprint">operator_id</code></td>
+<td>Operator ID</td>
+</tr>
+<tr>
+<td><code class="prettyprint">type</code></td>
+<td>Type of engagemens. Possible values are <code class="prettyprint">proactive</code>, <code class="prettyprint">reactive</code>, <code class="prettyprint">transfer</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">source</code></td>
+<td><strong>reactive</strong> engagement starting source (<code class="prettyprint">button_embed</code>, <code class="prettyprint">callout</code>, <code class="prettyprint">hotlink</code>, <code class="prettyprint">external_button</code>, <code class="prettyprint">tab</code>)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">outcome</code></td>
+<td>Engagement outcome (<code class="prettyprint">accepted</code>, <code class="prettyprint">rejected</code>, <code class="prettyprint">timed_out</code>, <code class="prettyprint">visitor_left</code>, <code class="prettyprint">visitor_cancel</code>, <code class="prettyprint">operator_cancel</code>, <code class="prettyprint">operator_left</code>)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">offered_media</code></td>
+<td><code class="prettyprint">video</code>, <code class="prettyprint">audio</code>, <code class="prettyprint">phone</code>, <code class="prettyprint">chat</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">accepted_media</code></td>
+<td><code class="prettyprint">video</code>, <code class="prettyprint">audio</code>, <code class="prettyprint">phone</code>, <code class="prettyprint">chat</code></td>
+</tr>
+</tbody></table>
+
+<h4 id="request">Request</h4>
+
+<p>Headers
+<code class="prettyprint">
+Authorization: Token 2pFuPlTYkH7T4MylrwxApA
+Accept: application/vnd.salemove.v1+json
+</code>
+Body
+<code class="prettyprint">
+{
+  &quot;query_type&quot;: &quot;group_by&quot;,
+  &quot;dimensions&quot;: [&quot;operator_id&quot;],
+  &quot;granularity&quot;: &quot;day&quot;,
+  &quot;start_date&quot;: &quot;2015-09-01T00:00:00Z&quot;,
+  &quot;end_date&quot;: &quot;2015-09-03T00:00:00Z&quot;,
+  &quot;filter&quot;: {
+    &quot;type&quot;: &quot;or&quot;,
+    &quot;fields&quot;: [
+      {
+        &quot;type&quot;: &quot;selector&quot;,
+        &quot;dimension&quot;: &quot;operator_id&quot;,
+        &quot;value&quot;: &quot;92d333b3-c194-4dfa-8a48-562d81c27bd8&quot;
+      },
+      {
+        &quot;type&quot;: &quot;selector&quot;,
+        &quot;dimension&quot;: &quot;operator_id&quot;,
+        &quot;value&quot;: &quot;8a832fe9-db22-48ac-a3ef-b25bf0d9db95&quot;
+      }
+    ]
+  }
+}
+</code></p>
+
+<h4 id="response">Response</h4>
+<pre class="highlight plaintext"><code>200
+
+[
+  {
+    "count": 18,
+    "operator_id": "92d333b3-c194-4dfa-8a48-562d81c27bd8",
+    "timestamp": "2015-09-01T00:00:00.000Z"
+  },
+  {
+    "count": 2,
+    "operator_id": "8a832fe9-db22-48ac-a3ef-b25bf0d9db95",
+    "timestamp": "2015-09-01T00:00:00.000Z"
+  },
+  {
+    "count": 20,
+    "operator_id": "92d333b3-c194-4dfa-8a48-562d81c27bd8",
+    "timestamp": "2015-09-02T00:00:00.000Z"
+  },
+  {
+    "count": 22,
+    "operator_id": "8a832fe9-db22-48ac-a3ef-b25bf0d9db95",
+    "timestamp": "2015-09-02T00:00:00.000Z"
+  }
+]
+</code></pre>
+
+<h3 id="post-engagements-stats-duration">POST <code class="prettyprint">/engagements/stats/duration</code></h3>
+
+<p>Returns the sum of engagement durations in seconds.</p>
+
+<p>Possible dimensions that can be used in filters:</p>
+
+<table><thead>
+<tr>
+<th>Filters</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>A site <code class="prettyprint">id</code> whose engagements will be included in the calculations</td>
+</tr>
+<tr>
+<td><code class="prettyprint">operator_id</code></td>
+<td><code class="prettyprint">strings</code></td>
+<td>Yes</td>
+<td>An operator <code class="prettyprint">id</code> whose engagements will be included in the calculations</td>
+</tr>
+</tbody></table>
+
+<h4 id="request">Request</h4>
+
+<p>Headers
+<code class="prettyprint">
+Authorization: Token 2pFuPlTYkH7T4MylrwxApA
+Accept: application/vnd.salemove.v1+json
+</code></p>
+
+<p>Body
+<code class="prettyprint">
+{
+  &quot;query_type&quot;: &quot;timeseries&quot;,
+  &quot;granularity&quot;: &quot;day&quot;,
+  &quot;start_date&quot;: &quot;2015-09-01T00:00:00Z&quot;,
+  &quot;end_date&quot;: &quot;2015-09-03T00:00:00Z&quot;,
+  &quot;filter&quot;: {}
+}
+</code></p>
+
+<h4 id="response">Response</h4>
+<pre class="highlight plaintext"><code>200
+
+[
+  {
+    "seconds": 1334,
+    "timestamp": "2015-09-01T00:00:00.000Z",
+  },
+  {
+    "seconds": 568,
+    "timestamp": "2015-09-02T00:00:00.000Z",
+  }
+]
+</code></pre>
+
+<h3 id="post-engagements-media_events-stats-count">POST <code class="prettyprint">/engagements/media_events/stats/count</code></h3>
+
+<p>Returns the count of various events relating to engagement media. Such as engagement offers (from both the operator and the visitor) with a particular media and upgrades from one media to another.</p>
+
+<p>Possible dimensions that can be used in filters:</p>
+
+<table><thead>
+<tr>
+<th>Dimension</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>A site <code class="prettyprint">id</code> whose engagements will be included in the calculations</td>
+</tr>
+<tr>
+<td><code class="prettyprint">operator_id</code></td>
+<td><code class="prettyprint">strings</code></td>
+<td>Yes</td>
+<td>An operator <code class="prettyprint">id</code> whose engagements will be included in the calculations</td>
+</tr>
+<tr>
+<td><code class="prettyprint">media</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The types of media that will be used for the filter. Possible values are (<code class="prettyprint">video</code>, <code class="prettyprint">audio</code>, <code class="prettyprint">phone</code>, <code class="prettyprint">chat</code>)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">type</code></td>
+<td><code class="prettyprint">enum</code></td>
+<td>No</td>
+<td>The engagement event type</td>
+</tr>
+</tbody></table>
+
+<table><thead>
+<tr>
+<th>Engagement Event Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">visitor_requested</code></td>
+<td>reactive engagement request event</td>
+</tr>
+<tr>
+<td><code class="prettyprint">operator_requested</code></td>
+<td>proactive engagement request event</td>
+</tr>
+<tr>
+<td><code class="prettyprint">visitor_accepted</code></td>
+<td>proactive engagement accept event</td>
+</tr>
+<tr>
+<td><code class="prettyprint">operator_accepted</code></td>
+<td>reactive engagement accept event</td>
+</tr>
+<tr>
+<td><code class="prettyprint">visitor_media_upgrade</code></td>
+<td>visitor media upgrade event</td>
+</tr>
+<tr>
+<td><code class="prettyprint">operator_media_upgrade</code></td>
+<td>operator media upgrade event</td>
+</tr>
+<tr>
+<td><code class="prettyprint">operator_media_upgrade_offer</code></td>
+<td>operator offer for both to use given media</td>
+</tr>
+</tbody></table>
+
+<h4 id="request">Request</h4>
+
+<p>Headers
+<code class="prettyprint">
+Authorization: Token 2pFuPlTYkH7T4MylrwxApA
+Accept: application/vnd.salemove.v1+json
+</code></p>
+
+<p>Body
+<code class="prettyprint">
+{
+  &quot;query_type&quot;: &quot;timeseries&quot;,
+  &quot;granularity&quot;: &quot;day&quot;,
+  &quot;start_date&quot;: &quot;2015-09-01T00:00:00Z&quot;,
+  &quot;end_date&quot;: &quot;2015-09-03T00:00:00Z&quot;,
+  &quot;filter&quot;: {}
+}
+</code></p>
+
+<h4 id="response">Response</h4>
+<pre class="highlight plaintext"><code>200
+[
+  {
+    "count": 1334,
+    "timestamp": "2015-09-01T00:00:00.000Z",
+  },
+  {
+    "count": 568,
+    "timestamp": "2015-09-02T00:00:00.000Z",
+  }
+]
+</code></pre>
+
+<h3 id="post-visitors-stats-count">POST <code class="prettyprint">/visitors/stats/count</code></h3>
+
+<p>Returns approximate distinct visitor count. This endpoint is using <a href="https://en.wikipedia.org/wiki/HyperLogLog">HyperLogLog</a> algorithm to calculate cardinality.</p>
+
+<p>Possible dimensions that can be used in filters:</p>
+
+<p>|Dimension|Type|Required|Description|
+|<code class="prettyprint">site_id</code>|<code class="prettyprint">string</code>|Yes|The <code class="prettyprint">site_id</code> of the site whose visitors are included in the calculations|</p>
+
+<h4 id="request">Request</h4>
+
+<p>Headers
+<code class="prettyprint">
+Authorization: Token 2pFuPlTYkH7T4MylrwxApA
+Accept: application/vnd.salemove.v1+json
+</code>
+Body
+<code class="prettyprint">
+{
+  &quot;query_type&quot;: &quot;timeseries&quot;,
+  &quot;granularity&quot;: &quot;day&quot;,
+  &quot;start_date&quot;: &quot;2015-09-01T00:00:00Z&quot;,
+  &quot;end_date&quot;: &quot;2015-09-03T00:00:00Z&quot;,
+  &quot;filter&quot;: {}
+}
+</code></p>
+
+<h4 id="response">Response</h4>
+<pre class="highlight plaintext"><code>200
+
+[
+  {
+    "count": 1898,
+    "timestamp": "2015-09-01T00:00:00.000Z",
+  },
+  {
+    "count": 2034,
+    "timestamp": "2015-09-02T00:00:00.000Z",
+  }
+]
+</code></pre>
+
+<h3 id="post-visits-stats-count">POST <code class="prettyprint">/visits/stats/count</code></h3>
+
+<p>Returns visitor session count.</p>
+
+<p>Possible dimensions that can be used in filters:</p>
+
+<table><thead>
+<tr>
+<th>Dimension</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The <code class="prettyprint">site_id</code> of the site whose visits are included in the calculations</td>
+</tr>
+</tbody></table>
+
+<h4 id="request">Request</h4>
+
+<p>Headers
+<code class="prettyprint">
+Authorization: Token 2pFuPlTYkH7T4MylrwxApA
+Accept: application/vnd.salemove.v1+json
+</code></p>
+
+<p>Body
+<code class="prettyprint">
+{
+  &quot;query_type&quot;: &quot;timeseries&quot;,
+  &quot;granularity&quot;: &quot;day&quot;,
+  &quot;start_date&quot;: &quot;2015-09-01T00:00:00Z&quot;,
+  &quot;end_date&quot;: &quot;2015-09-03T00:00:00Z&quot;,
+  &quot;filter&quot;: {}
+}
+</code></p>
+
+<h4 id="response">Response</h4>
+<pre class="highlight plaintext"><code>200
+
+[
+  {
+    "count": 2023,
+    "timestamp": "2015-09-01T00:00:00.000Z",
+  },
+  {
+    "count": 2094,
+    "timestamp": "2015-09-02T00:00:00.000Z",
+  }
+]
+</code></pre>
+
+<h3 id="post-alerts-stats-count">POST <code class="prettyprint">/alerts/stats/count</code></h3>
+
+<p>Returns operator alert count.</p>
+
+<p>Possible dimensions that can be used in filters:</p>
+
+<table><thead>
+<tr>
+<th>Dimensions</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The <code class="prettyprint">site_id</code> whose alerts will be included in the calculations</td>
+</tr>
+<tr>
+<td><code class="prettyprint">operator_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The <code class="prettyprint">operator_id</code> who received the alerts from the site with <code class="prettyprint">id</code></td>
+</tr>
+</tbody></table>
+
+<h4 id="request">Request</h4>
+
+<p>Headers
+<code class="prettyprint">
+Authorization: Token 2pFuPlTYkH7T4MylrwxApA
+Accept: application/vnd.salemove.v1+json
+</code></p>
+
+<p>Body
+<code class="prettyprint">
+{
+  &quot;query_type&quot;: &quot;timeseries&quot;,
+  &quot;granularity&quot;: &quot;day&quot;,
+  &quot;start_date&quot;: &quot;2015-09-01T00:00:00Z&quot;,
+  &quot;end_date&quot;: &quot;2015-09-03T00:00:00Z&quot;,
+  &quot;filter&quot;: {}
+}
+</code></p>
+
+<h4 id="response">Response</h4>
+<pre class="highlight plaintext"><code>200
+
+[
+  {
+    "count": 1022,
+    "timestamp": "2015-09-01T00:00:00.000Z",
+  },
+  {
+    "count": 1058,
+    "timestamp": "2015-09-02T00:00:00.000Z",
+  }
+]
+</code></pre>
+
+<h3 id="post-operators-stats-online_duration">POST <code class="prettyprint">/operators/stats/online_duration</code></h3>
+
+<p>Returns operator online duration in seconds.</p>
+
+<p>Possible dimensions that can be used in filters:</p>
+
+<table><thead>
+<tr>
+<th>Dimension</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>A <code class="prettyprint">site_id</code> whose operators will be included in the calculations</td>
+</tr>
+<tr>
+<td><code class="prettyprint">operator_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>An <code class="prettyprint">operator_id</code> whose online duration is being requested</td>
+</tr>
+<tr>
+<td><code class="prettyprint">type</code></td>
+<td><code class="prettyprint">enum</code></td>
+<td>Yes</td>
+<td>Operator online status.</td>
+</tr>
+</tbody></table>
+
+<p>There are three groups of types an online operator can have:</p>
+
+<table><thead>
+<tr>
+<th>Operator Status Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>available media type</td>
+<td>It describes what the operator is available for. Possible values are <code class="prettyprint">video</code>, <code class="prettyprint">audio</code>, <code class="prettyprint">chat</code></td>
+</tr>
+<tr>
+<td>engaged</td>
+<td>if the operator is currently in an engagement. Possible values (<code class="prettyprint">true</code>, <code class="prettyprint">false</code>)</td>
+</tr>
+<tr>
+<td>unavailable type</td>
+<td>It describes what kind of unavailiabity the operator selected while being marked as away or busy. E.g. <code class="prettyprint">Quick Break</code>, <code class="prettyprint">Training</code>, <code class="prettyprint">With Customer</code></td>
+</tr>
+</tbody></table>
+
+<h4 id="request">Request</h4>
+
+<p>Headers
+<code class="prettyprint">
+Authorization: Token 2pFuPlTYkH7T4MylrwxApA
+Accept: application/vnd.salemove.v1+json
+</code></p>
+
+<p>Body
+<code class="prettyprint">
+{
+  &quot;query_type&quot;: &quot;timeseries&quot;,
+  &quot;granularity&quot;: &quot;day&quot;,
+  &quot;start_date&quot;: &quot;2015-09-01T00:00:00Z&quot;,
+  &quot;end_date&quot;: &quot;2015-09-03T00:00:00Z&quot;,
+  &quot;filter&quot;: {}
+}
+</code></p>
+
+<h4 id="response">Response</h4>
+<pre class="highlight plaintext"><code>200
+
+[
+  {
+    "seconds": 4122,
+    "timestamp": "2015-09-01T00:00:00.000Z",
+  },
+  {
+    "seconds": 4458,
+    "timestamp": "2015-09-02T00:00:00.000Z",
+  }
+]
+</code></pre>

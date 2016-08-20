@@ -1,0 +1,201 @@
+<h1 id="site-visitors">Site Visitors</h1>
+
+<p>A Site has visitors and the information of those visitors can be fetched and updated programatically by means of the following endpoints.</p>
+
+<h2 id="get-sites-site_id-visitors-visitor_id">GET <code class="prettyprint">/sites/{site_id}/visitors/{visitor_id}</code></h2>
+
+<p>It fetches the visitor&rsquo;s information with id <code class="prettyprint">visitor_id</code> for the site with id <code class="prettyprint">site_id</code>. The operator whose API Token is used for making the request should have rights on the site.</p>
+
+<p>Respose
+<code class="prettyprint">
+HTTP/1.1 200 OK
+Content-Type: application/json
+Date: Thu, 21 Jul 2016 15:39:51 GMT
+Server: nginx/1.9.15
+X-Content-Type-Options: nosniff
+Content-Length: 249
+Connection: keep-alive
+</code>
+<code class="prettyprint">
+{
+  &quot;href&quot;: &quot;https://api.salemove.com/sites/ba02c995-5079-4adc-a0b8-819e7f301091/visitors/bb40afd7-7f65-4869-93ea-48a61c783aba&quot;,
+  &quot;name&quot;: null,
+  &quot;email&quot;: null,
+  &quot;phone&quot;: &quot;7378742833&quot;,
+  &quot;note&quot;: null,
+  &quot;custom_attributes&quot;: {},
+  &quot;id&quot;: &quot;bb40afd7-7f65-4869-93ea-48a61c783aba&quot;
+}
+</code></p>
+
+<p>CURL
+<code class="prettyprint">
+curl --include \
+     --header &quot;Authorization: Token $token&quot; \
+     --header &quot;Accept: application/vnd.salemove.v1+json&quot; \
+  &quot;https://api.salemove.com/sites/$siteId/visitors/$visitorId&quot;
+</code></p>
+
+<p>Ruby
+&ldquo;`</p>
+
+<h1 id="usr-bin-env-ruby">!/usr/bin/env ruby</h1>
+
+<p>require &lsquo;rubygems&rsquo;
+require &#39;rest-client&rsquo;
+require &#39;json&rsquo;</p>
+
+<p>token = ARGV[0].strip
+site_id = ARGV[1].strip
+visitor_id=ARGV[2].strip</p>
+
+<p>headers = {
+  :authorization =&gt; &quot;Token #{token}&rdquo;,
+  :accept =&gt; &#39;application/vnd.salemove.v1+json&rsquo;
+}</p>
+
+<p>response = RestClient.get &ldquo;https://api.salemove.com/sites/#{site_id}/visitors/#{visitor_id}&rdquo;,  headers
+puts response.body
+&ldquo;`</p>
+
+<h2 id="put-sites-site_id-visitors-visitor_id">PUT <code class="prettyprint">/sites/{site_id}/visitors/{visitor_id}</code></h2>
+
+<p>It updates the visitor&rsquo;s information with id <code class="prettyprint">visitor_id</code> for the site with id <code class="prettyprint">site_id</code>. The operator whose API token is used for making the request should have rights on the site.</p>
+
+<table><thead>
+<tr>
+<th>Paramter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The site id whose visitor&rsquo;s information will be updated</td>
+</tr>
+<tr>
+<td><code class="prettyprint">visitor_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The visitor whose information will be updated</td>
+</tr>
+<tr>
+<td><code class="prettyprint">name</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The visitor&rsquo;s name</td>
+</tr>
+<tr>
+<td><code class="prettyprint">email</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The visitor&rsquo;s email</td>
+</tr>
+<tr>
+<td><code class="prettyprint">phone</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The visitor&rsquo;s phone</td>
+</tr>
+<tr>
+<td><code class="prettyprint">note</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The visitor&rsquo;s notes.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">note_updated_method</code></td>
+<td><code class="prettyprint">enum</code></td>
+<td>No</td>
+<td>Specifies a method for updating the visitor&rsquo;s note. The default value is <code class="prettyprint">replace</code>. Available values are <code class="prettyprint">replace</code> and <code class="prettyprint">append</code>. If the method is <code class="prettyprint">replace</code> then the notes for the visitor will be overwriten by the field <code class="prettyprint">note</code> in the request. If the method is <code class="prettyprint">append</code> then the field <code class="prettyprint">note</code> in the request will append to the existing visitor&rsquo;s notes.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">custom_attributes</code></td>
+<td><code class="prettyprint">object</code></td>
+<td>No</td>
+<td>An object with custom key-value pairs to be assigned to the visitor. The server treats all keys and values as strings and also returns them as strings. Nested key-value pairs are not supported.</td>
+</tr>
+</tbody></table>
+
+<p>Response
+<code class="prettyprint">
+HTTP/1.1 200 OK
+Content-Type: application/json
+Date: Thu, 21 Jul 2016 15:52:05 GMT
+Server: nginx/1.9.15
+X-Content-Type-Options: nosniff
+Content-Length: 412
+Connection: keep-alive
+</code>
+<code class="prettyprint">
+{
+  &quot;href&quot;: &quot;https://api.salemove.com/sites/ba02c995-5079-4adc-a0b8-819e7f301091/visitors/bb40afd7-7f65-4869-93ea-48a61c783aba&quot;,
+  &quot;name&quot;: &quot;John&quot;,
+  &quot;email&quot;: &quot;test@email.com&quot;,
+  &quot;phone&quot;: &quot;55443322&quot;,
+  &quot;note&quot;: &quot;some random dude&quot;,
+  &quot;custom_attributes&quot;: {
+    &quot;home_address&quot;: &quot;Winston&quot;,
+    &quot;vip&quot;: &quot;true&quot;
+  },
+  &quot;id&quot;: &quot;bb40afd7-7f65-4869-93ea-48a61c783aba&quot;
+}
+</code></p>
+
+<p>CURL
+<code class="prettyprint">
+curl --include \
+     --request PUT \
+     --header &quot;Authorization: Token $token&quot; \
+     --header &quot;Accept: application/vnd.salemove.v1+json&quot; \
+     --data-binary &quot;{
+\&quot;name\&quot;: \&quot;John\&quot;,
+\&quot;email\&quot;: \&quot;test@email.com\&quot;,
+\&quot;phone\&quot;: \&quot;55443322\&quot;,
+\&quot;note\&quot;: \&quot;some random dude\&quot;,
+\&quot;note_update_method\&quot;: \&quot;append\&quot;,
+\&quot;custom_attributes\&quot;: {
+  \&quot;These are custom fields, which you can define yourself. Those shown below are just examples\&quot;: \&quot;...\&quot;,
+  \&quot;home_address\&quot;: \&quot;Winston\&quot;,
+  \&quot;vip\&quot;: \&quot;true\&quot;
+}
+}&quot; \
+&quot;https://api.salemove.com/sites/$siteId/visitors/$visitorId&quot;
+</code></p>
+
+<p>Ruby
+&rdquo;`</p>
+
+<h1 id="usr-bin-env-ruby">!/usr/bin/env ruby</h1>
+
+<p>require &#39;rubygems&rsquo;
+require &#39;rest-client&rsquo;
+require &#39;json&rsquo;</p>
+
+<p>token = ARGV[0].strip
+site_id = ARGV[1].strip
+visitor_id = ARGV[2].strip</p>
+
+<p>values = {
+  name: &ldquo;John&rdquo;,
+  email: &ldquo;test@email.com&rdquo;,
+  phone: &ldquo;55443322&rdquo;,
+  note: &ldquo;some random dude&rdquo;,
+  note_update_method: &ldquo;append&rdquo;,
+  custom_attributes: {
+    home_address: &ldquo;Winston&rdquo;,
+    vip: &ldquo;true&rdquo;
+  }
+}</p>
+
+<p>headers = {
+  :authorization =&gt; &ldquo;Token #{token}&rdquo;,
+  :accept =&gt; &#39;application/vnd.salemove.v1+json&rsquo;
+}</p>
+
+<p>response = RestClient.put &ldquo;https://api.salemove.com/sites/#{site_id}/visitors/#{visitor_id}&rdquo;, values.to_json, headers
+puts response.body
+&ldquo;`</p>

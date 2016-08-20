@@ -1,0 +1,167 @@
+<h1 id="saml">SAML</h1>
+
+<p>SaleMove supports clients using Single Sign-On via Security Assertion Markup Language (SAML 2.0). SAML is an XML-based, open-standard data format that allows parties to securely exchange user authentication and authorization data.  SAML-Based Single Sign-On (SSO) allows clients to have full control over the authorization and authentication of user accounts that can access to the web-based Operator Application. In this model, SaleMove acts as a service provider while SaleMove&rsquo;s clients act as identity providers that control usernames, passwords and other information used during the identification, authentication and authorization process of users by SaleMove web applications. In addition, all logs remain with the identity provider (SaleMove’s client) for audit purposes.</p>
+
+<p>SaleMove supports two ways of SSO by means of SAML: Identity Provider (IdP) Initiated SSO (Unsolicited Web SSO) and Service Provider (SP) initiated SSO. In an IdP Initiated SSO a user is logged on to the IdP and attempts to access a resource (SaleMove) on a remote SP server. The SAML assertion is transported to the Service Provider (SaleMove) via HTTP POST.</p>
+
+<p>The SAML parameters can be configured programatically or by requesting help from your success maanager.</p>
+
+<h2 id="programatically">Programatically</h2>
+
+<h3 id="post-saml">POST <code class="prettyprint">/saml</code></h3>
+
+<p>It creates a SAML provider and it can be associated to a site.</p>
+
+<table><thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">idp_metadata_url</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>An URL to the SAML Provider endpoint that returns the Provider&rsquo;s configuration data</td>
+</tr>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The <code class="prettyprint">id</code> of the Site that the SAML configuration will be associated to</td>
+</tr>
+<tr>
+<td><code class="prettyprint">name_identifier_format</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The name of the attribute within a sAML response where the operator&rsquo;s email is placed</td>
+</tr>
+<tr>
+<td><code class="prettyprint">subdomain</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The subdomain that will be used by operators to access the operator console. E.g. if the subdomain is set to <code class="prettyprint">client_name</code> then the operators will access SaleMove via <code class="prettyprint">client_name.app.salemove.com</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">auth_context</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The authentication context of the SAML</td>
+</tr>
+<tr>
+<td><code class="prettyprint">idp_name_attribute</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The name of the attribute within a SAML response where the operator&rsquo;s name is placed</td>
+</tr>
+<tr>
+<td><code class="prettyprint">idp_email_attribute</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The name of the attribute within a SAML response where the opeartor&rsquo;s emal is placed</td>
+</tr>
+</tbody></table>
+
+<p>Later the information of the new SAML provider can be fetched at the url <code class="prettyprint">subdomain.app.salemove.com/saml/metadata</code>. Where the <code class="prettyprint">subdomain</code> is the value of the parameter <code class="prettyprint">subdomain</code> sent along with the POST request.</p>
+
+<h3 id="put-saml-saml_id">PUT <code class="prettyprint">/saml/{saml_id}</code></h3>
+
+<p>It updates the configuration of a SAML provider.</p>
+
+<table><thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">saml_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The <code class="prettyprint">id</code> of the SAML provider to be updated</td>
+</tr>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The <code class="prettyprint">id</code> of the site that the SAML will be assigned to</td>
+</tr>
+<tr>
+<td><code class="prettyprint">idp_metadata_url</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>An URL to the SAML Provider endpoint that returns the Provider&rsquo;s configuration data</td>
+</tr>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The <code class="prettyprint">id</code> of the Site that the SAML configuration will be associated to</td>
+</tr>
+<tr>
+<td><code class="prettyprint">name_identifier_format</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The name of the attribute within a sAML response where the operator&rsquo;s email is placed</td>
+</tr>
+<tr>
+<td><code class="prettyprint">subdomain</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The subdomain that will be used by operators to access the operator console. E.g. if the subdomain is set to <code class="prettyprint">client_name</code> then the operators will access SaleMove via <code class="prettyprint">client_name.app.salemove.com</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">auth_context</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The authentication context of the SAML</td>
+</tr>
+<tr>
+<td><code class="prettyprint">idp_name_attribute</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The name of the attribute within a SAML response where the operator&rsquo;s name is placed</td>
+</tr>
+<tr>
+<td><code class="prettyprint">idp_email_attribute</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The name of the attribute within a SAML response where the opeartor&rsquo;s emal is placed</td>
+</tr>
+</tbody></table>
+
+<h2 id="call-your-sucess-manager">Call your sucess manager</h2>
+
+<p>While configuring the SAML provider via the Success Manager the following parameters will be requested</p>
+
+<table><thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">certificate fingerpring</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The certificate fingerprint used for authentication purposes between the IDP and the SP</td>
+</tr>
+<tr>
+<td><code class="prettyprint">name_identifier_format</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The name of the attribute within a sAML response where the operator&rsquo;s email is placed</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>

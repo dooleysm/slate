@@ -1,0 +1,116 @@
+<h1 id="site-reactive-tab">Site Reactive Tab</h1>
+
+<p>A Site&rsquo;s reactibe tab visuals and behavior can be configured by means of the following endpoints.</p>
+
+<h2 id="put-sites-site_id-reactive_tab">PUT <code class="prettyprint">/sites/{site_id}/reactive_tab</code></h2>
+
+<p>It updates the reactive tab visuals and behavior for the site with id <code class="prettyprint">site_id</code>. The Operator whose API Token is used should have rigths on the site.</p>
+
+<table><thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code class="prettyprint">placement</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code class="prettyprint">vertical_offset</code></td>
+<td><code class="prettyprint">integer</code></td>
+<td>Yes</td>
+<td>The vertical offset of the Reactive Tab from the bottom of the browser&rsquo;s viewport, expressed as a percentage. Possible values range from 0 to 100</td>
+</tr>
+<tr>
+<td><code class="prettyprint">format</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>Whether the Reactive Tab should contain just <code class="prettyprint">text</code> or a <code class="prettyprint">mix</code> of both text and icons. Possible values are <code class="prettyprint">text</code> and <code class="prettyprint">mix</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">size</code></td>
+<td><code class="prettyprint">integer</code></td>
+<td>Yes</td>
+<td>The scale of the Reactive Tab as a percentage of the default size. Suggested values are between 80 and 100</td>
+</tr>
+<tr>
+<td><code class="prettyprint">text</code></td>
+<td><code class="prettyprint">text</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td>`font_size</td>
+<td><code class="prettyprint">integer</code></td>
+<td>Yes</td>
+<td>The size of the font used to display the Reactive Tab text. Possible values are 20, 24, and 27</td>
+</tr>
+<tr>
+<td><code class="prettyprint">icon_class</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The icon to be shown in the Reactive Tab. Possible values are <code class="prettyprint">ico-voice</code>, <code class="prettyprint">ico-text</code>, and <code class="prettyprint">ico-video</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">front_color</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The Front color of the Reactive Tab in <code class="prettyprint">hex</code> format</td>
+</tr>
+<tr>
+<td><code class="prettyprint">back_color</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The back color of the Reactive Tab in <code class="prettyprint">hex</code> formar</td>
+</tr>
+<tr>
+<td><code class="prettyprint">hover_color</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The hover color of the Reactive Tab in <code class="prettyprint">hex</code> format</td>
+</tr>
+</tbody></table>
+
+<p>Ruby
+&ldquo;`</p>
+
+<h1 id="usr-bin-env-ruby">!/usr/bin/env ruby</h1>
+
+<p>require &lsquo;rubygems&rsquo;
+require &#39;rest-client&rsquo;
+require &#39;json&rsquo;</p>
+
+<p>token = ARGV[0].strip
+site_id = ARGV[1].strip</p>
+
+<p>values = {
+  front_color: &rsquo;#53a0fd&rsquo;,
+  format: &#39;text&rsquo;,
+  placement: &#39;left&rsquo;,
+  icon_class: &#39;ico-voice&rsquo;,
+  font_size: 20,
+  vertical_offset: 50,
+  size:  90,
+  text: &quot;Let&rsquo;s talk&rdquo;,
+  back_color:  &rsquo;#ffffff&rsquo;,
+  hover_color: &rsquo;#e6e6e6&rsquo;
+}</p>
+
+<p>headers = {
+  :authorization =&gt; &ldquo;Token #{token}&rdquo;,
+  :accept =&gt; &#39;application/vnd.salemove.v1+json&rsquo;
+}
+response = RestClient.put &ldquo;https://api.salemove.com/sites/#{site_id}/reactive_tab&rdquo;, values.to_json, headers
+puts response.body
+&ldquo;`</p>
