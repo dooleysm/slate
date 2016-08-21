@@ -1,0 +1,335 @@
+<h1 id="engagements">Engagements</h1>
+
+<h2 id="get-engagements">GET /engagements</h2>
+
+<p>Fetches a collection of engagements. The endpoint requires a list of <code class="prettyprint">site_ids</code> as well as a set of <code class="prettyprint">operator_ids</code>. The requester needs to have access to the sites and operators send along with the request. The results are paginated and sorted by engagement id in descending order.</p>
+
+<p>The endpoint accepts the following filters.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">operator_ids</code></td>
+<td>Yes</td>
+<td>Array of strings</td>
+<td>A list of operator ids whose engagements are requested.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">site_ids</code></td>
+<td>Yes</td>
+<td>Array of strings</td>
+<td>A list of site ids whose engagements are requested.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">start_date</code></td>
+<td>No</td>
+<td><code class="prettyprint">iso8601</code> Date</td>
+<td>The response will include engagements that happen from <code class="prettyprint">start_date</code> forward in time.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">end_date</code></td>
+<td>No</td>
+<td><code class="prettyprint">iso8601</code> Date</td>
+<td>The response will include engagement that happen on <code class="prettyprint">end_date</code> or before <code class="prettyprint">start_data</code>.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">page</code></td>
+<td>No</td>
+<td>Number</td>
+<td>If pagination is used then this parameter specifies what page is requested.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">per_page</code></td>
+<td>No</td>
+<td>Number</td>
+<td>If pagination is used then this parameter specifies the number of engagements per page.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">order</code></td>
+<td>No</td>
+<td>[<code class="prettyprint">asc</code>, <code class="prettyprint">desc</code>]</td>
+<td>It specifies if the results should be sorted in <code class="prettyprint">ascending</code> or <code class="prettyprint">descending</code> order. Engagements are sorted by starting time in descending order.</td>
+</tr>
+</tbody></table>
+<pre class="highlight shell"><code>curl -X GET --include <span class="se">\</span>
+     --header <span class="s2">"Authorization: Token API_TOKEN"</span> <span class="se">\</span>
+     --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
+  <span class="s1">'https://api.salemove.com/engagements?operator_ids[]=e1c6bd0b-aef2-4948-8182-85a075f419e0&amp;site_ids[]=18529853-4487-4234-be0b-7ca94e1e06bf&amp;start_date=2015-10-01T13'</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'httparty'</span>
+
+<span class="no">ENGAGEMENT_API_ENDPOINT</span> <span class="o">=</span> <span class="s1">'https://api.salemove.com/engagements'</span>
+
+<span class="n">api_token</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">"Authorization"</span> <span class="o">=&gt;</span> <span class="s2">"Token </span><span class="si">#{</span><span class="n">api_token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+  <span class="s2">"Accept"</span> <span class="o">=&gt;</span> <span class="s2">"application/vnd.salemove.v1+json"</span>
+<span class="p">}</span>
+
+<span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">headers: </span><span class="n">headers</span><span class="p">,</span>
+  <span class="ss">query: </span><span class="p">{</span>
+    <span class="ss">site_ids: </span><span class="p">[</span><span class="s1">'e1c6bd0b-aef2-4948-8182-85a075f419e0'</span><span class="p">],</span>
+    <span class="ss">operator_ids: </span><span class="p">[</span><span class="s1">'18529853-4487-4234-be0b-7ca94e1e06bf'</span><span class="p">]</span>
+    <span class="ss">page: </span><span class="mi">1</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">raw_response</span> <span class="o">=</span> <span class="no">HTTParty</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="no">ENGAGEMENT_API_ENDPOINT</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span> <span class="n">raw_response</span><span class="p">.</span><span class="nf">body</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+
+<blockquote>
+<p>Generates the output</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"next_page"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/engagements?page=2&amp;per_page=3"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"last_page"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/engagements?page=22&amp;per_page=3"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"engagements"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"52f8e590-72af-4f20-8428-dfaf95de889e"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"engagement_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"reactive"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-07-06T11:57:47.656Z"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"visitor_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visitor #8"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"visitor_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4cb42417-f153-4209-b885-757f87237b8b"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"cobrowsing_used"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"video_used"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"audio_used"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"flagged"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"audio_recording_urls"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+        </span><span class="nt">"crm_forwarded"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"summary_forwarded"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"visitor"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/visitors/4cb42417-f153-4209-b885-757f87237b8b"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"chat_transcript"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/engagements/52f8e590-72af-4f20-8428-dfaf95de889e/chat_transcript"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"operators"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+          </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/operators/18529853-4487-4234-be0b-7ca94e1e06bf"</span><span class="w">
+        </span><span class="p">}]</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"37e9f0f4-c62e-4103-8ff6-f4e8024a4204"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"engagement_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"reactive"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-07-06T11:46:37.569Z"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"visitor_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visitor #8"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"visitor_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4cb42417-f153-4209-b885-757f87237b8b"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"cobrowsing_used"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"video_used"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"flagged"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"audio_recording_urls"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"https://api.salemove.com/sub_engagements/1120220/twilio_recordings/4994"</span><span class="p">],</span><span class="w">
+        </span><span class="nt">"crm_forwarded"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"summary_forwarded"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"visitor"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/visitors/4cb42417-f153-4209-b885-757f87237b8b"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"chat_transcript"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/engagements/37e9f0f4-c62e-4103-8ff6-f4e8024a4204/chat_transcript"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"operators"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+          </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/operators/18529853-4487-4234-be0b-7ca94e1e06bf"</span><span class="w">
+        </span><span class="p">}]</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"98ad3576-849f-48e0-b456-a5bddfd83055"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"engagement_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"reactive"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-07-06T11:23:54.508Z"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"visitor_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visitor #7"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"visitor_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2bf17d2a-4dd1-43f2-b27b-f48e159e6721"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"cobrowsing_used"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"video_used"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"audio_used"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"flagged"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"audio_recording_urls"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+        </span><span class="nt">"crm_forwarded"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"summary_forwarded"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"visitor"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/visitors/2bf17d2a-4dd1-43f2-b27b-f48e159e6721"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"chat_transcript"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/engagements/98ad3576-849f-48e0-b456-a5bddfd83055/chat_transcript"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"operators"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+          </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/operators/18529853-4487-4234-be0b-7ca94e1e06bf"</span><span class="w">
+      </span><span class="p">}]</span><span class="w">
+    </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h2 id="get-engagement-engagement_id">GET /engagement/:engagement_id</h2>
+
+<p>Fetches a single engagement by ID. The Operator whose token is used for sending the request should be authorized to access the Site&rsquo;s information to which the engagement belongs.</p>
+<pre class="highlight shell"><code>curl -X GET --include <span class="se">\</span>
+     --header <span class="s2">"Authorization: Token API_TOKEN"</span> <span class="se">\</span>
+     --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
+  <span class="s1">'https://api.salemove.com/engagements/ef117ae4-f8a9-45e9-874c-087e19c8dbe6'</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'httparty'</span>
+
+<span class="no">ENGAGEMENT_API_ENDPOINT</span> <span class="o">=</span> <span class="s1">'https://api.salemove.com/engagements'</span>
+
+<span class="n">api_token</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">engagement_id</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">headers</span>
+  <span class="p">{</span>
+    <span class="s2">"Authorization"</span> <span class="o">=&gt;</span> <span class="s2">"Token </span><span class="si">#{</span><span class="n">api_token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+    <span class="s2">"Accept"</span> <span class="o">=&gt;</span> <span class="s2">"application/vnd.salemove.v1+json"</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+
+<span class="n">raw_response</span> <span class="o">=</span> <span class="no">HTTParty</span><span class="p">.</span><span class="nf">get</span> <span class="s2">"</span><span class="si">#{</span><span class="no">ENGAGEMENT_API_ENDPOINT</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">engagement_id</span><span class="si">}</span><span class="s2">"</span>
+<span class="n">parsed_response</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span> <span class="n">raw_response</span>
+
+<span class="nb">puts</span> <span class="n">parsed_response</span>
+</code></pre>
+
+<blockquote>
+<p>Generates the output</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"65f68744-40c5-4278-968a-6ee33df0722a"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"engagement_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"proactive"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-07-07T13:47:21.150Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"visitor_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visitor #7"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"visitor_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"88cf925d-d606-46d6-bdf0-0715e7bb963d"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"cobrowsing_used"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"video_used"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"audio_used"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"flagged"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"audio_recording_urls"</span><span class="p">:</span><span class="w">
+      </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"https://api.salemove.com/sub_engagements/1122834/recordings/XaMiTQI"</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"crm_forwarded"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"summary_forwarded"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"visitor"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/visitors/88cf925d-d606-46d6-bdf0-0715e7bb963d"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"chat_transcript"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/engagements/65f68744-40c5-4278-968a-6ee33df0722a/chat_transcript"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"operators"</span><span class="p">:</span><span class="w">
+    </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/operators/f8769233-937d-4550-bdd3-8613027b2729"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h2 id="get-engagements-engagement_id-chat_transcript">GET /engagements/:engagement_id/chat_transcript</h2>
+
+<p>Fetches an engagement&rsquo;s chat transcript. The operator whose token is used for sending the request should be authorized to access the Site&rsquo;s information to which the engagement belongs.</p>
+<pre class="highlight shell"><code>curl -X GET --include <span class="se">\</span>
+     --header <span class="s2">"Authorization: Token API_TOKEN"</span> <span class="se">\</span>
+     --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
+  <span class="s1">'https://api.salemove.com/engagements/e1c6bd0b-aef2-4948-8182-85a075f419e0/chat_transcript'</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'httparty'</span>
+
+<span class="no">ENGAGEMENT_API_ENDPOINT</span> <span class="o">=</span> <span class="s1">'https://api.salemove.com/engagements'</span>
+
+<span class="n">api_token</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">engagement_id</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">headers</span>
+  <span class="p">{</span>
+    <span class="s2">"Authorization"</span> <span class="o">=&gt;</span> <span class="s2">"Token </span><span class="si">#{</span><span class="n">api_token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+    <span class="s2">"Accept"</span> <span class="o">=&gt;</span> <span class="s2">"application/vnd.salemove.v1+json"</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+
+<span class="n">raw_response</span> <span class="o">=</span> <span class="no">HTTParty</span><span class="p">.</span><span class="nf">get</span> <span class="s2">"</span><span class="si">#{</span><span class="no">ENGAGEMENT_API_ENDPOINT</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">engagement_id</span><span class="si">}</span><span class="s2">/chat_transcript"</span>
+<span class="n">parsed_response</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span> <span class="n">raw_response</span>
+
+<span class="nb">puts</span> <span class="n">parsed_response</span>
+</code></pre>
+
+<blockquote>
+<p>Generates the output</p>
+</blockquote>
+<pre class="highlight plaintext"><code>[
+  {
+    "message": "Hi, can u please help me get a quote?",
+    "created_at": "2016-07-07T13:47:28.000Z",
+    "sender": {
+      "href": "https://api.salemove.com/visitors/88cf925d-d606-46d6-bdf0-0715e7bb963d",
+      "name": null,
+      "type": "visitor"
+    }
+  },
+  {
+    "message": "Sure, Ill take you there",
+    "created_at": "2016-07-07T13:47:34.000Z",
+    "sender": {
+      "href": "https://api.salemove.com/operators/f8769233-937d-4550-bdd3-8613027b2729",
+      "name": "Alex Raffa",
+      "type": "operator"
+    }
+  },
+  {
+    "message": "CoBrowsing Started",
+    "created_at": "2016-07-07T13:47:41.000Z",
+    "sender": {
+      "type": "system",
+      "name": "system"
+    }
+  }, {
+    "message": "Upgraded to One-Way Video",
+    "created_at": "2016-07-07T13:48:13.000Z",
+    "sender": {
+        "type": "system",
+        "name": "system"
+    }
+}]
+</code></pre>
+
+<h2 id="post-engagements-engagement_id-export">POST /engagements/:engagement_id/export</h2>
+
+<p>It exports the engagement using all exports definitions configured for the Site to which the engagement started on. The Operator whose token is used for sending the request should be authorized to access the Sites&rsquo; information to which the engagement belongs. If the engagement is transfered to other sites and the Operator is not authorized in all the sites then the export will contain only the data concern to the sites that the Operator&rsquo;s is authorized to access.</p>
+<pre class="highlight shell"><code>curl --include <span class="se">\</span>
+     --request POST <span class="se">\</span>
+     --header <span class="s2">"Authorization: Token API_TOKEN"</span> <span class="se">\</span>
+     --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
+  <span class="s1">'https://api.salemove.com/engagements/18529853-4487-4234-be0b-7ca94e1e06bf/export'</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'httparty'</span>
+
+<span class="no">ENGAGEMENT_API_ENDPOINT</span> <span class="o">=</span> <span class="s1">'https://api.salemove.com/engagements'</span>
+
+<span class="n">api_token</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">engagement_id</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">headers</span>
+  <span class="p">{</span>
+    <span class="s2">"Authorization"</span> <span class="o">=&gt;</span> <span class="s2">"Token </span><span class="si">#{</span><span class="n">api_token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+    <span class="s2">"Accept"</span> <span class="o">=&gt;</span> <span class="s2">"application/vnd.salemove.v1+json"</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+
+<span class="n">raw_response</span> <span class="o">=</span> <span class="no">HTTParty</span><span class="p">.</span><span class="nf">get</span> <span class="s2">"</span><span class="si">#{</span><span class="no">ENGAGEMENT_API_ENDPOINT</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">engagement_id</span><span class="si">}</span><span class="s2">/export"</span>
+<span class="n">parsed_response</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span> <span class="n">raw_response</span>
+
+<span class="nb">puts</span> <span class="n">parsed_response</span>
+</code></pre>
+
+<blockquote>
+<p>Generates the output</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="nt">"success"</span><span class="p">:</span><span class="kc">true</span><span class="p">}</span><span class="w">
+</span></code></pre>

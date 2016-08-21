@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>API Documentation</title>
+    <title>API Reference</title>
 
     <style>
       .highlight table td { padding: 5px; }
@@ -88,10 +88,10 @@
     </style>
     <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print.css" rel="stylesheet" media="print" />
-      <script src="javascripts/all_nosearch.js"></script>
+      <script src="javascripts/all.js"></script>
   </head>
 
-  <body class="index" data-languages="[]">
+  <body class="index" data-languages="[&quot;shell&quot;,&quot;ruby&quot;,&quot;python&quot;,&quot;javascript&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -101,9 +101,21 @@
     <div class="tocify-wrapper">
       <img src="images/logo.png" />
         <div class="lang-selector">
+              <a href="#" data-language-name="shell">shell</a>
+              <a href="#" data-language-name="ruby">ruby</a>
+              <a href="#" data-language-name="python">python</a>
+              <a href="#" data-language-name="javascript">javascript</a>
         </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
       <div id="toc">
       </div>
+        <ul class="toc-footer">
+            <li><a href='#'>Sign Up for a Developer Key</a></li>
+            <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
+        </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
@@ -282,9 +294,3348 @@ GET /operators?page=2
 
 <div id="salemove"></div>
 
+          
+          <h1 id="visitor">Visitor</h1>
+
+<h2 id="get-visitors-visitor_id">GET <code class="prettyprint">/visitors/{visitor_id}</code></h2>
+
+<p>It fetches the visitor&rsquo;s information for the last site visited by the visitor.</p>
+
+<p>To fetch a visitor&rsquo;s information for a specific site please use <code class="prettyprint">GET /sites/{site_id}/visitors/{visitor_id}</code></p>
+
+          <h1 id="sites">Sites</h1>
+
+<h2 id="search-by-hostname-get-sites-hostname-hostname">Search by <code class="prettyprint">hostname</code> <code class="prettyprint">GET /sites?hostname={hostname}</code></h2>
+
+<p>A site can have one ore more <code class="prettyprint">addresses</code> where an <code class="prettyprint">address</code> is a combination of <code class="prettyprint">hostname</code> + <code class="prettyprint">path</code>. As an example a valid address is <code class="prettyprint">salemove.com/auto</code> where <code class="prettyprint">hostname</code>=<code class="prettyprint">salemove.com</code> and <code class="prettyprint">path</code>=<code class="prettyprint">/auto</code>.</p>
+
+<p>This endpoint fetches a list of sites that have the <code class="prettyprint">hostname</code> within the site&rsquo;s addresses.</p>
+<pre class="highlight shell"><code><span class="c"># curl --include \</span>
+     --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
+     --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
+  <span class="s1">'https://api.salemove.com/sites?hostname=salemove.com'</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="c1">#!/usr/bin/env ruby</span>
+<span class="nb">require</span> <span class="s1">'rubygems'</span>
+<span class="nb">require</span> <span class="s1">'rest-client'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
+
+<span class="n">token</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">strip</span>
+<span class="n">hostname</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">strip</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">:authorization</span> <span class="o">=&gt;</span> <span class="s2">"Token </span><span class="si">#{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+  <span class="ss">:accept</span> <span class="o">=&gt;</span> <span class="s1">'application/vnd.salemove.v1+json'</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s2">"https://api.salemove.com/sites?hostname=</span><span class="si">#{</span><span class="n">hostname</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">headers</span>
+</code></pre>
+
+<blockquote>
+<p>Generates the output</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"last_page"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/sites?hostname=salemove.com&amp;page=1"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"sites"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/sites/8a832fe9-db22-48ac-a3ef-b25bf0d9db95"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8a832fe9-db22-48ac-a3ef-b25bf0d9db95"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"addresses"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"salemove.com"</span><span class="p">,</span><span class="w"> </span><span class="s2">"salemove.cars2go.mobi"</span><span class="p">,</span><span class="w"> </span><span class="s2">"auto.salemove.com"</span><span class="p">,</span><span class="w"> </span><span class="s2">"webflow.io"</span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h2 id="post-sites">POST <code class="prettyprint">/sites</code></h2>
+
+<p>An operator with <code class="prettyprint">manager</code> privileges can use the API token associated to the account to create new sites.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">name</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The name for the new site</td>
+</tr>
+<tr>
+<td><code class="prettyprint">domains</code></td>
+<td><code class="prettyprint">array</code></td>
+<td>Yes</td>
+<td>A list of site&rsquo;s addresses</td>
+</tr>
+<tr>
+<td><code class="prettyprint">clone_from_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The new site will be configured using this <code class="prettyprint">site_id</code> as template. The new site will copy the visuals, teams and business rules from the <code class="prettyprint">site_id</code> passed in this parameter.</td>
+</tr>
+</tbody></table>
+<pre class="highlight shell"><code>curl --include <span class="se">\</span>
+     --request POST <span class="se">\</span>
+     --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
+     --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
+     --data-binary <span class="s2">"    {
+      </span><span class="se">\"</span><span class="s2">name</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">New site name</span><span class="se">\"</span><span class="s2">,
+      </span><span class="se">\"</span><span class="s2">domains</span><span class="se">\"</span><span class="s2">: [</span><span class="se">\"</span><span class="s2">sub.whitelisteddomain.com</span><span class="se">\"</span><span class="s2">]
+    }"</span> <span class="se">\</span>
+<span class="s1">'https://api.salemove.com/sites'</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="c1">#!/usr/bin/env ruby</span>
+<span class="nb">require</span> <span class="s1">'rubygems'</span>
+<span class="nb">require</span> <span class="s1">'rest-client'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
+
+<span class="n">token</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">strip</span>
+
+<span class="n">values</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"My New Site"</span><span class="p">,</span>
+  <span class="s2">"domains"</span><span class="p">:</span> <span class="p">[</span> <span class="s2">"sub.whitelisteddomain.com"</span> <span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">:authorization</span> <span class="o">=&gt;</span> <span class="s2">"Token </span><span class="si">#{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+  <span class="ss">:accept</span> <span class="o">=&gt;</span> <span class="s1">'application/vnd.salemove.v1+json'</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">post</span> <span class="s2">"https://api.salemove.com/sites"</span><span class="p">,</span> <span class="n">values</span><span class="p">.</span><span class="nf">to_json</span><span class="p">,</span> <span class="n">headers</span>
+<span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">body</span>
+</code></pre>
+
+<blockquote>
+<p>Generates the output</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/sites/05dd4b39-52df-401a-9dd7-1e1af0aff783"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"05dd4b39-52df-401a-9dd7-1e1af0aff783"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"hostnames"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"sub.whitelisteddomain.com"</span><span class="p">],</span><span class="w">
+  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"New site name"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"salemove_enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h2 id="get-sites-id">GET <code class="prettyprint">/sites/{id}</code></h2>
+
+<p>It fetches the site with id <code class="prettyprint">id</code>. The operator whose API token is used to send the request should have rights on the site with id <code class="prettyprint">id</code>.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The site <code class="prettyprint">id</code> that is requested</td>
+</tr>
+</tbody></table>
+<pre class="highlight shell"><code>curl --include <span class="se">\</span>
+     --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
+     --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
+  <span class="s2">"https://api.salemove.com/sites/</span><span class="nv">$siteId</span><span class="s2">"</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="c1">#!/usr/bin/env ruby</span>
+<span class="nb">require</span> <span class="s1">'rubygems'</span>
+<span class="nb">require</span> <span class="s1">'rest-client'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
+
+<span class="n">token</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">strip</span>
+<span class="n">site_id</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">strip</span>
+
+<span class="n">values</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">:authorization</span> <span class="o">=&gt;</span> <span class="s2">"Token </span><span class="si">#{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+  <span class="ss">:accept</span> <span class="o">=&gt;</span> <span class="s1">'application/vnd.salemove.v1+json'</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s2">"https://api.salemove.com/sites/</span><span class="si">#{</span><span class="n">site_id</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>  <span class="n">headers</span>
+<span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">body</span>
+</code></pre>
+
+<blockquote>
+<p>Generates the output</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/sites/47e2cb4c-d3d2-48ea-9a8f-604ed837410f"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"47e2cb4c-d3d2-48ea-9a8f-604ed837410f"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"hostnames"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"beta.carlospaniagua.io"</span><span class="p">],</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Carlos Beta"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"salemove_enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h2 id="put-sites-id">PUT <code class="prettyprint">/sites/{id}</code></h2>
+
+<p>It updates the site with id <code class="prettyprint">id</code>. The operator whose API token is used to send the request should have rghts on the site with id <code class="prettyprint">id</code>.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The site <code class="prettyprint">id</code> that is being updated</td>
+</tr>
+<tr>
+<td><code class="prettyprint">salemove_enabled</code></td>
+<td><code class="prettyprint">boolean</code></td>
+<td>No</td>
+<td>if <code class="prettyprint">true</code> then it enables SaleMove for the Site, if <code class="prettyprint">false</code> it disables SaleMove for the site. When SaleMove is enabled the SaleMove integration is delivered otherwise a <code class="prettyprint">204</code> <code class="prettyprint">No-Content</code> is delivered</td>
+</tr>
+<tr>
+<td><code class="prettyprint">reactive_enabled</code></td>
+<td><code class="prettyprint">boolean</code></td>
+<td>No</td>
+<td>If <code class="prettyprint">true</code> then the Reactive Tab is shown to the visitor. If <code class="prettyprint">false</code> then the Reactive Tab is hidden to the visitor.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">clone_from_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The new site will be configured using this <code class="prettyprint">site_id</code> as template. The new site will copy the visuals, teams and business rules from the <code class="prettyprint">site_id</code> passed in this parameter.</td>
+</tr>
+</tbody></table>
+<pre class="highlight shell"><code><span class="c"># curl --include \</span>
+     --request PUT <span class="se">\</span>
+     --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
+     --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
+     --data-binary <span class="s2">"{
+  </span><span class="se">\"</span><span class="s2">salemove_enabled</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">true</span><span class="se">\"</span><span class="s2">,
+  </span><span class="se">\"</span><span class="s2">reactive_enabled</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">false</span><span class="se">\"</span><span class="s2">,
+  </span><span class="se">\"</span><span class="s2">name</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">New site name</span><span class="se">\"</span><span class="s2">,
+  </span><span class="se">\"</span><span class="s2">domains</span><span class="se">\"</span><span class="s2">: [</span><span class="se">\"</span><span class="s2">mobile.domain.com</span><span class="se">\"</span><span class="s2">]
+}"</span> <span class="se">\</span>
+<span class="s2">"https://api.salemove.com/sites/</span><span class="nv">$siteId</span><span class="s2">"</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="c1">#!/usr/bin/env ruby</span>
+<span class="nb">require</span> <span class="s1">'rubygems'</span>
+<span class="nb">require</span> <span class="s1">'rest-client'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
+
+<span class="n">token</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">strip</span>
+<span class="n">siteId</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">strip</span>
+
+<span class="n">values</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"My New Site"</span><span class="p">,</span>
+  <span class="s2">"domains"</span><span class="p">:</span> <span class="p">[</span> <span class="s2">"new.whitelisteddomain.com"</span> <span class="p">],</span>
+  <span class="s2">"salemove_enabled"</span><span class="p">:</span> <span class="kp">false</span><span class="p">,</span>
+  <span class="s2">"reactive_enabled"</span><span class="p">:</span> <span class="kp">false</span>
+<span class="p">}</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">:authorization</span> <span class="o">=&gt;</span> <span class="s2">"Token </span><span class="si">#{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+  <span class="ss">:accept</span> <span class="o">=&gt;</span> <span class="s1">'application/vnd.salemove.v1+json'</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">put</span> <span class="s2">"https://api.salemove.com/sites/</span><span class="si">#{</span><span class="n">siteId</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">values</span><span class="p">.</span><span class="nf">to_json</span><span class="p">,</span> <span class="n">headers</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+
+<blockquote>
+<p>Generates the output</p>
+</blockquote>
+<pre class="highlight plaintext"><code>HTTP/1.1 200 OK
+Content-Type: application/json
+Date: Thu, 21 Jul 2016 12:56:47 GMT
+Server: nginx/1.9.15
+X-Content-Type-Options: nosniff
+Content-Length: 203
+Connection: keep-alive
+
+{
+  "href": "https://api.salemove.com/sites/47e2cb4c-d3d2-48ea-9a8f-604ed837410f",
+  "id": "47e2cb4c-d3d2-48ea-9a8f-604ed837410f",
+  "hostnames": ["mobile.domain.com"],
+  "name": "New site name",
+  "salemove_enabled": true
+}
+
+</code></pre>
+
+          <h1 id="site-visitors">Site Visitors</h1>
+
+<p>A Site has visitors and the information of those visitors can be fetched and updated programatically by means of the following endpoints.</p>
+
+<h2 id="get-sites-site_id-visitors-visitor_id">GET <code class="prettyprint">/sites/{site_id}/visitors/{visitor_id}</code></h2>
+
+<p>It fetches the visitor&rsquo;s information with id <code class="prettyprint">visitor_id</code> for the site with id <code class="prettyprint">site_id</code>. The operator whose API Token is used for making the request should have rights on the site.</p>
+<pre class="highlight shell"><code>curl --include <span class="se">\</span>
+     --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
+     --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
+  <span class="s2">"https://api.salemove.com/sites/</span><span class="nv">$siteId</span><span class="s2">/visitors/</span><span class="nv">$visitorId</span><span class="s2">"</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="c1">#!/usr/bin/env ruby</span>
+<span class="nb">require</span> <span class="s1">'rubygems'</span>
+<span class="nb">require</span> <span class="s1">'rest-client'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
+
+<span class="n">token</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">strip</span>
+<span class="n">site_id</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">strip</span>
+<span class="n">visitor_id</span><span class="o">=</span><span class="no">ARGV</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="nf">strip</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">:authorization</span> <span class="o">=&gt;</span> <span class="s2">"Token </span><span class="si">#{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+  <span class="ss">:accept</span> <span class="o">=&gt;</span> <span class="s1">'application/vnd.salemove.v1+json'</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s2">"https://api.salemove.com/sites/</span><span class="si">#{</span><span class="n">site_id</span><span class="si">}</span><span class="s2">/visitors/</span><span class="si">#{</span><span class="n">visitor_id</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>  <span class="n">headers</span>
+<span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">body</span>
+</code></pre>
+
+<blockquote>
+<p>Generates the output</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/sites/ba02c995-5079-4adc-a0b8-819e7f301091/visitors/bb40afd7-7f65-4869-93ea-48a61c783aba"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7378742833"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"note"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"custom_attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bb40afd7-7f65-4869-93ea-48a61c783aba"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h2 id="put-sites-site_id-visitors-visitor_id">PUT <code class="prettyprint">/sites/{site_id}/visitors/{visitor_id}</code></h2>
+
+<p>It updates the visitor&rsquo;s information with id <code class="prettyprint">visitor_id</code> for the site with id <code class="prettyprint">site_id</code>. The operator whose API token is used for making the request should have rights on the site.</p>
+
+<table><thead>
+<tr>
+<th>Paramter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The site id whose visitor&rsquo;s information will be updated</td>
+</tr>
+<tr>
+<td><code class="prettyprint">visitor_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The visitor whose information will be updated</td>
+</tr>
+<tr>
+<td><code class="prettyprint">name</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The visitor&rsquo;s name</td>
+</tr>
+<tr>
+<td><code class="prettyprint">email</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The visitor&rsquo;s email</td>
+</tr>
+<tr>
+<td><code class="prettyprint">phone</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The visitor&rsquo;s phone</td>
+</tr>
+<tr>
+<td><code class="prettyprint">note</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The visitor&rsquo;s notes.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">note_updated_method</code></td>
+<td><code class="prettyprint">enum</code></td>
+<td>No</td>
+<td>Specifies a method for updating the visitor&rsquo;s note. The default value is <code class="prettyprint">replace</code>. Available values are <code class="prettyprint">replace</code> and <code class="prettyprint">append</code>. If the method is <code class="prettyprint">replace</code> then the notes for the visitor will be overwriten by the field <code class="prettyprint">note</code> in the request. If the method is <code class="prettyprint">append</code> then the field <code class="prettyprint">note</code> in the request will append to the existing visitor&rsquo;s notes.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">custom_attributes</code></td>
+<td><code class="prettyprint">object</code></td>
+<td>No</td>
+<td>An object with custom key-value pairs to be assigned to the visitor. The server treats all keys and values as strings and also returns them as strings. Nested key-value pairs are not supported.</td>
+</tr>
+</tbody></table>
+<pre class="highlight shell"><code>curl --include <span class="se">\</span>
+     --request PUT <span class="se">\</span>
+     --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
+     --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
+     --data-binary <span class="s2">"{
+</span><span class="se">\"</span><span class="s2">name</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">John</span><span class="se">\"</span><span class="s2">,
+</span><span class="se">\"</span><span class="s2">email</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">test@email.com</span><span class="se">\"</span><span class="s2">,
+</span><span class="se">\"</span><span class="s2">phone</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">55443322</span><span class="se">\"</span><span class="s2">,
+</span><span class="se">\"</span><span class="s2">note</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">some random dude</span><span class="se">\"</span><span class="s2">,
+</span><span class="se">\"</span><span class="s2">note_update_method</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">append</span><span class="se">\"</span><span class="s2">,
+</span><span class="se">\"</span><span class="s2">custom_attributes</span><span class="se">\"</span><span class="s2">: {
+  </span><span class="se">\"</span><span class="s2">These are custom fields, which you can define yourself. Those shown below are just examples</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">...</span><span class="se">\"</span><span class="s2">,
+  </span><span class="se">\"</span><span class="s2">home_address</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">Winston</span><span class="se">\"</span><span class="s2">,
+  </span><span class="se">\"</span><span class="s2">vip</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">true</span><span class="se">\"</span><span class="s2">
+}
+}"</span> <span class="se">\</span>
+<span class="s2">"https://api.salemove.com/sites/</span><span class="nv">$siteId</span><span class="s2">/visitors/</span><span class="nv">$visitorId</span><span class="s2">"</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="c1">#!/usr/bin/env ruby</span>
+<span class="nb">require</span> <span class="s1">'rubygems'</span>
+<span class="nb">require</span> <span class="s1">'rest-client'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
+
+<span class="n">token</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">strip</span>
+<span class="n">site_id</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">strip</span>
+<span class="n">visitor_id</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="nf">strip</span>
+
+<span class="n">values</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">name: </span><span class="s2">"John"</span><span class="p">,</span>
+  <span class="ss">email: </span><span class="s2">"test@email.com"</span><span class="p">,</span>
+  <span class="ss">phone: </span><span class="s2">"55443322"</span><span class="p">,</span>
+  <span class="ss">note: </span><span class="s2">"some random dude"</span><span class="p">,</span>
+  <span class="ss">note_update_method: </span><span class="s2">"append"</span><span class="p">,</span>
+  <span class="ss">custom_attributes: </span><span class="p">{</span>
+    <span class="ss">home_address: </span><span class="s2">"Winston"</span><span class="p">,</span>
+    <span class="ss">vip: </span><span class="s2">"true"</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">:authorization</span> <span class="o">=&gt;</span> <span class="s2">"Token </span><span class="si">#{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+  <span class="ss">:accept</span> <span class="o">=&gt;</span> <span class="s1">'application/vnd.salemove.v1+json'</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">put</span> <span class="s2">"https://api.salemove.com/sites/</span><span class="si">#{</span><span class="n">site_id</span><span class="si">}</span><span class="s2">/visitors/</span><span class="si">#{</span><span class="n">visitor_id</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">values</span><span class="p">.</span><span class="nf">to_json</span><span class="p">,</span> <span class="n">headers</span>
+<span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">body</span>
+</code></pre>
+
+<blockquote>
+<p>Generates the output</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/sites/ba02c995-5079-4adc-a0b8-819e7f301091/visitors/bb40afd7-7f65-4869-93ea-48a61c783aba"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test@email.com"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"55443322"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"note"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some random dude"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"custom_attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"home_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Winston"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"vip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bb40afd7-7f65-4869-93ea-48a61c783aba"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+          <h1 id="site-reactive-tab">Site Reactive Tab</h1>
+
+<p>A Site&rsquo;s reactibe tab visuals and behavior can be configured by means of the following endpoints.</p>
+
+<h2 id="put-sites-site_id-reactive_tab">PUT <code class="prettyprint">/sites/{site_id}/reactive_tab</code></h2>
+
+<p>It updates the reactive tab visuals and behavior for the site with id <code class="prettyprint">site_id</code>. The Operator whose API Token is used should have rigths on the site.</p>
+
+<table><thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code class="prettyprint">placement</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code class="prettyprint">vertical_offset</code></td>
+<td><code class="prettyprint">integer</code></td>
+<td>Yes</td>
+<td>The vertical offset of the Reactive Tab from the bottom of the browser&rsquo;s viewport, expressed as a percentage. Possible values range from 0 to 100</td>
+</tr>
+<tr>
+<td><code class="prettyprint">format</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>Whether the Reactive Tab should contain just <code class="prettyprint">text</code> or a <code class="prettyprint">mix</code> of both text and icons. Possible values are <code class="prettyprint">text</code> and <code class="prettyprint">mix</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">size</code></td>
+<td><code class="prettyprint">integer</code></td>
+<td>Yes</td>
+<td>The scale of the Reactive Tab as a percentage of the default size. Suggested values are between 80 and 100</td>
+</tr>
+<tr>
+<td><code class="prettyprint">text</code></td>
+<td><code class="prettyprint">text</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td>`font_size</td>
+<td><code class="prettyprint">integer</code></td>
+<td>Yes</td>
+<td>The size of the font used to display the Reactive Tab text. Possible values are 20, 24, and 27</td>
+</tr>
+<tr>
+<td><code class="prettyprint">icon_class</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The icon to be shown in the Reactive Tab. Possible values are <code class="prettyprint">ico-voice</code>, <code class="prettyprint">ico-text</code>, and <code class="prettyprint">ico-video</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">front_color</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The Front color of the Reactive Tab in <code class="prettyprint">hex</code> format</td>
+</tr>
+<tr>
+<td><code class="prettyprint">back_color</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The back color of the Reactive Tab in <code class="prettyprint">hex</code> formar</td>
+</tr>
+<tr>
+<td><code class="prettyprint">hover_color</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The hover color of the Reactive Tab in <code class="prettyprint">hex</code> format</td>
+</tr>
+</tbody></table>
+<pre class="highlight ruby"><code><span class="c1">#!/usr/bin/env ruby</span>
+<span class="nb">require</span> <span class="s1">'rubygems'</span>
+<span class="nb">require</span> <span class="s1">'rest-client'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
+
+<span class="n">token</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">strip</span>
+<span class="n">site_id</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">strip</span>
+
+<span class="n">values</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">front_color: </span><span class="s1">'#53a0fd'</span><span class="p">,</span>
+  <span class="ss">format: </span><span class="s1">'text'</span><span class="p">,</span>
+  <span class="ss">placement: </span><span class="s1">'left'</span><span class="p">,</span>
+  <span class="ss">icon_class: </span><span class="s1">'ico-voice'</span><span class="p">,</span>
+  <span class="ss">font_size: </span><span class="mi">20</span><span class="p">,</span>
+  <span class="ss">vertical_offset: </span><span class="mi">50</span><span class="p">,</span>
+  <span class="ss">size:  </span><span class="mi">90</span><span class="p">,</span>
+  <span class="ss">text: </span><span class="s2">"Let's talk"</span><span class="p">,</span>
+  <span class="ss">back_color:  </span><span class="s1">'#ffffff'</span><span class="p">,</span>
+  <span class="ss">hover_color: </span><span class="s1">'#e6e6e6'</span>
+<span class="p">}</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">:authorization</span> <span class="o">=&gt;</span> <span class="s2">"Token </span><span class="si">#{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+  <span class="ss">:accept</span> <span class="o">=&gt;</span> <span class="s1">'application/vnd.salemove.v1+json'</span>
+<span class="p">}</span>
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">put</span> <span class="s2">"https://api.salemove.com/sites/</span><span class="si">#{</span><span class="n">site_id</span><span class="si">}</span><span class="s2">/reactive_tab"</span><span class="p">,</span> <span class="n">values</span><span class="p">.</span><span class="nf">to_json</span><span class="p">,</span> <span class="n">headers</span>
+<span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">body</span>
+</code></pre>
+
+          <h1 id="engagements">Engagements</h1>
+
+<h2 id="get-engagements">GET /engagements</h2>
+
+<p>Fetches a collection of engagements. The endpoint requires a list of <code class="prettyprint">site_ids</code> as well as a set of <code class="prettyprint">operator_ids</code>. The requester needs to have access to the sites and operators send along with the request. The results are paginated and sorted by engagement id in descending order.</p>
+
+<p>The endpoint accepts the following filters.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">operator_ids</code></td>
+<td>Yes</td>
+<td>Array of strings</td>
+<td>A list of operator ids whose engagements are requested.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">site_ids</code></td>
+<td>Yes</td>
+<td>Array of strings</td>
+<td>A list of site ids whose engagements are requested.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">start_date</code></td>
+<td>No</td>
+<td><code class="prettyprint">iso8601</code> Date</td>
+<td>The response will include engagements that happen from <code class="prettyprint">start_date</code> forward in time.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">end_date</code></td>
+<td>No</td>
+<td><code class="prettyprint">iso8601</code> Date</td>
+<td>The response will include engagement that happen on <code class="prettyprint">end_date</code> or before <code class="prettyprint">start_data</code>.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">page</code></td>
+<td>No</td>
+<td>Number</td>
+<td>If pagination is used then this parameter specifies what page is requested.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">per_page</code></td>
+<td>No</td>
+<td>Number</td>
+<td>If pagination is used then this parameter specifies the number of engagements per page.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">order</code></td>
+<td>No</td>
+<td>[<code class="prettyprint">asc</code>, <code class="prettyprint">desc</code>]</td>
+<td>It specifies if the results should be sorted in <code class="prettyprint">ascending</code> or <code class="prettyprint">descending</code> order. Engagements are sorted by starting time in descending order.</td>
+</tr>
+</tbody></table>
+<pre class="highlight shell"><code>curl -X GET --include <span class="se">\</span>
+     --header <span class="s2">"Authorization: Token API_TOKEN"</span> <span class="se">\</span>
+     --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
+  <span class="s1">'https://api.salemove.com/engagements?operator_ids[]=e1c6bd0b-aef2-4948-8182-85a075f419e0&amp;site_ids[]=18529853-4487-4234-be0b-7ca94e1e06bf&amp;start_date=2015-10-01T13'</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'httparty'</span>
+
+<span class="no">ENGAGEMENT_API_ENDPOINT</span> <span class="o">=</span> <span class="s1">'https://api.salemove.com/engagements'</span>
+
+<span class="n">api_token</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">"Authorization"</span> <span class="o">=&gt;</span> <span class="s2">"Token </span><span class="si">#{</span><span class="n">api_token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+  <span class="s2">"Accept"</span> <span class="o">=&gt;</span> <span class="s2">"application/vnd.salemove.v1+json"</span>
+<span class="p">}</span>
+
+<span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">headers: </span><span class="n">headers</span><span class="p">,</span>
+  <span class="ss">query: </span><span class="p">{</span>
+    <span class="ss">site_ids: </span><span class="p">[</span><span class="s1">'e1c6bd0b-aef2-4948-8182-85a075f419e0'</span><span class="p">],</span>
+    <span class="ss">operator_ids: </span><span class="p">[</span><span class="s1">'18529853-4487-4234-be0b-7ca94e1e06bf'</span><span class="p">]</span>
+    <span class="ss">page: </span><span class="mi">1</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">raw_response</span> <span class="o">=</span> <span class="no">HTTParty</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="no">ENGAGEMENT_API_ENDPOINT</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span> <span class="n">raw_response</span><span class="p">.</span><span class="nf">body</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+
+<blockquote>
+<p>Generates the output</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"next_page"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/engagements?page=2&amp;per_page=3"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"last_page"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/engagements?page=22&amp;per_page=3"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"engagements"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"52f8e590-72af-4f20-8428-dfaf95de889e"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"engagement_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"reactive"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-07-06T11:57:47.656Z"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"visitor_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visitor #8"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"visitor_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4cb42417-f153-4209-b885-757f87237b8b"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"cobrowsing_used"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"video_used"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"audio_used"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"flagged"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"audio_recording_urls"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+        </span><span class="nt">"crm_forwarded"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"summary_forwarded"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"visitor"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/visitors/4cb42417-f153-4209-b885-757f87237b8b"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"chat_transcript"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/engagements/52f8e590-72af-4f20-8428-dfaf95de889e/chat_transcript"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"operators"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+          </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/operators/18529853-4487-4234-be0b-7ca94e1e06bf"</span><span class="w">
+        </span><span class="p">}]</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"37e9f0f4-c62e-4103-8ff6-f4e8024a4204"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"engagement_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"reactive"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-07-06T11:46:37.569Z"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"visitor_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visitor #8"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"visitor_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4cb42417-f153-4209-b885-757f87237b8b"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"cobrowsing_used"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"video_used"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"flagged"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"audio_recording_urls"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"https://api.salemove.com/sub_engagements/1120220/twilio_recordings/4994"</span><span class="p">],</span><span class="w">
+        </span><span class="nt">"crm_forwarded"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"summary_forwarded"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"visitor"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/visitors/4cb42417-f153-4209-b885-757f87237b8b"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"chat_transcript"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/engagements/37e9f0f4-c62e-4103-8ff6-f4e8024a4204/chat_transcript"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"operators"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+          </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/operators/18529853-4487-4234-be0b-7ca94e1e06bf"</span><span class="w">
+        </span><span class="p">}]</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"98ad3576-849f-48e0-b456-a5bddfd83055"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"engagement_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"reactive"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-07-06T11:23:54.508Z"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"visitor_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visitor #7"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"visitor_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2bf17d2a-4dd1-43f2-b27b-f48e159e6721"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"cobrowsing_used"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"video_used"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"audio_used"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"flagged"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"audio_recording_urls"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+        </span><span class="nt">"crm_forwarded"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"summary_forwarded"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"visitor"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/visitors/2bf17d2a-4dd1-43f2-b27b-f48e159e6721"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"chat_transcript"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/engagements/98ad3576-849f-48e0-b456-a5bddfd83055/chat_transcript"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"operators"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+          </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/operators/18529853-4487-4234-be0b-7ca94e1e06bf"</span><span class="w">
+      </span><span class="p">}]</span><span class="w">
+    </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h2 id="get-engagement-engagement_id">GET /engagement/:engagement_id</h2>
+
+<p>Fetches a single engagement by ID. The Operator whose token is used for sending the request should be authorized to access the Site&rsquo;s information to which the engagement belongs.</p>
+<pre class="highlight shell"><code>curl -X GET --include <span class="se">\</span>
+     --header <span class="s2">"Authorization: Token API_TOKEN"</span> <span class="se">\</span>
+     --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
+  <span class="s1">'https://api.salemove.com/engagements/ef117ae4-f8a9-45e9-874c-087e19c8dbe6'</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'httparty'</span>
+
+<span class="no">ENGAGEMENT_API_ENDPOINT</span> <span class="o">=</span> <span class="s1">'https://api.salemove.com/engagements'</span>
+
+<span class="n">api_token</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">engagement_id</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">headers</span>
+  <span class="p">{</span>
+    <span class="s2">"Authorization"</span> <span class="o">=&gt;</span> <span class="s2">"Token </span><span class="si">#{</span><span class="n">api_token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+    <span class="s2">"Accept"</span> <span class="o">=&gt;</span> <span class="s2">"application/vnd.salemove.v1+json"</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+
+<span class="n">raw_response</span> <span class="o">=</span> <span class="no">HTTParty</span><span class="p">.</span><span class="nf">get</span> <span class="s2">"</span><span class="si">#{</span><span class="no">ENGAGEMENT_API_ENDPOINT</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">engagement_id</span><span class="si">}</span><span class="s2">"</span>
+<span class="n">parsed_response</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span> <span class="n">raw_response</span>
+
+<span class="nb">puts</span> <span class="n">parsed_response</span>
+</code></pre>
+
+<blockquote>
+<p>Generates the output</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"65f68744-40c5-4278-968a-6ee33df0722a"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"engagement_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"proactive"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-07-07T13:47:21.150Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"visitor_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visitor #7"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"visitor_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"88cf925d-d606-46d6-bdf0-0715e7bb963d"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"cobrowsing_used"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"video_used"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"audio_used"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"flagged"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"audio_recording_urls"</span><span class="p">:</span><span class="w">
+      </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"https://api.salemove.com/sub_engagements/1122834/recordings/XaMiTQI"</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"crm_forwarded"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"summary_forwarded"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"visitor"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/visitors/88cf925d-d606-46d6-bdf0-0715e7bb963d"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"chat_transcript"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/engagements/65f68744-40c5-4278-968a-6ee33df0722a/chat_transcript"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"operators"</span><span class="p">:</span><span class="w">
+    </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/operators/f8769233-937d-4550-bdd3-8613027b2729"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h2 id="get-engagements-engagement_id-chat_transcript">GET /engagements/:engagement_id/chat_transcript</h2>
+
+<p>Fetches an engagement&rsquo;s chat transcript. The operator whose token is used for sending the request should be authorized to access the Site&rsquo;s information to which the engagement belongs.</p>
+<pre class="highlight shell"><code>curl -X GET --include <span class="se">\</span>
+     --header <span class="s2">"Authorization: Token API_TOKEN"</span> <span class="se">\</span>
+     --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
+  <span class="s1">'https://api.salemove.com/engagements/e1c6bd0b-aef2-4948-8182-85a075f419e0/chat_transcript'</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'httparty'</span>
+
+<span class="no">ENGAGEMENT_API_ENDPOINT</span> <span class="o">=</span> <span class="s1">'https://api.salemove.com/engagements'</span>
+
+<span class="n">api_token</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">engagement_id</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">headers</span>
+  <span class="p">{</span>
+    <span class="s2">"Authorization"</span> <span class="o">=&gt;</span> <span class="s2">"Token </span><span class="si">#{</span><span class="n">api_token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+    <span class="s2">"Accept"</span> <span class="o">=&gt;</span> <span class="s2">"application/vnd.salemove.v1+json"</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+
+<span class="n">raw_response</span> <span class="o">=</span> <span class="no">HTTParty</span><span class="p">.</span><span class="nf">get</span> <span class="s2">"</span><span class="si">#{</span><span class="no">ENGAGEMENT_API_ENDPOINT</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">engagement_id</span><span class="si">}</span><span class="s2">/chat_transcript"</span>
+<span class="n">parsed_response</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span> <span class="n">raw_response</span>
+
+<span class="nb">puts</span> <span class="n">parsed_response</span>
+</code></pre>
+
+<blockquote>
+<p>Generates the output</p>
+</blockquote>
+<pre class="highlight plaintext"><code>[
+  {
+    "message": "Hi, can u please help me get a quote?",
+    "created_at": "2016-07-07T13:47:28.000Z",
+    "sender": {
+      "href": "https://api.salemove.com/visitors/88cf925d-d606-46d6-bdf0-0715e7bb963d",
+      "name": null,
+      "type": "visitor"
+    }
+  },
+  {
+    "message": "Sure, Ill take you there",
+    "created_at": "2016-07-07T13:47:34.000Z",
+    "sender": {
+      "href": "https://api.salemove.com/operators/f8769233-937d-4550-bdd3-8613027b2729",
+      "name": "Alex Raffa",
+      "type": "operator"
+    }
+  },
+  {
+    "message": "CoBrowsing Started",
+    "created_at": "2016-07-07T13:47:41.000Z",
+    "sender": {
+      "type": "system",
+      "name": "system"
+    }
+  }, {
+    "message": "Upgraded to One-Way Video",
+    "created_at": "2016-07-07T13:48:13.000Z",
+    "sender": {
+        "type": "system",
+        "name": "system"
+    }
+}]
+</code></pre>
+
+<h2 id="post-engagements-engagement_id-export">POST /engagements/:engagement_id/export</h2>
+
+<p>It exports the engagement using all exports definitions configured for the Site to which the engagement started on. The Operator whose token is used for sending the request should be authorized to access the Sites&rsquo; information to which the engagement belongs. If the engagement is transfered to other sites and the Operator is not authorized in all the sites then the export will contain only the data concern to the sites that the Operator&rsquo;s is authorized to access.</p>
+<pre class="highlight shell"><code>curl --include <span class="se">\</span>
+     --request POST <span class="se">\</span>
+     --header <span class="s2">"Authorization: Token API_TOKEN"</span> <span class="se">\</span>
+     --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
+  <span class="s1">'https://api.salemove.com/engagements/18529853-4487-4234-be0b-7ca94e1e06bf/export'</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'httparty'</span>
+
+<span class="no">ENGAGEMENT_API_ENDPOINT</span> <span class="o">=</span> <span class="s1">'https://api.salemove.com/engagements'</span>
+
+<span class="n">api_token</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">engagement_id</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">headers</span>
+  <span class="p">{</span>
+    <span class="s2">"Authorization"</span> <span class="o">=&gt;</span> <span class="s2">"Token </span><span class="si">#{</span><span class="n">api_token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+    <span class="s2">"Accept"</span> <span class="o">=&gt;</span> <span class="s2">"application/vnd.salemove.v1+json"</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+
+<span class="n">raw_response</span> <span class="o">=</span> <span class="no">HTTParty</span><span class="p">.</span><span class="nf">get</span> <span class="s2">"</span><span class="si">#{</span><span class="no">ENGAGEMENT_API_ENDPOINT</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">engagement_id</span><span class="si">}</span><span class="s2">/export"</span>
+<span class="n">parsed_response</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span> <span class="n">raw_response</span>
+
+<span class="nb">puts</span> <span class="n">parsed_response</span>
+</code></pre>
+
+<blockquote>
+<p>Generates the output</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="nt">"success"</span><span class="p">:</span><span class="kc">true</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+          <h1 id="statistics">Statistics</h1>
+
+<p>Queries are made in JSON using an HTTP REST style request. The query language is based on <a href="http://druid.io/docs/latest/querying/querying.html">Druid query language</a>.</p>
+
+<h2 id="query-types">Query Types</h2>
+
+<p>There are two types of queries: <strong>timeseries</strong> and <strong>group by</strong> queries.</p>
+
+<h3 id="query-type-timeseries">Query Type: Timeseries</h3>
+
+<p>These types of queries take a <code class="prettyprint">timeseries</code> query object and return an array of JSON objects where each object represents a value asked for by the timeseries query.</p>
+
+<p>An example timeseries query object against <code class="prettyprint">/engagements/stats/count</code> endpoint is shown below
+<code class="prettyprint">
+{
+  &quot;query_type&quot;: &quot;timeseries&quot;,
+  &quot;granularity&quot;: &quot;all&quot;,
+  &quot;start_date&quot;: &quot;2015-01-01T00:00:00Z&quot;,
+  &quot;end_date&quot;: &quot;2016-01-01T00:00:00Z&quot;,
+  &quot;filter&quot;: {
+    &quot;type&quot;: &quot;selector&quot;,
+    &quot;dimension&quot;: &quot;type&quot;,
+    &quot;value&quot;: &quot;reactive&quot;
+  }
+}
+</code></p>
+
+<p>A <code class="prettyprint">timeseries</code> query includes the following parts:</p>
+
+<table><thead>
+<tr>
+<th>property</th>
+<th style="text-align: center">description</th>
+<th style="text-align: right">required?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>query_type</td>
+<td style="text-align: center">This String should always be &ldquo;timeseries&rdquo;.</td>
+<td style="text-align: right">yes</td>
+</tr>
+<tr>
+<td>granularity</td>
+<td style="text-align: center">Defines the granularity to bucket query results. See <a href="#statistics-granularities">Granularities</a></td>
+<td style="text-align: right">yes</td>
+</tr>
+<tr>
+<td>start_date</td>
+<td style="text-align: center">A ISO-8601 timestamp. Defines the query start date (inclusive).</td>
+<td style="text-align: right">yes</td>
+</tr>
+<tr>
+<td>end_date</td>
+<td style="text-align: center">A ISO-8601 timestamp. Defines the query end date (exclusive).</td>
+<td style="text-align: right">yes</td>
+</tr>
+<tr>
+<td>filter</td>
+<td style="text-align: center">See <a href="#statistics-filters">Filters</a></td>
+<td style="text-align: right">yes</td>
+</tr>
+</tbody></table>
+
+<h3 id="query-type-group-by">Query Type: Group by</h3>
+
+<p>These types of queries take a <code class="prettyprint">group by</code> query object and return an array of JSON objects where each object represents a grouping asked for by the query. <strong>Note</strong>: If you only want to do straight aggregates for some time range, we highly recommend using <code class="prettyprint">timeseries</code> queries instead. The performance will be substantially better.</p>
+
+<p>An example <code class="prettyprint">group by</code> query object against <code class="prettyprint">/engagements/stats/count</code> endpoint is shown below
+<code class="prettyprint">js
+    {
+      &quot;query_type&quot;: &quot;timeseries&quot;,
+      &quot;dimensions&quot;: [&quot;operator_id&quot;],
+      &quot;granularity&quot;: &quot;all&quot;,
+      &quot;start_date&quot;: &quot;2015-01-01T00:00:00Z&quot;,
+      &quot;end_date&quot;: &quot;2016-01-01T00:00:00Z&quot;,
+      &quot;filter&quot;: {&quot;type&quot;: &quot;selector&quot;, &quot;dimension&quot;: &quot;type&quot;, &quot;value&quot;: &quot;reactive&quot;}
+    }
+</code></p>
+
+<p>A <code class="prettyprint">group by</code> query includes the following parts:</p>
+
+<table><thead>
+<tr>
+<th>property</th>
+<th style="text-align: center">description</th>
+<th style="text-align: right">required?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>query_type</td>
+<td style="text-align: center">This String should always be &ldquo;group_by&rdquo;.</td>
+<td style="text-align: right">yes</td>
+</tr>
+<tr>
+<td>dimensions</td>
+<td style="text-align: center">A JSON list of dimensions to do group by over.</td>
+<td style="text-align: right">yes</td>
+</tr>
+<tr>
+<td>granularity</td>
+<td style="text-align: center">Defines the granularity to bucket query results. See <a href="#statistics-granularities">Granularities</a></td>
+<td style="text-align: right">yes</td>
+</tr>
+<tr>
+<td>start_date</td>
+<td style="text-align: center">A ISO-8601 timestamp. Defines the query start date (inclusive).</td>
+<td style="text-align: right">yes</td>
+</tr>
+<tr>
+<td>end_date</td>
+<td style="text-align: center">A ISO-8601 timestamp. Defines the query end date (exclusive).</td>
+<td style="text-align: right">yes</td>
+</tr>
+<tr>
+<td>filter</td>
+<td style="text-align: center">See <a href="#statistics-filters">Filters</a></td>
+<td style="text-align: right">yes</td>
+</tr>
+</tbody></table>
+
+<h2 id="granularities">Granularities</h2>
+
+<p><a name="statistics-granularities"></a></p>
+
+<p>The granularity field determines how data gets aggregated. Supported granularities are <code class="prettyprint">all</code>, <code class="prettyprint">hour</code> and <code class="prettyprint">day</code>. <code class="prettyprint">all</code> buckets everything into a single bucket.</p>
+
+<h2 id="filters">Filters</h2>
+
+<p><a name="statistics-filters"></a></p>
+
+<p>A filter is a JSON object indicating which rows of data should be included in the computation for a query. It’s essentially the equivalent of the WHERE clause in SQL. You can use the following types of filters.</p>
+
+<h3 id="selector-filter">Selector filter</h3>
+
+<p>The simplest filter is a selector filter. The selector filter will match a specific dimension with a specific value. Selector filters can be used as the base filters for more complex Boolean expressions of filters.</p>
+
+<p>The grammar for a SELECTOR filter is as follows:
+<code class="prettyprint">
+  &quot;filter&quot;: {&quot;type&quot;: &quot;selector&quot;, &quot;dimension&quot;: &lt;dimension_string&gt;, &quot;value&quot;: &lt;dimension_value_string&gt;}
+</code></p>
+
+<h3 id="logical-expression-filters">Logical expression filters</h3>
+
+<h4 id="and">AND</h4>
+
+<p>The grammar for an AND filter is as follows:
+<code class="prettyprint">
+  &quot;filter&quot;: {&quot;type&quot;: &quot;and&quot;, &quot;fields&quot;: [&lt;filter&gt;, &lt;filter&gt;, ...]}
+</code></p>
+
+<h4 id="or">OR</h4>
+
+<p>The grammar for an OR filter is as follows:
+<code class="prettyprint">
+  &quot;filter&quot;: {&quot;type&quot;: &quot;or&quot;, &quot;fields&quot;: [&lt;filter&gt;, &lt;filter&gt;, ...]}
+</code></p>
+
+<h4 id="not">NOT</h4>
+
+<p>The grammar for a NOT filter is as follows:
+<code class="prettyprint">
+  &quot;filter&quot;: {&quot;type&quot;: &quot;not&quot;, &quot;field&quot;: &lt;filter&gt;}
+</code></p>
+
+<h3 id="post-engagements-stats-count"><code class="prettyprint">POST /engagements/stats/count</code></h3>
+
+<p>Returns engagement count.</p>
+
+<p>Possible dimensions that can be used in filters:</p>
+
+<table><thead>
+<tr>
+<th>Dimension</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td>Site ID</td>
+</tr>
+<tr>
+<td><code class="prettyprint">operator_id</code></td>
+<td>Operator ID</td>
+</tr>
+<tr>
+<td><code class="prettyprint">type</code></td>
+<td>Type of engagemens. Possible values are <code class="prettyprint">proactive</code>, <code class="prettyprint">reactive</code>, <code class="prettyprint">transfer</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">source</code></td>
+<td><strong>reactive</strong> engagement starting source (<code class="prettyprint">button_embed</code>, <code class="prettyprint">callout</code>, <code class="prettyprint">hotlink</code>, <code class="prettyprint">external_button</code>, <code class="prettyprint">tab</code>)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">outcome</code></td>
+<td>Engagement outcome (<code class="prettyprint">accepted</code>, <code class="prettyprint">rejected</code>, <code class="prettyprint">timed_out</code>, <code class="prettyprint">visitor_left</code>, <code class="prettyprint">visitor_cancel</code>, <code class="prettyprint">operator_cancel</code>, <code class="prettyprint">operator_left</code>)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">offered_media</code></td>
+<td><code class="prettyprint">video</code>, <code class="prettyprint">audio</code>, <code class="prettyprint">phone</code>, <code class="prettyprint">chat</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">accepted_media</code></td>
+<td><code class="prettyprint">video</code>, <code class="prettyprint">audio</code>, <code class="prettyprint">phone</code>, <code class="prettyprint">chat</code></td>
+</tr>
+</tbody></table>
+
+<h4 id="request">Request</h4>
+
+<p>Headers
+<code class="prettyprint">
+Authorization: Token 2pFuPlTYkH7T4MylrwxApA
+Accept: application/vnd.salemove.v1+json
+</code>
+Body
+<code class="prettyprint">
+{
+  &quot;query_type&quot;: &quot;group_by&quot;,
+  &quot;dimensions&quot;: [&quot;operator_id&quot;],
+  &quot;granularity&quot;: &quot;day&quot;,
+  &quot;start_date&quot;: &quot;2015-09-01T00:00:00Z&quot;,
+  &quot;end_date&quot;: &quot;2015-09-03T00:00:00Z&quot;,
+  &quot;filter&quot;: {
+    &quot;type&quot;: &quot;or&quot;,
+    &quot;fields&quot;: [
+      {
+        &quot;type&quot;: &quot;selector&quot;,
+        &quot;dimension&quot;: &quot;operator_id&quot;,
+        &quot;value&quot;: &quot;92d333b3-c194-4dfa-8a48-562d81c27bd8&quot;
+      },
+      {
+        &quot;type&quot;: &quot;selector&quot;,
+        &quot;dimension&quot;: &quot;operator_id&quot;,
+        &quot;value&quot;: &quot;8a832fe9-db22-48ac-a3ef-b25bf0d9db95&quot;
+      }
+    ]
+  }
+}
+</code></p>
+
+<h4 id="response">Response</h4>
+<pre class="highlight plaintext"><code>200
+
+[
+  {
+    "count": 18,
+    "operator_id": "92d333b3-c194-4dfa-8a48-562d81c27bd8",
+    "timestamp": "2015-09-01T00:00:00.000Z"
+  },
+  {
+    "count": 2,
+    "operator_id": "8a832fe9-db22-48ac-a3ef-b25bf0d9db95",
+    "timestamp": "2015-09-01T00:00:00.000Z"
+  },
+  {
+    "count": 20,
+    "operator_id": "92d333b3-c194-4dfa-8a48-562d81c27bd8",
+    "timestamp": "2015-09-02T00:00:00.000Z"
+  },
+  {
+    "count": 22,
+    "operator_id": "8a832fe9-db22-48ac-a3ef-b25bf0d9db95",
+    "timestamp": "2015-09-02T00:00:00.000Z"
+  }
+]
+</code></pre>
+
+<h3 id="post-engagements-stats-duration">POST <code class="prettyprint">/engagements/stats/duration</code></h3>
+
+<p>Returns the sum of engagement durations in seconds.</p>
+
+<p>Possible dimensions that can be used in filters:</p>
+
+<table><thead>
+<tr>
+<th>Filters</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>A site <code class="prettyprint">id</code> whose engagements will be included in the calculations</td>
+</tr>
+<tr>
+<td><code class="prettyprint">operator_id</code></td>
+<td><code class="prettyprint">strings</code></td>
+<td>Yes</td>
+<td>An operator <code class="prettyprint">id</code> whose engagements will be included in the calculations</td>
+</tr>
+</tbody></table>
+
+<h4 id="request">Request</h4>
+
+<p>Headers
+<code class="prettyprint">
+Authorization: Token 2pFuPlTYkH7T4MylrwxApA
+Accept: application/vnd.salemove.v1+json
+</code></p>
+
+<p>Body
+<code class="prettyprint">
+{
+  &quot;query_type&quot;: &quot;timeseries&quot;,
+  &quot;granularity&quot;: &quot;day&quot;,
+  &quot;start_date&quot;: &quot;2015-09-01T00:00:00Z&quot;,
+  &quot;end_date&quot;: &quot;2015-09-03T00:00:00Z&quot;,
+  &quot;filter&quot;: {}
+}
+</code></p>
+
+<h4 id="response">Response</h4>
+<pre class="highlight plaintext"><code>200
+
+[
+  {
+    "seconds": 1334,
+    "timestamp": "2015-09-01T00:00:00.000Z",
+  },
+  {
+    "seconds": 568,
+    "timestamp": "2015-09-02T00:00:00.000Z",
+  }
+]
+</code></pre>
+
+<h3 id="post-engagements-media_events-stats-count">POST <code class="prettyprint">/engagements/media_events/stats/count</code></h3>
+
+<p>Returns the count of various events relating to engagement media. Such as engagement offers (from both the operator and the visitor) with a particular media and upgrades from one media to another.</p>
+
+<p>Possible dimensions that can be used in filters:</p>
+
+<table><thead>
+<tr>
+<th>Dimension</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>A site <code class="prettyprint">id</code> whose engagements will be included in the calculations</td>
+</tr>
+<tr>
+<td><code class="prettyprint">operator_id</code></td>
+<td><code class="prettyprint">strings</code></td>
+<td>Yes</td>
+<td>An operator <code class="prettyprint">id</code> whose engagements will be included in the calculations</td>
+</tr>
+<tr>
+<td><code class="prettyprint">media</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The types of media that will be used for the filter. Possible values are (<code class="prettyprint">video</code>, <code class="prettyprint">audio</code>, <code class="prettyprint">phone</code>, <code class="prettyprint">chat</code>)</td>
+</tr>
+<tr>
+<td><code class="prettyprint">type</code></td>
+<td><code class="prettyprint">enum</code></td>
+<td>No</td>
+<td>The engagement event type</td>
+</tr>
+</tbody></table>
+
+<table><thead>
+<tr>
+<th>Engagement Event Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">visitor_requested</code></td>
+<td>reactive engagement request event</td>
+</tr>
+<tr>
+<td><code class="prettyprint">operator_requested</code></td>
+<td>proactive engagement request event</td>
+</tr>
+<tr>
+<td><code class="prettyprint">visitor_accepted</code></td>
+<td>proactive engagement accept event</td>
+</tr>
+<tr>
+<td><code class="prettyprint">operator_accepted</code></td>
+<td>reactive engagement accept event</td>
+</tr>
+<tr>
+<td><code class="prettyprint">visitor_media_upgrade</code></td>
+<td>visitor media upgrade event</td>
+</tr>
+<tr>
+<td><code class="prettyprint">operator_media_upgrade</code></td>
+<td>operator media upgrade event</td>
+</tr>
+<tr>
+<td><code class="prettyprint">operator_media_upgrade_offer</code></td>
+<td>operator offer for both to use given media</td>
+</tr>
+</tbody></table>
+
+<h4 id="request">Request</h4>
+
+<p>Headers
+<code class="prettyprint">
+Authorization: Token 2pFuPlTYkH7T4MylrwxApA
+Accept: application/vnd.salemove.v1+json
+</code></p>
+
+<p>Body
+<code class="prettyprint">
+{
+  &quot;query_type&quot;: &quot;timeseries&quot;,
+  &quot;granularity&quot;: &quot;day&quot;,
+  &quot;start_date&quot;: &quot;2015-09-01T00:00:00Z&quot;,
+  &quot;end_date&quot;: &quot;2015-09-03T00:00:00Z&quot;,
+  &quot;filter&quot;: {}
+}
+</code></p>
+
+<h4 id="response">Response</h4>
+<pre class="highlight plaintext"><code>200
+[
+  {
+    "count": 1334,
+    "timestamp": "2015-09-01T00:00:00.000Z",
+  },
+  {
+    "count": 568,
+    "timestamp": "2015-09-02T00:00:00.000Z",
+  }
+]
+</code></pre>
+
+<h3 id="post-visitors-stats-count">POST <code class="prettyprint">/visitors/stats/count</code></h3>
+
+<p>Returns approximate distinct visitor count. This endpoint is using <a href="https://en.wikipedia.org/wiki/HyperLogLog">HyperLogLog</a> algorithm to calculate cardinality.</p>
+
+<p>Possible dimensions that can be used in filters:</p>
+
+<p>|Dimension|Type|Required|Description|
+|<code class="prettyprint">site_id</code>|<code class="prettyprint">string</code>|Yes|The <code class="prettyprint">site_id</code> of the site whose visitors are included in the calculations|</p>
+
+<h4 id="request">Request</h4>
+
+<p>Headers
+<code class="prettyprint">
+Authorization: Token 2pFuPlTYkH7T4MylrwxApA
+Accept: application/vnd.salemove.v1+json
+</code>
+Body
+<code class="prettyprint">
+{
+  &quot;query_type&quot;: &quot;timeseries&quot;,
+  &quot;granularity&quot;: &quot;day&quot;,
+  &quot;start_date&quot;: &quot;2015-09-01T00:00:00Z&quot;,
+  &quot;end_date&quot;: &quot;2015-09-03T00:00:00Z&quot;,
+  &quot;filter&quot;: {}
+}
+</code></p>
+
+<h4 id="response">Response</h4>
+<pre class="highlight plaintext"><code>200
+
+[
+  {
+    "count": 1898,
+    "timestamp": "2015-09-01T00:00:00.000Z",
+  },
+  {
+    "count": 2034,
+    "timestamp": "2015-09-02T00:00:00.000Z",
+  }
+]
+</code></pre>
+
+<h3 id="post-visits-stats-count">POST <code class="prettyprint">/visits/stats/count</code></h3>
+
+<p>Returns visitor session count.</p>
+
+<p>Possible dimensions that can be used in filters:</p>
+
+<table><thead>
+<tr>
+<th>Dimension</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The <code class="prettyprint">site_id</code> of the site whose visits are included in the calculations</td>
+</tr>
+</tbody></table>
+
+<h4 id="request">Request</h4>
+
+<p>Headers
+<code class="prettyprint">
+Authorization: Token 2pFuPlTYkH7T4MylrwxApA
+Accept: application/vnd.salemove.v1+json
+</code></p>
+
+<p>Body
+<code class="prettyprint">
+{
+  &quot;query_type&quot;: &quot;timeseries&quot;,
+  &quot;granularity&quot;: &quot;day&quot;,
+  &quot;start_date&quot;: &quot;2015-09-01T00:00:00Z&quot;,
+  &quot;end_date&quot;: &quot;2015-09-03T00:00:00Z&quot;,
+  &quot;filter&quot;: {}
+}
+</code></p>
+
+<h4 id="response">Response</h4>
+<pre class="highlight plaintext"><code>200
+
+[
+  {
+    "count": 2023,
+    "timestamp": "2015-09-01T00:00:00.000Z",
+  },
+  {
+    "count": 2094,
+    "timestamp": "2015-09-02T00:00:00.000Z",
+  }
+]
+</code></pre>
+
+<h3 id="post-alerts-stats-count">POST <code class="prettyprint">/alerts/stats/count</code></h3>
+
+<p>Returns operator alert count.</p>
+
+<p>Possible dimensions that can be used in filters:</p>
+
+<table><thead>
+<tr>
+<th>Dimensions</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The <code class="prettyprint">site_id</code> whose alerts will be included in the calculations</td>
+</tr>
+<tr>
+<td><code class="prettyprint">operator_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The <code class="prettyprint">operator_id</code> who received the alerts from the site with <code class="prettyprint">id</code></td>
+</tr>
+</tbody></table>
+
+<h4 id="request">Request</h4>
+
+<p>Headers
+<code class="prettyprint">
+Authorization: Token 2pFuPlTYkH7T4MylrwxApA
+Accept: application/vnd.salemove.v1+json
+</code></p>
+
+<p>Body
+<code class="prettyprint">
+{
+  &quot;query_type&quot;: &quot;timeseries&quot;,
+  &quot;granularity&quot;: &quot;day&quot;,
+  &quot;start_date&quot;: &quot;2015-09-01T00:00:00Z&quot;,
+  &quot;end_date&quot;: &quot;2015-09-03T00:00:00Z&quot;,
+  &quot;filter&quot;: {}
+}
+</code></p>
+
+<h4 id="response">Response</h4>
+<pre class="highlight plaintext"><code>200
+
+[
+  {
+    "count": 1022,
+    "timestamp": "2015-09-01T00:00:00.000Z",
+  },
+  {
+    "count": 1058,
+    "timestamp": "2015-09-02T00:00:00.000Z",
+  }
+]
+</code></pre>
+
+<h3 id="post-operators-stats-online_duration">POST <code class="prettyprint">/operators/stats/online_duration</code></h3>
+
+<p>Returns operator online duration in seconds.</p>
+
+<p>Possible dimensions that can be used in filters:</p>
+
+<table><thead>
+<tr>
+<th>Dimension</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>A <code class="prettyprint">site_id</code> whose operators will be included in the calculations</td>
+</tr>
+<tr>
+<td><code class="prettyprint">operator_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>An <code class="prettyprint">operator_id</code> whose online duration is being requested</td>
+</tr>
+<tr>
+<td><code class="prettyprint">type</code></td>
+<td><code class="prettyprint">enum</code></td>
+<td>Yes</td>
+<td>Operator online status.</td>
+</tr>
+</tbody></table>
+
+<p>There are three groups of types an online operator can have:</p>
+
+<table><thead>
+<tr>
+<th>Operator Status Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>available media type</td>
+<td>It describes what the operator is available for. Possible values are <code class="prettyprint">video</code>, <code class="prettyprint">audio</code>, <code class="prettyprint">chat</code></td>
+</tr>
+<tr>
+<td>engaged</td>
+<td>if the operator is currently in an engagement. Possible values (<code class="prettyprint">true</code>, <code class="prettyprint">false</code>)</td>
+</tr>
+<tr>
+<td>unavailable type</td>
+<td>It describes what kind of unavailiabity the operator selected while being marked as away or busy. E.g. <code class="prettyprint">Quick Break</code>, <code class="prettyprint">Training</code>, <code class="prettyprint">With Customer</code></td>
+</tr>
+</tbody></table>
+
+<h4 id="request">Request</h4>
+
+<p>Headers
+<code class="prettyprint">
+Authorization: Token 2pFuPlTYkH7T4MylrwxApA
+Accept: application/vnd.salemove.v1+json
+</code></p>
+
+<p>Body
+<code class="prettyprint">
+{
+  &quot;query_type&quot;: &quot;timeseries&quot;,
+  &quot;granularity&quot;: &quot;day&quot;,
+  &quot;start_date&quot;: &quot;2015-09-01T00:00:00Z&quot;,
+  &quot;end_date&quot;: &quot;2015-09-03T00:00:00Z&quot;,
+  &quot;filter&quot;: {}
+}
+</code></p>
+
+<h4 id="response">Response</h4>
+<pre class="highlight plaintext"><code>200
+
+[
+  {
+    "seconds": 4122,
+    "timestamp": "2015-09-01T00:00:00.000Z",
+  },
+  {
+    "seconds": 4458,
+    "timestamp": "2015-09-02T00:00:00.000Z",
+  }
+]
+</code></pre>
+
+          <h1 id="exports">Exports</h1>
+
+<p>A site has zero or more export configurations named <code class="prettyprint">definitions</code>. A <code class="prettyprint">definition</code> is a set of attributes that describe how leads are exported. A lead is an engagement or an offline message. When SaleMove generates a lead (engagement or offline message) it is exported to all the <code class="prettyprint">definitions</code> configured and enabled for the Site which the leads belongs to.</p>
+
+<p>An export <code class="prettyprint">definition</code> has the following parameters</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">name</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>A name that describes the export</td>
+</tr>
+<tr>
+<td><code class="prettyprint">type</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>The type of lead it is meant to export. Valid values are <code class="prettyprint">engagement</code> or <code class="prettyprint">inbox_message</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">content_type</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>It specifies the <code class="prettyprint">content-type</code> of the export definition. Valid values are <code class="prettyprint">applicationgxml</code> and <code class="prettyprint">application/json</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">email_recipients</code></td>
+<td><code class="prettyprint">object</code></td>
+<td>A JSON object describing how the leads are sent by email</td>
+</tr>
+<tr>
+<td><code class="prettyprint">crm_recipients</code></td>
+<td><code class="prettyprint">object</code></td>
+<td>A JSON object describing how the leads are sent via HTTP POST</td>
+</tr>
+<tr>
+<td><code class="prettyprint">template</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>A template in <code class="prettyprint">XML</code> or <code class="prettyprint">JSON</code> format that will be used as a template for the content of the export. The template must be in UTF-8 encoding</td>
+</tr>
+</tbody></table>
+
+<p>The parameter <code class="prettyprint">email_recipients</code> should include two attributes:</p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">enabled</code></td>
+<td><code class="prettyprint">boolean</code></td>
+<td>It specifies if the export should be sent by email. Valid values are <code class="prettyprint">true</code> and <code class="prettyprint">false</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">emails</code></td>
+<td><code class="prettyprint">array</code></td>
+<td>An array of email addresses that the export should be sent to</td>
+</tr>
+</tbody></table>
+
+<p>The parameter <code class="prettyprint">crm_recipients</code> should include three attributes:</p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">enabled</code></td>
+<td><code class="prettyprint">boolean</code></td>
+<td>It specifies if the export should be sent by HTTP POST. Valid values are <code class="prettyprint">true</code> and <code class="prettyprint">false</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">url</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>The URL where the export should be sent to</td>
+</tr>
+<tr>
+<td><code class="prettyprint">headers</code></td>
+<td><code class="prettyprint">headers</code></td>
+<td>A set of headers to be sent along with the HTTP POST. Tipically the headers are used for <code class="prettyprint">Authorization</code></td>
+</tr>
+</tbody></table>
+
+<p>The parameter <code class="prettyprint">template</code> can contain <code class="prettyprint">field tags</code>. A <code class="prettyprint">field tag</code> is a <code class="prettyprint">tag</code> that will be replaced with a value from the lead. As an example the <code class="prettyprint">field tag</code> <code class="prettyprint">visitor_name</code> will be replaces with the actual Visitor&rsquo;s name from the lead. The <code class="prettyprint">field tag</code>s should be enclosed by braces <code class="prettyprint">{}</code> so they can be parsed and replaced. From the previous example the <code class="prettyprint">field tag</code> for the <code class="prettyprint">visitor_name</code> should be included as <code class="prettyprint">{visitor_name}</code> in the template. Below a table describing the <code class="prettyprint">field tags</code> that can be included in the template.</p>
+
+<h2 id="engagements">Engagements</h2>
+
+<h3 id="field-tags"><code class="prettyprint">field tags</code></h3>
+
+<p>The following <code class="prettyprint">field tags</code> can be used in a template for <code class="prettyprint">engagements</code></p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">visitor_name</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Visitor name</td>
+</tr>
+<tr>
+<td><code class="prettyprint">visitor_email</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Visitor email</td>
+</tr>
+<tr>
+<td><code class="prettyprint">visitor_phone</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Visitor phone</td>
+</tr>
+<tr>
+<td><code class="prettyprint">visitor_last_name</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Visitor last name</td>
+</tr>
+<tr>
+<td><code class="prettyprint">notes</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Notes about Visitor</td>
+</tr>
+<tr>
+<td><code class="prettyprint">engagement_id</code></td>
+<td><code class="prettyprint">integer</code></td>
+<td>The engagement ID</td>
+</tr>
+<tr>
+<td><code class="prettyprint">engagement_duration</code></td>
+<td><code class="prettyprint">integer</code></td>
+<td>The engagement duration in seconds</td>
+</tr>
+<tr>
+<td><code class="prettyprint">engagement_started_at</code></td>
+<td><code class="prettyprint">datetime</code></td>
+<td>The engagement start timestamp</td>
+</tr>
+<tr>
+<td><code class="prettyprint">engagement_ended_at</code></td>
+<td><code class="prettyprint">datetime</code></td>
+<td>The engagement end timestamp</td>
+</tr>
+<tr>
+<td><code class="prettyprint">engagement_type</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>The engagement type, either <code class="prettyprint">reactive</code> or <code class="prettyprint">proactive</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">end_reason</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>The end reason of the engagement. One of: <code class="prettyprint">visitor_left</code>, <code class="prettyprint">operator_left</code>, <code class="prettyprint">visitor_hung_up</code>, <code class="prettyprint">operator_hung_up</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">cobrowsing_used</code></td>
+<td><code class="prettyprint">boolean</code></td>
+<td>Whether cobrowsing was used in the engagement</td>
+</tr>
+<tr>
+<td><code class="prettyprint">video_used</code></td>
+<td><code class="prettyprint">boolean</code></td>
+<td>Whether video was used in the engagement</td>
+</tr>
+<tr>
+<td><code class="prettyprint">audio_used</code></td>
+<td><code class="prettyprint">boolean</code></td>
+<td>Whether audio was used in the engagement</td>
+</tr>
+<tr>
+<td><code class="prettyprint">engagement_flagged</code></td>
+<td><code class="prettyprint">boolean</code></td>
+<td>Whether the engagement has been flagged</td>
+</tr>
+<tr>
+<td><code class="prettyprint">crm_forwarded</code></td>
+<td><code class="prettyprint">boolean</code></td>
+<td>Whether the crm export has been done already</td>
+</tr>
+<tr>
+<td><code class="prettyprint">summary_forwarded</code></td>
+<td><code class="prettyprint">boolean</code></td>
+<td>Whether the summary has been forwarded already</td>
+</tr>
+</tbody></table>
+
+<h3 id="collection_tags"><code class="prettyprint">collection_tags</code></h3>
+
+<p>There are some template tags that describe a collection of items such as a collection of operators who participated of the engagement or the collection of sites that were visited during the engagement. The tags that describe collections generate some <code class="prettyprint">XML</code> or <code class="prettyprint">JSON</code> content (based on the template&rsquo;s <code class="prettyprint">content-type</code>. Those tags are:</p>
+
+<h4 id="site_names"><code class="prettyprint">site_names</code></h4>
+
+<p>A collection of site-names that were visited during the engagement. It generates the following content.</p>
+
+<p>XML Template
+<code class="prettyprint">
+&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;&lt;export&gt;{site_names}&lt;gexport&gt;
+</code></p>
+
+<p>XML Output
+<code class="prettyprint">
+ &quot;&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;&lt;export&gt;
+        &lt;site&gt;&lt;name&gt;first site&lt;gname&gt;&lt;/site&gt;
+        &lt;site&gt;&lt;name&gt;second site&lt;gname&gt;&lt;/site&gt;
+        &lt;gexport&gt;&quot;
+</code></p>
+
+<p>JSON Template
+<code class="prettyprint">
+{&quot;sites&quot;: {site_names}}
+</code></p>
+
+<p>JSON Output
+<code class="prettyprint">
+{
+  &quot;sites&quot;: [
+    {
+      &quot;name&quot;: &quot;first site&quot;
+    },
+    {
+      &quot;name&quot;: &quot;second site&quot;
+    }
+  ]
+}
+</code></p>
+
+<h4 id="operators"><code class="prettyprint">operators</code></h4>
+
+<p>A collection of operators who participated of the engagement. It generates the following content:</p>
+
+<p>XML Template
+<code class="prettyprint">
+&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;&lt;export&gt;{operators}&lt;/export&gt;
+</code></p>
+
+<p>XML OUtput
+<code class="prettyprint">
+&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;
+&lt;export&gt;
+  &lt;operator&gt;
+      &lt;name&gt;Markus Myhle&lt;/name&gt;
+      &lt;email&gt;markus@myhle.com&lt;/email&gt;
+      &lt;id&gt;markus-id&lt;/id&gt;
+    &lt;/operator&gt;
+  &lt;operator&gt;
+      &lt;name&gt;Kiur Aarmaa&lt;/name&gt;
+      &lt;email&gt;kiur@aarmaa.com&lt;/email&gt;
+      &lt;id&gt;kiur-id&lt;/id&gt;
+  &lt;/operator&gt;
+&lt;/export&gt;
+</code></p>
+
+<p>JSON Template
+<code class="prettyprint">
+{&quot;operators&quot;: {operators}}
+</code></p>
+
+<p>JSON Output
+<code class="prettyprint">
+{
+  &quot;operators&quot;:[
+    {
+      &quot;name&quot;:&quot;Markus Myhle&quot;,
+      &quot;email&quot;:&quot;markus@myhle.com&quot;,
+      &quot;id&quot;:&quot;markus-id&quot;
+    },
+    {
+      &quot;name&quot;:&quot;Kiur Aarmaa&quot;,
+      &quot;email&quot;:&quot;kiur@aarmaa.com&quot;,
+      &quot;id&quot;:&quot;kiur-id&quot;
+    }
+  ]
+}
+</code></p>
+
+<h4 id="custom_fields"><code class="prettyprint">custom_fields</code></h4>
+
+<p>A collection of visitor&rsquo;s custom attributes. It generates the following content:</p>
+
+<p>XML Template
+<code class="prettyprint">
+&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;&lt;export&gt;{custom_fields}&lt;/export&gt;
+</code></p>
+
+<p>XML Output
+<code class="prettyprint">
+&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;
+&lt;export&gt;
+  &lt;field&gt;
+    &lt;key&gt;VIP&lt;/key&gt;
+    &lt;value&gt;false&lt;/value&gt;
+  &lt;/field&gt;
+  &lt;field&gt;
+    &lt;key&gt;Niss&lt;/key&gt;
+    &lt;value&gt;To the max&lt;/value&gt;
+  &lt;/field&gt;
+&lt;/export&gt;
+</code></p>
+
+<p>JSON Template
+<code class="prettyprint">
+{&quot;custom_fields&quot;: {custom_fields}}
+</code></p>
+
+<p>JSON Output
+<code class="prettyprint">
+{
+  &quot;custom_fields&quot;:
+  [
+    {
+      &quot;key&quot;: &quot;VIP&quot;,
+      &quot;value&quot;: &quot;false&quot;
+    },
+    {
+      &quot;key&quot;: &quot;Niss&quot;,
+      &quot;value&quot;: &quot;To the max&quot;
+    }
+  ]
+}
+</code></p>
+
+<h4 id="chat_transcript"><code class="prettyprint">chat_transcript</code></h4>
+
+<p>The collection of chat messages exchanged between the visitor and the operator during the engagement. It generates the following content:</p>
+
+<p>XML Template
+<code class="prettyprint">
+&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;&lt;export&gt;{chat_transcript}&lt;/export&gt;
+</code></p>
+
+<p>XML Output
+&ldquo;`
+&lt;?xml version=&lsquo;1.0&rsquo; encoding=&#39;utf-8&rsquo;?&gt;<export>
+  <message>
+    <content>See on niss</content>
+    <created_at>some date</created_at>
+    <sender>
+      <name>Markys</name>
+      <type>visitor</type>
+    </sender
+  </message>
+  <message>
+    <content>Ok dyyd</content>
+    <created_at>other date</created_at>
+    <sender>
+      <name>Stenver</name>
+      <type>operator</type>
+    </sender
+  </message>
+</export></p>
+<pre class="highlight plaintext"><code>
+JSON Template
+</code></pre>
+
+<p>{&quot;chat&rdquo;: {chat_transcript}}
+&ldquo;`</p>
+
+<p>JSON Output
+<code class="prettyprint">
+{
+  &quot;chat_transcript&quot;:
+  [
+    {
+      &quot;content&quot;:&quot;See on niss&quot;,
+      &quot;created_at&quot;:&quot;some date&quot;,
+      &quot;sender&quot;:
+      {
+        &quot;name&quot;:&quot;Markys&quot;,
+        &quot;type&quot;:&quot;visitor&quot;
+      }
+    },
+    {
+      &quot;content&quot;:&quot;Ok dyyd&quot;,
+      &quot;created_at&quot;:&quot;other date&quot;,
+      &quot;sender&quot;:
+      {
+        &quot;name&quot;:&quot;Stenver&quot;,
+        &quot;type&quot;:&quot;operator&quot;
+      }
+    }
+  ]
+}
+</code></p>
+
+<h2 id="inbox-message">Inbox Message</h2>
+
+<h3 id="field_tags"><code class="prettyprint">field_tags</code></h3>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">visitor_name</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Visitor name</td>
+</tr>
+<tr>
+<td><code class="prettyprint">visitor_email</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Visitor email</td>
+</tr>
+<tr>
+<td><code class="prettyprint">visitor_phone</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Visitor phone</td>
+</tr>
+<tr>
+<td><code class="prettyprint">message</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Message left by visitor</td>
+</tr>
+<tr>
+<td><code class="prettyprint">recording_url</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Visitor&rsquo;s voice message recording URL</td>
+</tr>
+</tbody></table>
+
+<h3 id="collection_tags"><code class="prettyprint">collection_tags</code></h3>
+
+<h4 id="site_names"><code class="prettyprint">site_names</code></h4>
+
+<p>A collection of site-names that were visited during the engagement. It generates the following content.</p>
+
+<p>XML Template
+<code class="prettyprint">
+&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;&lt;export&gt;{site_names}&lt;gexport&gt;
+</code></p>
+
+<p>XML Output
+<code class="prettyprint">
+ &quot;&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;&lt;export&gt;
+        &lt;site&gt;&lt;name&gt;first site&lt;gname&gt;&lt;/site&gt;
+        &lt;site&gt;&lt;name&gt;second site&lt;gname&gt;&lt;/site&gt;
+        &lt;gexport&gt;&quot;
+</code></p>
+
+<p>JSON Template
+<code class="prettyprint">
+{&quot;sites&quot;: {site_names}}
+</code></p>
+
+<p>JSON Output
+<code class="prettyprint">
+{
+  &quot;sites&quot;: [
+    {
+      &quot;name&quot;: &quot;first site&quot;
+    },
+    {
+      &quot;name&quot;: &quot;second site&quot;
+    }
+  ]
+}
+</code></p>
+
+<h4 id="custom_fields"><code class="prettyprint">custom_fields</code></h4>
+
+<p>A collection of visitor&rsquo;s custom attributes. It generates the following content:</p>
+
+<p>XML Template
+<code class="prettyprint">
+&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;&lt;export&gt;{custom_fields}&lt;/export&gt;
+</code></p>
+
+<p>XML Output
+<code class="prettyprint">
+&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;
+&lt;export&gt;
+  &lt;field&gt;
+    &lt;key&gt;VIP&lt;/key&gt;
+    &lt;value&gt;false&lt;/value&gt;
+  &lt;/field&gt;
+  &lt;field&gt;
+    &lt;key&gt;Niss&lt;/key&gt;
+    &lt;value&gt;To the max&lt;/value&gt;
+  &lt;/field&gt;
+&lt;/export&gt;
+</code></p>
+
+<p>JSON Template
+<code class="prettyprint">
+{&quot;custom_fields&quot;: {custom_fields}}
+</code></p>
+
+<p>JSON Output
+<code class="prettyprint">
+{
+  &quot;custom_fields&quot;:
+  [
+    {
+      &quot;key&quot;: &quot;VIP&quot;,
+      &quot;value&quot;: &quot;false&quot;
+    },
+    {
+      &quot;key&quot;: &quot;Niss&quot;,
+      &quot;value&quot;: &quot;To the max&quot;
+    }
+  ]
+}
+</code></p>
+
+<h2 id="examples">Examples</h2>
+
+<h3 id="xml">XML</h3>
+
+<p>Template</p>
+<pre class="highlight xml"><code><span class="cp">&lt;?xml version='1.0' encoding='utf-8'?&gt;</span>
+<span class="nt">&lt;export&gt;</span>
+  <span class="nt">&lt;visitor_name&gt;</span>{visitor_name}<span class="nt">&lt;/visitor_name&gt;</span>
+  <span class="nt">&lt;chat&gt;</span>{chat_transcript}<span class="nt">&lt;/chat&gt;</span>
+<span class="nt">&lt;/export&gt;</span>
+</code></pre>
+
+<p>Output
+<code class="prettyprint">
+&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;
+&lt;export&gt;
+  &lt;visitor_name&gt;Markus&lt;/visitor_name&gt;
+  &lt;chat&gt;
+    &lt;message&gt;
+      &lt;content&gt;First message&lt;/content&gt;
+      &lt;created_at&gt;007-01-14T20:34:22+00:00&lt;/created_at&gt;
+      &lt;sender&gt;
+        &lt;name&gt;Markus&lt;/name&gt;
+        &lt;type&gt;visitor&lt;/type&gt;
+      &lt;/sender
+    &lt;/message&gt;
+    &lt;message&gt;
+      &lt;content&gt;Second message&lt;/content&gt;
+      &lt;created_at&gt;007-01-14T20:34:22+05:00&lt;/created_at&gt;
+      &lt;sender&gt;
+        &lt;name&gt;Stenver&lt;/name&gt;
+        &lt;type&gt;operator&lt;/type&gt;
+      &lt;/sender
+    &lt;/message&gt;
+  &lt;/chat&gt;
+&lt;/export&gt;
+</code></p>
+
+<h3 id="json">JSON</h3>
+
+<p>Template
+<code class="prettyprint">
+{
+  &quot;export&quot;:
+  {
+    &quot;visitor_name&quot;: &quot;{visitor_name}&quot;,
+    &quot;chat&quot;: {chat_transcript},
+    &quot;custom_fields&quot;: {custom_fields}
+  }
+}
+</code></p>
+
+<p>Output
+<code class="prettyprint">
+{
+  &quot;export&quot;: {
+    &quot;visitor_name&quot;: &quot;Markus&quot;,
+    &quot;chat&quot;: [
+      {
+        &quot;content&quot;: &quot;First message&quot;,
+        &quot;created_at&quot;: &quot;007-01-14T20:34:22+00:00&quot;,
+        &quot;sender&quot;:
+        {
+          &quot;name&quot;: &quot;Markus&quot;,
+          &quot;type&quot;: &quot;Visitor&quot;
+        }
+      },
+      {
+        &quot;content&quot;: &quot;Second message&quot;,
+        &quot;created_at&quot;: &quot;07-01-14T20:34:22+05:00&quot;,
+        &quot;sender&quot;:
+        {
+          &quot;name&quot;: &quot;Stenver&quot;,
+          &quot;type&quot;: &quot;Operator&quot;
+        }
+      }
+    ],
+    &quot;custom_fields&quot;:[
+      {
+        &quot;custom key 1&quot;: &quot;value 1&quot;
+      },
+      {
+        &quot;custom key 2&quot;: &quot;value 2&quot;
+      }
+    ]
+  }
+}
+</code></p>
+
+<h2 id="post-sites-site_id-crm-exports">POST <code class="prettyprint">/sites/{site_id}/crm/exports</code></h2>
+
+<p>Creates a new export for the <code class="prettyprint">{site_id}</code>. The operator whose API token is used to make the request should have rights on the site.</p>
+
+<p>The endpoint accepts the following parameters</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>The <code class="prettyprint">site_id</code> who owns the export</td>
+</tr>
+<tr>
+<td><code class="prettyprint">name</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">type</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">content_type</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">email_recipients</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">object</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">crm_recipients</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">object</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">template</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+</tbody></table>
+<pre class="highlight shell"><code>curl --include <span class="se">\</span>
+     --request POST <span class="se">\</span>
+     --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
+     --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
+     --data-binary <span class="s2">"{
+  </span><span class="se">\"</span><span class="s2">name</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">Some template name</span><span class="se">\"</span><span class="s2">,
+  </span><span class="se">\"</span><span class="s2">type</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">engagement</span><span class="se">\"</span><span class="s2">,
+  </span><span class="se">\"</span><span class="s2">content_type</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">application/xml</span><span class="se">\"</span><span class="s2">,
+  </span><span class="se">\"</span><span class="s2">email_recipient</span><span class="se">\"</span><span class="s2">: {
+      </span><span class="se">\"</span><span class="s2">enabled</span><span class="se">\"</span><span class="s2">: true,
+      </span><span class="se">\"</span><span class="s2">emails</span><span class="se">\"</span><span class="s2">: [</span><span class="se">\"</span><span class="s2">example@example.com</span><span class="se">\"</span><span class="s2">]
+  },
+  </span><span class="se">\"</span><span class="s2">crm_recipient</span><span class="se">\"</span><span class="s2">:{
+      </span><span class="se">\"</span><span class="s2">enabled</span><span class="se">\"</span><span class="s2">: true,
+      </span><span class="se">\"</span><span class="s2">url</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">http://example.com/crm</span><span class="se">\"</span><span class="s2">,
+      </span><span class="se">\"</span><span class="s2">headers</span><span class="se">\"</span><span class="s2">: {
+        </span><span class="se">\"</span><span class="s2">Authorization</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">Some Auth Token</span><span class="se">\"</span><span class="s2">,
+        </span><span class="se">\"</span><span class="s2">Accept</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">application/xml</span><span class="se">\"</span><span class="s2">
+      }
+  },
+  </span><span class="se">\"</span><span class="s2">template</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">&lt;?xml version='1.0' encoding='UTF-8'?&gt;</span><span class="se">\n</span><span class="s2">&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;</span><span class="se">\n</span><span class="s2">&lt;/export&gt;</span><span class="se">\"</span><span class="s2">
+}
+"</span> <span class="se">\</span>
+  <span class="s2">"https://api.salemove.com/sites/</span><span class="nv">$siteId</span><span class="s2">/crm/exports/"</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="c1">#!/usr/bin/env ruby</span>
+<span class="nb">require</span> <span class="s1">'rubygems'</span>
+<span class="nb">require</span> <span class="s1">'rest-client'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
+
+<span class="n">token</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">strip</span>
+<span class="n">site_id</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">strip</span>
+
+<span class="n">values</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"My Template"</span><span class="p">,</span>
+  <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"engagement"</span><span class="p">,</span>
+  <span class="s2">"content_type"</span><span class="p">:</span> <span class="s2">"application/xml"</span><span class="p">,</span>
+  <span class="s2">"email_recipient"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"enabled"</span><span class="p">:</span> <span class="kp">false</span><span class="p">,</span>
+    <span class="s2">"emails"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"example@example.com"</span>
+    <span class="p">]</span>
+  <span class="p">},</span>
+  <span class="s2">"crm_recipient"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"enabled"</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span>
+    <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"https://leads.client.com/engagements"</span><span class="p">,</span>
+    <span class="s2">"headers"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"Authorization"</span><span class="p">:</span> <span class="s2">"Basic spA0tdMgcDpFOHA0WTdyMg==</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span>
+      <span class="s2">"Accept"</span><span class="p">:</span> <span class="s2">"application/xml"</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="s2">"template"</span><span class="p">:</span> <span class="s2">"&lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;&lt;/export&gt;"</span>
+<span class="p">}</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">:authorization</span> <span class="o">=&gt;</span> <span class="s2">"Token </span><span class="si">#{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+  <span class="ss">:accept</span> <span class="o">=&gt;</span> <span class="s1">'application/vnd.salemove.v1+json'</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">post</span> <span class="s2">"https://api.salemove.com/sites/</span><span class="si">#{</span><span class="n">site_id</span><span class="si">}</span><span class="s2">/crm/exports"</span><span class="p">,</span> <span class="n">values</span><span class="p">.</span><span class="nf">to_json</span><span class="p">,</span> <span class="n">headers</span>
+<span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">body</span>
+</code></pre>
+
+<blockquote>
+<p>Generates the output</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/sites/47e2cb4c-d3d2-48ea-9a8f-604ed837410f/crm/templates/9b19b333-4568-41ba-8dc5-d5af32e49d14"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9b19b333-4568-41ba-8dc5-d5af32e49d14"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Some template name"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"site_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"47e2cb4c-d3d2-48ea-9a8f-604ed837410f"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"engagement"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"content_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/xml"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"email_recipient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"emails"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example@example.com"</span><span class="p">]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"crm_recipient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com/crm"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"Authorization"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Some Auth Token"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"Accept"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/xml"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;?xml version='1.0' encoding='UTF-8'?&gt;\n&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;\n&lt;/export&gt;"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre>
+
+<h2 id="get-sites-site_id-crm-exports-id">GET <code class="prettyprint">/sites/{site_id}/crm/exports/{id}</code></h2>
+
+<p>It fetches the information of the export with id <code class="prettyprint">{id}</code>. The operator whose API token is used to make the request should have rights on the site.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>The <code class="prettyprint">site_id</code> that owns the export definition</td>
+</tr>
+<tr>
+<td><code class="prettyprint">id</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>The <code class="prettyprint">id</code> of the export</td>
+</tr>
+</tbody></table>
+<pre class="highlight shell"><code>curl --include <span class="se">\</span>
+     --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
+     --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
+  <span class="s1">'https://api.salemove.com/sites/$siteId/crm/exports/eda2197b-e1df-4fdb-818a-2763da2c66b9'</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="c1">#!/usr/bin/env ruby</span>
+<span class="nb">require</span> <span class="s1">'rubygems'</span>
+<span class="nb">require</span> <span class="s1">'rest-client'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
+
+<span class="n">token</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">strip</span>
+<span class="n">site_id</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">strip</span>
+<span class="n">export_id</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="nf">strip</span>
+
+<span class="n">values</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">:authorization</span> <span class="o">=&gt;</span> <span class="s2">"Token </span><span class="si">#{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+  <span class="ss">:accept</span> <span class="o">=&gt;</span> <span class="s1">'application/vnd.salemove.v1+json'</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s2">"https://api.salemove.com/sites/</span><span class="si">#{</span><span class="n">site_id</span><span class="si">}</span><span class="s2">/crm/exports/</span><span class="si">#{</span><span class="n">export_id</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>  <span class="n">headers</span>
+<span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">body</span>
+</code></pre>
+
+<blockquote>
+<p>Generates the output</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/sites/47e2cb4c-d3d2-48ea-9a8f-604ed837410f/crm/templates/9b19b333-4568-41ba-8dc5-d5af32e49d14"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9b19b333-4568-41ba-8dc5-d5af32e49d14"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Some template name"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"site_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"47e2cb4c-d3d2-48ea-9a8f-604ed837410f"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"engagement"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"content_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/xml"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"email_recipient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"emails"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example@example.com"</span><span class="p">]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"crm_recipient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com/crm"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"Accept"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/xml"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"Authorization"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Some Auth Token"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;?xml version='1.0' encoding='UTF-8'?&gt;\n&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;\n&lt;/export&gt;"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h2 id="put-sites-site_id-crm-exports-id">PUT <code class="prettyprint">/sites/{site_id}/crm/exports/{id}</code></h2>
+
+<p>It updates the export with <code class="prettyprint">id</code>. The operator whose API token is used to make the request should have right on the site.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>The <code class="prettyprint">site_id</code> that owns the export definition</td>
+</tr>
+<tr>
+<td><code class="prettyprint">id</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>The <code class="prettyprint">id</code> of the export</td>
+</tr>
+<tr>
+<td><code class="prettyprint">name</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">type</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">content_type</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">email_recipients</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">object</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">crm_recipients</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">object</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">template</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+</tbody></table>
+<pre class="highlight shell"><code>curl --include <span class="se">\</span>
+     --request PUT <span class="se">\</span>
+     --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
+     --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
+     --data-binary <span class="s2">"{
+  </span><span class="se">\"</span><span class="s2">name</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">Some template name</span><span class="se">\"</span><span class="s2">,
+  </span><span class="se">\"</span><span class="s2">type</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">engagement</span><span class="se">\"</span><span class="s2">,
+  </span><span class="se">\"</span><span class="s2">content_type</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">application/xml</span><span class="se">\"</span><span class="s2">,
+  </span><span class="se">\"</span><span class="s2">email_recipient</span><span class="se">\"</span><span class="s2">: {
+      </span><span class="se">\"</span><span class="s2">enabled</span><span class="se">\"</span><span class="s2">: true,
+      </span><span class="se">\"</span><span class="s2">emails</span><span class="se">\"</span><span class="s2">: [</span><span class="se">\"</span><span class="s2">example@example.com</span><span class="se">\"</span><span class="s2">]
+  },
+  </span><span class="se">\"</span><span class="s2">crm_recipient</span><span class="se">\"</span><span class="s2">:{
+      </span><span class="se">\"</span><span class="s2">enabled</span><span class="se">\"</span><span class="s2">: true,
+      </span><span class="se">\"</span><span class="s2">url</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">http://example.com/crm</span><span class="se">\"</span><span class="s2">,
+      </span><span class="se">\"</span><span class="s2">headers</span><span class="se">\"</span><span class="s2">: {
+        </span><span class="se">\"</span><span class="s2">Authorization</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">Some Auth Token</span><span class="se">\"</span><span class="s2">,
+        </span><span class="se">\"</span><span class="s2">Accept</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">application/xml</span><span class="se">\"</span><span class="s2">
+      }
+  },
+  </span><span class="se">\"</span><span class="s2">template</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">&lt;?xml version='1.0' encoding='UTF-8'?&gt;</span><span class="se">\n</span><span class="s2">&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;</span><span class="se">\n</span><span class="s2">&lt;/export&gt;</span><span class="se">\"</span><span class="s2">
+}
+"</span> <span class="se">\</span>
+  <span class="s2">"https://api.salemove.com/sites/</span><span class="nv">$siteId</span><span class="s2">/crm/exports/</span><span class="nv">$exportId</span><span class="s2">"</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="c1">#!/usr/bin/env ruby</span>
+<span class="nb">require</span> <span class="s1">'rubygems'</span>
+<span class="nb">require</span> <span class="s1">'rest-client'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
+
+<span class="n">token</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">strip</span>
+<span class="n">site_id</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">strip</span>
+<span class="n">export_id</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="nf">strip</span>
+
+<span class="n">values</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"My Template"</span><span class="p">,</span>
+  <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"engagement"</span><span class="p">,</span>
+  <span class="s2">"content_type"</span><span class="p">:</span> <span class="s2">"application/xml"</span><span class="p">,</span>
+  <span class="s2">"email_recipient"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"enabled"</span><span class="p">:</span> <span class="kp">false</span><span class="p">,</span>
+    <span class="s2">"emails"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"example@example.com"</span>
+    <span class="p">]</span>
+  <span class="p">},</span>
+  <span class="s2">"crm_recipient"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"enabled"</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span>
+    <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"https://exports.client.com/engagements"</span><span class="p">,</span>
+    <span class="s2">"headers"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"Authorization"</span><span class="p">:</span> <span class="s2">"Basic sAAA3tdMgcDoFOHA1WTdyMg==</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span>
+      <span class="s2">"Accept"</span><span class="p">:</span> <span class="s2">"application/xml"</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="s2">"template"</span><span class="p">:</span> <span class="s2">"&lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;&lt;/export&gt;"</span>
+<span class="p">}</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">:authorization</span> <span class="o">=&gt;</span> <span class="s2">"Token </span><span class="si">#{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+  <span class="ss">:accept</span> <span class="o">=&gt;</span> <span class="s1">'application/vnd.salemove.v1+json'</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">put</span> <span class="s2">"https://api.salemove.com/sites/</span><span class="si">#{</span><span class="n">site_id</span><span class="si">}</span><span class="s2">/crm/exports/</span><span class="si">#{</span><span class="n">export_id</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">values</span><span class="p">.</span><span class="nf">to_json</span><span class="p">,</span> <span class="n">headers</span>
+<span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">body</span>
+</code></pre>
+
+<blockquote>
+<p>Generates the output</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/sites/47e2cb4c-d3d2-48ea-9a8f-604ed837410f/crm/templates/9b19b333-4568-41ba-8dc5-d5af32e49d14"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9b19b333-4568-41ba-8dc5-d5af32e49d14"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Some template name"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"site_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"47e2cb4c-d3d2-48ea-9a8f-604ed837410f"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"engagement"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"content_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/xml"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"email_recipient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"emails"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example@example.com"</span><span class="p">]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"crm_recipient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com/crm"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"Authorization"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Some Auth Token"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"Accept"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/xml"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;?xml version='1.0' encoding='UTF-8'?&gt;\n&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;\n&lt;/export&gt;"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h2 id="delete-sites-site_id-crm-exports-id">DELETE <code class="prettyprint">/sites/{site_id}/crm/exports/{id}</code></h2>
+
+<p>It deletes the export with <code class="prettyprint">id</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The <code class="prettyprint">site_id</code> that owns the export definition</td>
+</tr>
+<tr>
+<td><code class="prettyprint">id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The <code class="prettyprint">id</code> of the export</td>
+</tr>
+</tbody></table>
+<pre class="highlight shell"><code>curl --include <span class="se">\</span>
+     --request DELETE <span class="se">\</span>
+     --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
+     --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
+  <span class="s2">"https://api.salemove.com/sites/</span><span class="nv">$siteId</span><span class="s2">/crm/exports/</span><span class="nv">$exportId</span><span class="s2">"</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="c1">#!/usr/bin/env ruby</span>
+<span class="nb">require</span> <span class="s1">'rubygems'</span>
+<span class="nb">require</span> <span class="s1">'rest-client'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
+
+<span class="n">token</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">strip</span>
+<span class="n">site_id</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">strip</span>
+<span class="n">export_id</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="nf">strip</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">:authorization</span> <span class="o">=&gt;</span> <span class="s2">"Token </span><span class="si">#{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+  <span class="ss">:accept</span> <span class="o">=&gt;</span> <span class="s1">'application/vnd.salemove.v1+json'</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">delete</span> <span class="s2">"https://api.salemove.com/sites/</span><span class="si">#{</span><span class="n">site_id</span><span class="si">}</span><span class="s2">/crm/exports/</span><span class="si">#{</span><span class="n">export_id</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">headers</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+
+<h2 id="get-sites-site_id-crm-exports">GET <code class="prettyprint">/sites/{site_id}/crm/exports</code></h2>
+
+<p>It fetches the collection of export definitions for the site with <code class="prettyprint">site_id</code>. The operator whose API token is used to make the request should have rights on the site. The <code class="prettyprint">templatate</code> definition is not included in this endpoint for each export definition. Please see the endpoint for fetching a single export definition for accessing the template definition.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The <code class="prettyprint">site_id</code> that owns the export definition</td>
+</tr>
+<tr>
+<td><code class="prettyprint">page</code></td>
+<td><code class="prettyprint">integer</code></td>
+<td>No</td>
+<td>The requested page if pagination is used</td>
+</tr>
+<tr>
+<td><code class="prettyprint">per_page</code></td>
+<td><code class="prettyprint">integer</code></td>
+<td>No</td>
+<td>The number of exports included per page</td>
+</tr>
+<tr>
+<td><code class="prettyprint">order</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>Specifies if the colletion should be sorted (<code class="prettyprint">asc</code> or <code class="prettyprint">desc</code>) by creation time.</td>
+</tr>
+</tbody></table>
+<pre class="highlight shell"><code>curl --include <span class="se">\</span>
+     --request GET <span class="se">\</span>
+     --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
+     --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
+  <span class="s2">"https://api.salemove.com/sites/</span><span class="nv">$siteId</span><span class="s2">/crm/exports"</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="c1">#!/usr/bin/env ruby</span>
+<span class="nb">require</span> <span class="s1">'rubygems'</span>
+<span class="nb">require</span> <span class="s1">'rest-client'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
+
+<span class="n">token</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">strip</span>
+<span class="n">site_id</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">strip</span>
+
+<span class="n">values</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">:authorization</span> <span class="o">=&gt;</span> <span class="s2">"Token </span><span class="si">#{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+  <span class="ss">:accept</span> <span class="o">=&gt;</span> <span class="s1">'application/vnd.salemove.v1+json'</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s2">"https://api.salemove.com/sites/</span><span class="si">#{</span><span class="n">site_id</span><span class="si">}</span><span class="s2">/crm/exports"</span><span class="p">,</span>  <span class="n">headers</span>
+<span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">body</span>
+</code></pre>
+
+<blockquote>
+<p>Generates the output</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"last_page"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/sites/47e2cb4c-d3d2-48ea-9a8f-604ed837410f/crm/exports?page=1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"exports"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+        </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/sites/47e2cb4c-d3d2-48ea-9a8f-604ed837410f/crm/templates/0168099b-1d90-418d-bbd0-15b96edd55a8"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0168099b-1d90-418d-bbd0-15b96edd55a8"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My Template"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"site_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"47e2cb4c-d3d2-48ea-9a8f-604ed837410f"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"engagement"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"content_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/xml"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"email_recipient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"emails"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example@example.com"</span><span class="p">]</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"crm_recipient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://leads.client.com/engagements"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="nt">"Accept"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/xml"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"Authorization"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Basic sPPA0AMgcDpFOHA0WTdyMg==\n"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+          <h1 id="saml">SAML</h1>
+
+<p>SaleMove supports clients using Single Sign-On via Security Assertion Markup Language (SAML 2.0). SAML is an XML-based, open-standard data format that allows parties to securely exchange user authentication and authorization data.  SAML-Based Single Sign-On (SSO) allows clients to have full control over the authorization and authentication of user accounts that can access to the web-based Operator Application. In this model, SaleMove acts as a service provider while SaleMove&rsquo;s clients act as identity providers that control usernames, passwords and other information used during the identification, authentication and authorization process of users by SaleMove web applications. In addition, all logs remain with the identity provider (SaleMove’s client) for audit purposes.</p>
+
+<p>SaleMove supports two ways of SSO by means of SAML: Identity Provider (IdP) Initiated SSO (Unsolicited Web SSO) and Service Provider (SP) initiated SSO. In an IdP Initiated SSO a user is logged on to the IdP and attempts to access a resource (SaleMove) on a remote SP server. The SAML assertion is transported to the Service Provider (SaleMove) via HTTP POST.</p>
+
+<p>The SAML parameters can be configured programatically or by requesting help from your success maanager.</p>
+
+<h2 id="post-saml">POST <code class="prettyprint">/saml</code></h2>
+
+<p>It creates a SAML provider and it can be associated to a site.</p>
+
+<table><thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">idp_metadata_url</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>An URL to the SAML Provider endpoint that returns the Provider&rsquo;s configuration data</td>
+</tr>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The <code class="prettyprint">id</code> of the Site that the SAML configuration will be associated to</td>
+</tr>
+<tr>
+<td><code class="prettyprint">name_identifier_format</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The name of the attribute within a sAML response where the operator&rsquo;s email is placed</td>
+</tr>
+<tr>
+<td><code class="prettyprint">subdomain</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The subdomain that will be used by operators to access the operator console. E.g. if the subdomain is set to <code class="prettyprint">client_name</code> then the operators will access SaleMove via <code class="prettyprint">client_name.app.salemove.com</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">auth_context</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The authentication context of the SAML</td>
+</tr>
+<tr>
+<td><code class="prettyprint">idp_name_attribute</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The name of the attribute within a SAML response where the operator&rsquo;s name is placed</td>
+</tr>
+<tr>
+<td><code class="prettyprint">idp_email_attribute</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The name of the attribute within a SAML response where the opeartor&rsquo;s emal is placed</td>
+</tr>
+</tbody></table>
+
+<p>Later the information of the new SAML provider can be fetched at the url <code class="prettyprint">subdomain.app.salemove.com/saml/metadata</code>. Where the <code class="prettyprint">subdomain</code> is the value of the parameter <code class="prettyprint">subdomain</code> sent along with the POST request.</p>
+
+<h2 id="put-saml-saml_id">PUT <code class="prettyprint">/saml/{saml_id}</code></h2>
+
+<p>It updates the configuration of a SAML provider.</p>
+
+<table><thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">saml_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The <code class="prettyprint">id</code> of the SAML provider to be updated</td>
+</tr>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The <code class="prettyprint">id</code> of the site that the SAML will be assigned to</td>
+</tr>
+<tr>
+<td><code class="prettyprint">idp_metadata_url</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>An URL to the SAML Provider endpoint that returns the Provider&rsquo;s configuration data</td>
+</tr>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The <code class="prettyprint">id</code> of the Site that the SAML configuration will be associated to</td>
+</tr>
+<tr>
+<td><code class="prettyprint">name_identifier_format</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The name of the attribute within a sAML response where the operator&rsquo;s email is placed</td>
+</tr>
+<tr>
+<td><code class="prettyprint">subdomain</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The subdomain that will be used by operators to access the operator console. E.g. if the subdomain is set to <code class="prettyprint">client_name</code> then the operators will access SaleMove via <code class="prettyprint">client_name.app.salemove.com</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">auth_context</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The authentication context of the SAML</td>
+</tr>
+<tr>
+<td><code class="prettyprint">idp_name_attribute</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The name of the attribute within a SAML response where the operator&rsquo;s name is placed</td>
+</tr>
+<tr>
+<td><code class="prettyprint">idp_email_attribute</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The name of the attribute within a SAML response where the opeartor&rsquo;s emal is placed</td>
+</tr>
+</tbody></table>
+
+<h2 id="call-your-sucess-manager">Call your sucess manager</h2>
+
+<p>While configuring the SAML provider via the Success Manager the following parameters will be requested</p>
+
+<table><thead>
+<tr>
+<th>Parameters</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">certificate fingerpring</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The certificate fingerprint used for authentication purposes between the IDP and the SP</td>
+</tr>
+<tr>
+<td><code class="prettyprint">name_identifier_format</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The name of the attribute within a sAML response where the operator&rsquo;s email is placed</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+          <h1 id="javascript-api-deprecated">JavaScript API [Deprecated]</h1>
+
+<p>SaleMove API V1 has been released please find the documentation in <a href="https://js-sdk-docs.salemove.com/extra/README.md.html">here</a></p>
+
+<p>SaleMove Legacy JS API can be used for handling specific events during the observation and engagement process. The API is bundled with the <code class="prettyprint">salemove_integration</code> script. <a href="https://js-sdk-docs.salemove.com/extra/README.md.html">Promises</a> are used to provide access to the JS SDK.</p>
+<pre class="highlight plaintext"><code>sm.getApi().then(
+    function(api){
+      console.log("I got the api!", api);
+      window.salemoveApi = api;
+    },
+    function(err){ console.log("An error occured: ", err)}
+  );
+</code></pre>
+
+<p>The promise is resolved as soon as the SaleMove is fully bootstrapped.</p>
+
+<h2 id="event-types">Event Types</h2>
+
+<p>There are few events that are fired during the observatio and engagement process. As an example when an engagement starts the event <code class="prettyprint">ENGAGEMENT_START</code> is fired and the handler for such an event (if set) is called. All the available events are accesable via the <code class="prettyprint">salemoveAPI.EVENTS</code> collection.</p>
+
+<table><thead>
+<tr>
+<th>Event</th>
+<th>Description</th>
+<th>Payload</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">ENGAGEMENT_START</code></td>
+<td>Fired when an engagement starts - proactive or reactive</td>
+<td>An object with the engagement Id.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">ENGAGEMENT_END</code></td>
+<td>Fired when an engagement ends either by the operator or the visitor</td>
+<td>An object with the engagement Id.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">OPERATOR_LIST_UPDATE</code></td>
+<td>Fired when an operator goes online or offline</td>
+<td>An array of Operators</td>
+</tr>
+<tr>
+<td><code class="prettyprint">OPERATOR_STATUS_UPDATE</code></td>
+<td>Fired when an operator&rsquo;s attribute gest updated (e.g. availability status)</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<h3 id="engagement-start">Engagement Start</h3>
+
+<p>Fired when an engagement starts (proactive or reactive). The callback receives a JSON object with the engagement Id as a parameter.</p>
+<pre class="highlight plaintext"><code>salemoveApi.addEventListener(
+  salemoveApi.EVENTS.ENGAGEMENT_START,
+  function(engagement){
+    console.log('The engagement with id ' + engagement.engagementId + ' started');
+  }
+);
+</code></pre>
+
+<h3 id="engagement-end">Engagement End</h3>
+
+<p>Fired when an engagement ends either by the operator or the visitor. The callback receives a JSON object with the engagement Id as a parameter.</p>
+<pre class="highlight plaintext"><code>salemoveApi.addEventListener(
+  salemoveApi.EVENTS.ENGAGEMENT_END,
+  function(engagement){
+    console.log('The engagement with id ' + engagement.engagementId + ' ended');
+  }
+);
+</code></pre>
+
+<h3 id="engagment-list-update">Engagment List Update</h3>
+
+<p>Fired when an operator goes online or offline. The callback receives an Array of online operators as a parameter. Every operator in the list contains the following attributes: id, name, picture, and state (availability and media availability).</p>
+<pre class="highlight plaintext"><code>salemoveApi.addEventListener(
+  salemoveApi.EVENTS.OPERATOR_LIST_UPDATE,
+  function(operatorList){
+    console.log(operatorList)
+  }
+);
+</code></pre>
+
+<p>Output</p>
+<pre class="highlight plaintext"><code>[{
+  id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
+  name: 'John Doe',
+  picture: {
+    url: 'http://some.url/picture.png'
+  },
+  state: {
+    available: true,
+    media: ['audio', 'chat']
+  }
+},
+{
+  id: 'ef117ae4-f8a9-45e9-874c-087e19c8dbe6',
+  name: 'John Snow',
+  picture: {
+    url: 'http://some.url/another_picture.png'
+  },
+  state: {
+    available: false,
+    media: ['video','audio', 'chat']
+  }
+}]
+</code></pre>
+
+<h3 id="operator-status-update">Operator Status Update</h3>
+
+<p>Fired when an operator updates his/her availability or his/her media availability. The callback receives an JSON object as a parameter. The object contains the following operator&rsquo;s attributes: id, name, picture, state (availability and media availability).</p>
+
+<table><thead>
+<tr>
+<th>Operator Attribute</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">id</code></td>
+<td>Operator Id</td>
+</tr>
+<tr>
+<td><code class="prettyprint">name</code></td>
+<td>Operator Name</td>
+</tr>
+<tr>
+<td><code class="prettyprint">picture</code></td>
+<td>An object with an attribute <code class="prettyprint">url</code> containing the Operator&rsquo;s picture URL</td>
+</tr>
+<tr>
+<td><code class="prettyprint">state</code></td>
+<td>An object with two attributes <code class="prettyprint">available</code> and <code class="prettyprint">media</code>. The <code class="prettyprint">available</code> attribute indicates if the operator is available for starting and engagement. The <code class="prettyprint">media</code> attribute indicates what the operator is available for. The <code class="prettyprint">media</code> attribute possible values are: <code class="prettyprint">video</code>, <code class="prettyprint">audio</code>, <code class="prettyprint">chat</code></td>
+</tr>
+</tbody></table>
+<pre class="highlight plaintext"><code>salemoveApi.addEventListener(
+  salemoveApi.EVENTS.OPERATOR_STATUS_UPDATE,
+  function(operatorNewStatus){
+    console.log(operatorNewStatus)
+  }
+);
+</code></pre>
+
+<p>Output</p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="err">id:</span><span class="w"> </span><span class="err">'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',</span><span class="w">
+  </span><span class="err">name:</span><span class="w"> </span><span class="err">'John</span><span class="w"> </span><span class="err">Doe',</span><span class="w">
+  </span><span class="err">picture:</span><span class="w"> </span><span class="err">{</span><span class="w">
+    </span><span class="err">url:</span><span class="w"> </span><span class="err">'http://some.url/picture.png'</span><span class="w">
+  </span><span class="p">}</span><span class="err">,</span><span class="w">
+  </span><span class="err">state:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="err">available:</span><span class="w"> </span><span class="err">true,</span><span class="w">
+    </span><span class="err">media:</span><span class="w"> </span><span class="err">['audio',</span><span class="w"> </span><span class="err">'chat']</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="err">}</span><span class="w">
+</span></code></pre>
+
+<p>The following example keeps track of operators online and their availability statuses.</p>
+<pre class="highlight plaintext"><code>sm.getApi().then(function(api) {
+  var operators = [];
+
+  onOperatorStatusChange = function(updatedOperator) {
+    operators = operators.map(function(operator) {
+      if (operator.id == updatedOperator.id) {
+        return updatedOperator;
+      } else {
+        return operator;
+      }
+    });
+    updateElementUI();
+  }
+
+  onOperatorListChange = function(updatedOperators) {
+    operators = updatedOperators;
+    updateElementUI();
+  }
+
+  updateElementUI = function() {
+    filterAvailableOperators = function(operators) {
+      return operators.filter(function(operator) {
+        return operator.state.available;
+      });
+    }
+
+    var availableOperators = filterAvailableOperators(operators);
+    if (availableOperators.length == 0) {
+      alert("No operators are available.");
+      // Update application to indicate that no operators are available
+    }
+    else {
+      alert("At least one operator is now available.");
+      // Update application to indicate that at least one operator is available
+    }
+  }
+
+  api.addEventListener(api.EVENTS.OPERATOR_LIST_UPDATE, onOperatorListChange);
+  api.addEventListener(api.EVENTS.OPERATOR_STATUS_UPDATE, onOperatorStatusChange);
+});
+</code></pre>
+
+<h2 id="listeners">Listeners</h2>
+
+<p>The function <code class="prettyprint">addEventListener</code> is provided to add a callback for any of the events supported. The <code class="prettyprint">addEventListener</code> function accepts two parameters namely <code class="prettyprint">EventName</code> and <code class="prettyprint">Callback</code>. The <code class="prettyprint">EventName</code> parameter is one of the events suppported by the JS API and the <code class="prettyprint">Callback</code> is a function fired when the event is triggered.</p>
+<pre class="highlight plaintext"><code>addEventListener(&lt;EventName&gt;, &lt;Callback&gt;)
+</code></pre>
+<pre class="highlight plaintext"><code>salemoveApi.addEventListener(
+  salemoveApi.EVENTS.ENGAGEMENT_END,
+  function(engagement){
+    console.log('the engagement with id ' + engagement.engagementId + ' ended!')
+  }
+);
+</code></pre>
+
+<p>The function <code class="prettyprint">removeEventListener</code> is provided to remove a callback previously set for an event.</p>
+<pre class="highlight plaintext"><code>removeEventListener(&lt;EventName&gt;,&lt;CallBack&gt;)
+</code></pre>
+<pre class="highlight plaintext"><code>callback = function(engagement){
+  console.log('The engagement with id' + engagement.engagementId + 'ended!');
+}
+...
+salemoveApi.addEventListener(
+  salemoveApi.EVENTS.
+  callback
+);
+...
+salemoveApi.removeEventListener(
+  salemoveApi.EVENTS.ENGAGEMENT_END,
+  callback
+);
+`
+</code></pre>
+
+<h2 id="headers">Headers</h2>
+
+<p>There are few REST end-points that can be accessed only by a currently online visitor. The visitor needs to send few headers to the API for authentication. The JS API provides the function <code class="prettyprint">getRequestHeaders</code> that returns the collection of Headers needed to make an AJAX request.</p>
+<pre class="highlight plaintext"><code>$.ajax({
+  type: 'GET',
+  url: 'https://api.salemove.com/visitor',
+  headers: salemoveApi.getRequestHeaders(),
+  success: function(response){
+    ajaxResponse = response;
+  }
+});
+</code></pre>
+
+          <h1 id="html-and-css-customizations">HTML and CSS Customizations</h1>
+
+<h2 id="cobrowsing">Cobrowsing</h2>
+
+<h3 id="prevent-elements-to-be-shown-to-the-operator">Prevent elements to be shown to the operator</h3>
+
+<p>To prevent elements to be shown in the operator session during observation or engagement add the class <code class="prettyprint">sm_cobrowsing_hidden_field</code> to the html elements.</p>
+<pre class="highlight plaintext"><code>&lt;div class='sm_cobrowsing_hidden_field'&gt;
+  This element will not be displayed to the operator
+&lt;/div&gt;
+...
+&lt;div class='sm_cobrowsing_hidden_field other-classes'&gt;
+  This element will not be displayed to the operator
+&lt;/div&gt;
+...
+&lt;div class='other-classes sm_cobrowsing_hidden_field'&gt;
+ This element will not be displayed to the operator
+&lt;/div&gt;
+...
+&lt;input class='other-classes sm_cobrowsing_hidden_field' other="..."&gt;
+  &lt;!-- This input field will not be shown to the operator --&gt;
+&lt;/input&gt;
+...
+&lt;form class='other-classes sm_cobrowsing_hidden_field' other="..."&gt;
+  &lt;!-- The entire form will not be displayed to the operator --&gt;
+&lt;/form&gt;
+</code></pre>
+
+<h3 id="prevent-fields-39-values-to-be-shown-to-the-operator">Prevent fields&rsquo; values to be shown to the operator</h3>
+
+<p>To prevent a field value to be shown to the operator during observation or engagement add the class <code class="prettyprint">sm_cobrowsing_masked_field</code> to the html elements.</p>
+<pre class="highlight plaintext"><code>&lt;form action="action" method="get"&gt;
+First name:
+&lt;!-- This input field value will be shown as `*`(s) to the operator --&gt;
+&lt;input class="sm_cobrowsing_masked_field" type="text" name="first_name" /&gt;
+Last name:
+&lt;!-- This input field value will be shown as `*`(s) to the operator --&gt;
+&lt;input class="sm_cobrowsing_masked_field last_name_class" type="text" name="last_name" /&gt;
+&lt;input type="submit" value="Submit" /&gt;
+&lt;/form&gt;
+</code></pre>
+
+<h3 id="disable-elements-to-the-operator">Disable elements to the operator</h3>
+
+<p>To disable an element so the operator can not interact with it during an observation or engagement add the class <code class="prettyprint">sm_cobrowsing_disabled_field</code> to the element(s).</p>
+<pre class="highlight plaintext"><code>&lt;form action="action" method="get"&gt;
+First name:
+&lt;!-- The operator can see the field and its value but he/she can not mofidy the field value --&gt;
+&lt;input class="sm_cobrowsing_disabled_field" type="text" name="first_name" /&gt;
+Last name:
+&lt;!-- The operator can see the field and its value but he/she can not mofidy the field value --&gt;
+&lt;input class="sm_cobrowsing_disabled_field last_name_class "type="text" name="last_name" /&gt;
+&lt;input type="submit" value="Submit" /&gt;
+&lt;/form&gt;
+</code></pre>
+
+<h2 id="contact-operator-button">Contact Operator Button</h2>
+
+<p>A Contact Operator Button is an element in the web page that when clicked on it opens the <code class="prettyprint">media-selection</code> modal. To add a Contact Operator button can be a <code class="prettyprint">div</code> or <code class="prettyprint">span</code> element with the class <code class="prettyprint">salemove-button</code>.</p>
+
+<p>The default look and feel of the button is as follows</p>
+<pre class="highlight plaintext"><code>&lt;div class="salemove-button"&gt;
+    &lt;a href="javascript:void(0);" class="salemove-button-inner"&gt;
+        &lt;div class="salemove-button-content"&gt;
+            &lt;div class="salemove-button-ico-content"&gt;
+                &lt;div class="salemove-ico-wrapper"&gt;
+                    &lt;div class="sm-ico-voice"&gt;&lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class="salemove-text-wrapper"&gt;
+                &lt;div class="salemove-text"&gt;Speak with an Expert!&lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/a&gt;
+    &lt;style&gt;
+        /* #3582FA - hover background color, #444444 - regular text color, #F4F4F4 - regular background color */
+
+        .salemove-button .salemove-button-inner {
+            width: 188px !important;
+            height: 39px !important;
+            font-size: 11px !important;
+            border: 1px solid #3582FA !important;
+            background-color: #F4F4F4 !important;
+        }
+        .salemove-button .salemove-ico-wrapper {
+            background-color: #3582FA !important;
+        }
+        .salemove-button .sm-ico-voice {
+            color: #F4F4F4 !important;
+            font-size: 2.2em !important;
+        }
+        .salemove-button .salemove-text {
+            color: #444444 !important;
+            font-size: 1.36em !important;
+        }
+        .salemove-button &gt; a:hover {
+            background-color: #3582FA !important;
+        }
+        .salemove-button &gt; a:hover .sm-ico-voice {
+            color: #3582FA !important;
+        }
+        .salemove-button &gt; a:hover .salemove-ico-wrapper {
+            background-color: #F4F4F4 !important;
+        }
+        .salemove-button &gt; a:hover .salemove-text {
+            color: #F4F4F4 !important;
+        }
+    &lt;/style&gt;
+&lt;/div&gt;
+</code></pre>
+<pre class="highlight plaintext"><code>Add image
+</code></pre>
+
+<p>The button can be configued by means of the SaleMove JS-SDK &ndash; Link to the SDK Docs). When using the SaleMove JS-SDK to configure the Contact Operator Button three things can be configured:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">withOperatorsHtml</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Look and feel when there are no operators online to handle the call</td>
+</tr>
+<tr>
+<td><code class="prettyprint">withoutOperatorsHtml</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Look and feel when there are operator online to handle the call</td>
+</tr>
+<tr>
+<td><code class="prettyprint">withoutOperatorsCallback</code></td>
+<td><code class="prettyprint">function</code></td>
+<td>A callback fired in case the visitor clicks on the Contact Operator Button and there are not operators online to handle the call</td>
+</tr>
+</tbody></table>
+<pre class="highlight plaintext"><code>sm.getApi().then(
+  function(salemoveApi){
+    console.log("I got the api!", salemoveApi);
+    salemoveApi.setupContactOperatorButton({
+      withOperatorsHtml: "&lt;img src='my_contact_operator_img.png'&gt;",
+      withoutOperatorsHtml: "&lt;img src='no_operators_around_img.png'&gt;",
+      withoutOperatorsCallback: function(){
+        console.log("You can include here any business logic you need")
+        alert("There are no operators around!")
+      }
+    });
+  },
+  function(err){ console.log("An error occured: ", err)}
+);
+
+</code></pre>
+<pre class="highlight plaintext"><code>Add image of how it looks like
+</code></pre>
+
+<h2 id="custom-contact-operator-widget">Custom Contact Operator Widget</h2>
+
+<p>It is possible to instrument any html element in the webpage to open the <code class="prettyprint">media-selection</code> modal. To set an element to behave as a Custom Operator Widget add the attribute <code class="prettyprint">data-sm-show-media-selection-on</code> with a string value with the name of the event that will trigger the <code class="prettyprint">media-selection</code> modal. As an example, if the <code class="prettyprint">media-selection</code> modal should be open on a <code class="prettyprint">double-click</code> event on an <code class="prettyprint">div</code> then such a <code class="prettyprint">div</code> should look like <code class="prettyprint">&lt;div data-sm-show-media-selection-on=&quot;doubleclick&quot;&gt;&lt;/div&gt;</code>. The following <a href="http://www.w3schools.com/jsref/dom_obj_event.asp">DOM event</a> are supported.</p>
+
+<p>Notice that this type of widget can not be configued using the SaleMove JavaScript SDK.</p>
+<pre class="highlight plaintext"><code>&lt;!--
+The link opens the media selection modal when the visitor clicks on it
+--&gt;
+&lt;a data-sm-show-media-selection-on="click" href="javascript:void(0);"&gt;
+  Start a call!
+&lt;/a&gt;
+...
+&lt;div data-sm-show-media-selection-on="dblclick"&gt;
+  &lt;h3&gt;
+    Double-click me to start an engagement!
+  &lt;/h3&gt;
+&lt;/div&gt;
+</code></pre>
+
+<h2 id="hotlinks">Hotlinks</h2>
+
+<p>A Hotlink is a URL with a hash at the end. The Hash at the end of the URL describes an action that is triggered when the visitor loads such a URL. A Hotlink follows the pattern <code class="prettyprint">http://[Client Domain]#[Action]. As an example if the visitor laods the Url</code>https://finantialadvisor.com#sm_show_media_selection<code class="prettyprint">the media selection will be open when the visitor loads the</code>finantialadvisor.com` website.</p>
+
+<h3 id="open-media-selection-dialog">Open Media Selection Dialog</h3>
+
+<p>To open the media selection dialog as soon as the page loads add the hash <code class="prettyprint">#sm_show_media_selection</code> <code class="prettyprint">URL-hash</code>. A typical use case for this action is to open the <code class="prettyprint">media-selection</code> dialog inmediately after the visitor clicks on a link and navigates to a new page.</p>
+<pre class="highlight plaintext"><code>&lt;!--
+With site address:      http://www.site.com
+The ‘hotlink' would be: http://www.site.com#sm_show_media_selection
+--&gt;
+...
+&lt;a href='http://www.site.com#sm_show_media_selection'&gt;...&lt;/a&gt;
+...
+</code></pre>
+
+<h3 id="expand-reactive-tab">Expand Reactive Tab</h3>
+
+<p>To expand the Reactive Tab for few seconds as soon as the page loads add the has <code class="prettyprint">sm_show_reactive_tab_X_seconds</code> where <code class="prettyprint">X</code> is the number of seconds that the reactive tab should be expanded to the visitor. As an example if the visitor loads the Url <code class="prettyprint">https://finantialadvisor.com#sm_show_reactive_tab_20_seconds</code> the Reactive Tab will be expanded and shown to the visitor for <code class="prettyprint">20</code> <code class="prettyprint">seconds</code>. A typical use case for this action is to open the <code class="prettyprint">operator selector</code> inmediately after the visitor clicks on a link and navigates to a new page.</p>
+<pre class="highlight plaintext"><code>&lt;!--
+With site address:      http://www.site.com
+The 'hotlink' would be: http://www.site.com#sm_show_reactive_tab_20_seconds.
+--&gt;
+...
+&lt;a href='http://www.site.com#sm_show_reactive_tab_20_seconds'&gt;...&lt;/a&gt;
+...
+</code></pre>
+
+<h3 id="show-notification-amp-save-visitor-information">Show Notification &amp; Save Visitor Information</h3>
+
+<p>This composed action updates the visitor&rsquo;s information and shows a desktop notification to the online operators notifying about the presence of the visitor. This action hash patter is as follows:</p>
+<pre class="highlight plaintext"><code>/* Show notification and save visitor's contact information */
+sm_show_notification?(attribute=value[&amp;attribute=value]*)
+</code></pre>
+<pre class="highlight plaintext"><code>/* Show notification with a specific message and save visitor's contact information*/
+sm_show_notification?message=message-value&amp;(attribute=value[&amp;attribute=value]*)
+</code></pre>
+
+<p>Show notification and save visitor&rsquo;s contact information
+<code class="prettyprint">
+sm_show_notification?name=visitor+name&amp;phone=56567775&amp;email=visitor@email.com&amp;note=visitor+note&amp;custom_attributes[attribute1]=attribute1+value&amp;custom_attributes[attribute2]=attribute2+value
+</code></p>
+
+<p>Show notification with a message and save visitor&rsquo;s contact information</p>
+<pre class="highlight plaintext"><code>sm_show_notification?message=some+message&amp;name=visitor+name&amp;phone=56567775&amp;email=visitor@email.com&amp;note=visitor+note&amp;custom_attributes[attribute1]=attribute1+value&amp;custom_attributes[attribute2]=attribute2+value
+</code></pre>
+
+<p>The fields that can be updated by means of this action are: name, email, phone, notes and custom attributes. Notice that the custom attributes is a collection of attributes and are encoded in the URL as <code class="prettyprint">custom_attribute[attributeName]=attributeValue</code>.</p>
+
+<p>Multiple parameters are separated by ampersand <code class="prettyprint">&amp;</code> symbol. If a field value contains spaces they must be replaced with <code class="prettyprint">+</code> or <code class="prettyprint">%20</code> symbols. The <code class="prettyprint">+</code> or <code class="prettyprint">%20</code> signs will be replaced with spaces automatically by the SaleMove&rsquo;s backend. If some or all contact information parameters are ommited the ommited fields&rsquo; values will not be updated.</p>
+
+<p>A typical use case for this action is to notify to operators about the online presence of high profile visitors. If there is some information about the visitor that is already known then that information can be pushed into SaleMove so it is shown to the operators. Later, this information can be used by the operators to provide the right information and experience to such high profile visitors.</p>
+
       </div>
       <div class="dark-box">
           <div class="lang-selector">
+                <a href="#" data-language-name="shell">shell</a>
+                <a href="#" data-language-name="ruby">ruby</a>
+                <a href="#" data-language-name="python">python</a>
+                <a href="#" data-language-name="javascript">javascript</a>
           </div>
       </div>
     </div>

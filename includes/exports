@@ -1,0 +1,1115 @@
+<h1 id="exports">Exports</h1>
+
+<p>A site has zero or more export configurations named <code class="prettyprint">definitions</code>. A <code class="prettyprint">definition</code> is a set of attributes that describe how leads are exported. A lead is an engagement or an offline message. When SaleMove generates a lead (engagement or offline message) it is exported to all the <code class="prettyprint">definitions</code> configured and enabled for the Site which the leads belongs to.</p>
+
+<p>An export <code class="prettyprint">definition</code> has the following parameters</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">name</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>A name that describes the export</td>
+</tr>
+<tr>
+<td><code class="prettyprint">type</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>The type of lead it is meant to export. Valid values are <code class="prettyprint">engagement</code> or <code class="prettyprint">inbox_message</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">content_type</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>It specifies the <code class="prettyprint">content-type</code> of the export definition. Valid values are <code class="prettyprint">applicationgxml</code> and <code class="prettyprint">application/json</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">email_recipients</code></td>
+<td><code class="prettyprint">object</code></td>
+<td>A JSON object describing how the leads are sent by email</td>
+</tr>
+<tr>
+<td><code class="prettyprint">crm_recipients</code></td>
+<td><code class="prettyprint">object</code></td>
+<td>A JSON object describing how the leads are sent via HTTP POST</td>
+</tr>
+<tr>
+<td><code class="prettyprint">template</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>A template in <code class="prettyprint">XML</code> or <code class="prettyprint">JSON</code> format that will be used as a template for the content of the export. The template must be in UTF-8 encoding</td>
+</tr>
+</tbody></table>
+
+<p>The parameter <code class="prettyprint">email_recipients</code> should include two attributes:</p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">enabled</code></td>
+<td><code class="prettyprint">boolean</code></td>
+<td>It specifies if the export should be sent by email. Valid values are <code class="prettyprint">true</code> and <code class="prettyprint">false</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">emails</code></td>
+<td><code class="prettyprint">array</code></td>
+<td>An array of email addresses that the export should be sent to</td>
+</tr>
+</tbody></table>
+
+<p>The parameter <code class="prettyprint">crm_recipients</code> should include three attributes:</p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">enabled</code></td>
+<td><code class="prettyprint">boolean</code></td>
+<td>It specifies if the export should be sent by HTTP POST. Valid values are <code class="prettyprint">true</code> and <code class="prettyprint">false</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">url</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>The URL where the export should be sent to</td>
+</tr>
+<tr>
+<td><code class="prettyprint">headers</code></td>
+<td><code class="prettyprint">headers</code></td>
+<td>A set of headers to be sent along with the HTTP POST. Tipically the headers are used for <code class="prettyprint">Authorization</code></td>
+</tr>
+</tbody></table>
+
+<p>The parameter <code class="prettyprint">template</code> can contain <code class="prettyprint">field tags</code>. A <code class="prettyprint">field tag</code> is a <code class="prettyprint">tag</code> that will be replaced with a value from the lead. As an example the <code class="prettyprint">field tag</code> <code class="prettyprint">visitor_name</code> will be replaces with the actual Visitor&rsquo;s name from the lead. The <code class="prettyprint">field tag</code>s should be enclosed by braces <code class="prettyprint">{}</code> so they can be parsed and replaced. From the previous example the <code class="prettyprint">field tag</code> for the <code class="prettyprint">visitor_name</code> should be included as <code class="prettyprint">{visitor_name}</code> in the template. Below a table describing the <code class="prettyprint">field tags</code> that can be included in the template.</p>
+
+<h2 id="engagements">Engagements</h2>
+
+<h3 id="field-tags"><code class="prettyprint">field tags</code></h3>
+
+<p>The following <code class="prettyprint">field tags</code> can be used in a template for <code class="prettyprint">engagements</code></p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">visitor_name</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Visitor name</td>
+</tr>
+<tr>
+<td><code class="prettyprint">visitor_email</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Visitor email</td>
+</tr>
+<tr>
+<td><code class="prettyprint">visitor_phone</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Visitor phone</td>
+</tr>
+<tr>
+<td><code class="prettyprint">visitor_last_name</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Visitor last name</td>
+</tr>
+<tr>
+<td><code class="prettyprint">notes</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Notes about Visitor</td>
+</tr>
+<tr>
+<td><code class="prettyprint">engagement_id</code></td>
+<td><code class="prettyprint">integer</code></td>
+<td>The engagement ID</td>
+</tr>
+<tr>
+<td><code class="prettyprint">engagement_duration</code></td>
+<td><code class="prettyprint">integer</code></td>
+<td>The engagement duration in seconds</td>
+</tr>
+<tr>
+<td><code class="prettyprint">engagement_started_at</code></td>
+<td><code class="prettyprint">datetime</code></td>
+<td>The engagement start timestamp</td>
+</tr>
+<tr>
+<td><code class="prettyprint">engagement_ended_at</code></td>
+<td><code class="prettyprint">datetime</code></td>
+<td>The engagement end timestamp</td>
+</tr>
+<tr>
+<td><code class="prettyprint">engagement_type</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>The engagement type, either <code class="prettyprint">reactive</code> or <code class="prettyprint">proactive</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">end_reason</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>The end reason of the engagement. One of: <code class="prettyprint">visitor_left</code>, <code class="prettyprint">operator_left</code>, <code class="prettyprint">visitor_hung_up</code>, <code class="prettyprint">operator_hung_up</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">cobrowsing_used</code></td>
+<td><code class="prettyprint">boolean</code></td>
+<td>Whether cobrowsing was used in the engagement</td>
+</tr>
+<tr>
+<td><code class="prettyprint">video_used</code></td>
+<td><code class="prettyprint">boolean</code></td>
+<td>Whether video was used in the engagement</td>
+</tr>
+<tr>
+<td><code class="prettyprint">audio_used</code></td>
+<td><code class="prettyprint">boolean</code></td>
+<td>Whether audio was used in the engagement</td>
+</tr>
+<tr>
+<td><code class="prettyprint">engagement_flagged</code></td>
+<td><code class="prettyprint">boolean</code></td>
+<td>Whether the engagement has been flagged</td>
+</tr>
+<tr>
+<td><code class="prettyprint">crm_forwarded</code></td>
+<td><code class="prettyprint">boolean</code></td>
+<td>Whether the crm export has been done already</td>
+</tr>
+<tr>
+<td><code class="prettyprint">summary_forwarded</code></td>
+<td><code class="prettyprint">boolean</code></td>
+<td>Whether the summary has been forwarded already</td>
+</tr>
+</tbody></table>
+
+<h3 id="collection_tags"><code class="prettyprint">collection_tags</code></h3>
+
+<p>There are some template tags that describe a collection of items such as a collection of operators who participated of the engagement or the collection of sites that were visited during the engagement. The tags that describe collections generate some <code class="prettyprint">XML</code> or <code class="prettyprint">JSON</code> content (based on the template&rsquo;s <code class="prettyprint">content-type</code>. Those tags are:</p>
+
+<h4 id="site_names"><code class="prettyprint">site_names</code></h4>
+
+<p>A collection of site-names that were visited during the engagement. It generates the following content.</p>
+
+<p>XML Template
+<code class="prettyprint">
+&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;&lt;export&gt;{site_names}&lt;gexport&gt;
+</code></p>
+
+<p>XML Output
+<code class="prettyprint">
+ &quot;&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;&lt;export&gt;
+        &lt;site&gt;&lt;name&gt;first site&lt;gname&gt;&lt;/site&gt;
+        &lt;site&gt;&lt;name&gt;second site&lt;gname&gt;&lt;/site&gt;
+        &lt;gexport&gt;&quot;
+</code></p>
+
+<p>JSON Template
+<code class="prettyprint">
+{&quot;sites&quot;: {site_names}}
+</code></p>
+
+<p>JSON Output
+<code class="prettyprint">
+{
+  &quot;sites&quot;: [
+    {
+      &quot;name&quot;: &quot;first site&quot;
+    },
+    {
+      &quot;name&quot;: &quot;second site&quot;
+    }
+  ]
+}
+</code></p>
+
+<h4 id="operators"><code class="prettyprint">operators</code></h4>
+
+<p>A collection of operators who participated of the engagement. It generates the following content:</p>
+
+<p>XML Template
+<code class="prettyprint">
+&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;&lt;export&gt;{operators}&lt;/export&gt;
+</code></p>
+
+<p>XML OUtput
+<code class="prettyprint">
+&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;
+&lt;export&gt;
+  &lt;operator&gt;
+      &lt;name&gt;Markus Myhle&lt;/name&gt;
+      &lt;email&gt;markus@myhle.com&lt;/email&gt;
+      &lt;id&gt;markus-id&lt;/id&gt;
+    &lt;/operator&gt;
+  &lt;operator&gt;
+      &lt;name&gt;Kiur Aarmaa&lt;/name&gt;
+      &lt;email&gt;kiur@aarmaa.com&lt;/email&gt;
+      &lt;id&gt;kiur-id&lt;/id&gt;
+  &lt;/operator&gt;
+&lt;/export&gt;
+</code></p>
+
+<p>JSON Template
+<code class="prettyprint">
+{&quot;operators&quot;: {operators}}
+</code></p>
+
+<p>JSON Output
+<code class="prettyprint">
+{
+  &quot;operators&quot;:[
+    {
+      &quot;name&quot;:&quot;Markus Myhle&quot;,
+      &quot;email&quot;:&quot;markus@myhle.com&quot;,
+      &quot;id&quot;:&quot;markus-id&quot;
+    },
+    {
+      &quot;name&quot;:&quot;Kiur Aarmaa&quot;,
+      &quot;email&quot;:&quot;kiur@aarmaa.com&quot;,
+      &quot;id&quot;:&quot;kiur-id&quot;
+    }
+  ]
+}
+</code></p>
+
+<h4 id="custom_fields"><code class="prettyprint">custom_fields</code></h4>
+
+<p>A collection of visitor&rsquo;s custom attributes. It generates the following content:</p>
+
+<p>XML Template
+<code class="prettyprint">
+&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;&lt;export&gt;{custom_fields}&lt;/export&gt;
+</code></p>
+
+<p>XML Output
+<code class="prettyprint">
+&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;
+&lt;export&gt;
+  &lt;field&gt;
+    &lt;key&gt;VIP&lt;/key&gt;
+    &lt;value&gt;false&lt;/value&gt;
+  &lt;/field&gt;
+  &lt;field&gt;
+    &lt;key&gt;Niss&lt;/key&gt;
+    &lt;value&gt;To the max&lt;/value&gt;
+  &lt;/field&gt;
+&lt;/export&gt;
+</code></p>
+
+<p>JSON Template
+<code class="prettyprint">
+{&quot;custom_fields&quot;: {custom_fields}}
+</code></p>
+
+<p>JSON Output
+<code class="prettyprint">
+{
+  &quot;custom_fields&quot;:
+  [
+    {
+      &quot;key&quot;: &quot;VIP&quot;,
+      &quot;value&quot;: &quot;false&quot;
+    },
+    {
+      &quot;key&quot;: &quot;Niss&quot;,
+      &quot;value&quot;: &quot;To the max&quot;
+    }
+  ]
+}
+</code></p>
+
+<h4 id="chat_transcript"><code class="prettyprint">chat_transcript</code></h4>
+
+<p>The collection of chat messages exchanged between the visitor and the operator during the engagement. It generates the following content:</p>
+
+<p>XML Template
+<code class="prettyprint">
+&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;&lt;export&gt;{chat_transcript}&lt;/export&gt;
+</code></p>
+
+<p>XML Output
+&ldquo;`
+&lt;?xml version=&lsquo;1.0&rsquo; encoding=&#39;utf-8&rsquo;?&gt;<export>
+  <message>
+    <content>See on niss</content>
+    <created_at>some date</created_at>
+    <sender>
+      <name>Markys</name>
+      <type>visitor</type>
+    </sender
+  </message>
+  <message>
+    <content>Ok dyyd</content>
+    <created_at>other date</created_at>
+    <sender>
+      <name>Stenver</name>
+      <type>operator</type>
+    </sender
+  </message>
+</export></p>
+<pre class="highlight plaintext"><code>
+JSON Template
+</code></pre>
+
+<p>{&quot;chat&rdquo;: {chat_transcript}}
+&ldquo;`</p>
+
+<p>JSON Output
+<code class="prettyprint">
+{
+  &quot;chat_transcript&quot;:
+  [
+    {
+      &quot;content&quot;:&quot;See on niss&quot;,
+      &quot;created_at&quot;:&quot;some date&quot;,
+      &quot;sender&quot;:
+      {
+        &quot;name&quot;:&quot;Markys&quot;,
+        &quot;type&quot;:&quot;visitor&quot;
+      }
+    },
+    {
+      &quot;content&quot;:&quot;Ok dyyd&quot;,
+      &quot;created_at&quot;:&quot;other date&quot;,
+      &quot;sender&quot;:
+      {
+        &quot;name&quot;:&quot;Stenver&quot;,
+        &quot;type&quot;:&quot;operator&quot;
+      }
+    }
+  ]
+}
+</code></p>
+
+<h2 id="inbox-message">Inbox Message</h2>
+
+<h3 id="field_tags"><code class="prettyprint">field_tags</code></h3>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">visitor_name</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Visitor name</td>
+</tr>
+<tr>
+<td><code class="prettyprint">visitor_email</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Visitor email</td>
+</tr>
+<tr>
+<td><code class="prettyprint">visitor_phone</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Visitor phone</td>
+</tr>
+<tr>
+<td><code class="prettyprint">message</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Message left by visitor</td>
+</tr>
+<tr>
+<td><code class="prettyprint">recording_url</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Visitor&rsquo;s voice message recording URL</td>
+</tr>
+</tbody></table>
+
+<h3 id="collection_tags"><code class="prettyprint">collection_tags</code></h3>
+
+<h4 id="site_names"><code class="prettyprint">site_names</code></h4>
+
+<p>A collection of site-names that were visited during the engagement. It generates the following content.</p>
+
+<p>XML Template
+<code class="prettyprint">
+&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;&lt;export&gt;{site_names}&lt;gexport&gt;
+</code></p>
+
+<p>XML Output
+<code class="prettyprint">
+ &quot;&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;&lt;export&gt;
+        &lt;site&gt;&lt;name&gt;first site&lt;gname&gt;&lt;/site&gt;
+        &lt;site&gt;&lt;name&gt;second site&lt;gname&gt;&lt;/site&gt;
+        &lt;gexport&gt;&quot;
+</code></p>
+
+<p>JSON Template
+<code class="prettyprint">
+{&quot;sites&quot;: {site_names}}
+</code></p>
+
+<p>JSON Output
+<code class="prettyprint">
+{
+  &quot;sites&quot;: [
+    {
+      &quot;name&quot;: &quot;first site&quot;
+    },
+    {
+      &quot;name&quot;: &quot;second site&quot;
+    }
+  ]
+}
+</code></p>
+
+<h4 id="custom_fields"><code class="prettyprint">custom_fields</code></h4>
+
+<p>A collection of visitor&rsquo;s custom attributes. It generates the following content:</p>
+
+<p>XML Template
+<code class="prettyprint">
+&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;&lt;export&gt;{custom_fields}&lt;/export&gt;
+</code></p>
+
+<p>XML Output
+<code class="prettyprint">
+&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;
+&lt;export&gt;
+  &lt;field&gt;
+    &lt;key&gt;VIP&lt;/key&gt;
+    &lt;value&gt;false&lt;/value&gt;
+  &lt;/field&gt;
+  &lt;field&gt;
+    &lt;key&gt;Niss&lt;/key&gt;
+    &lt;value&gt;To the max&lt;/value&gt;
+  &lt;/field&gt;
+&lt;/export&gt;
+</code></p>
+
+<p>JSON Template
+<code class="prettyprint">
+{&quot;custom_fields&quot;: {custom_fields}}
+</code></p>
+
+<p>JSON Output
+<code class="prettyprint">
+{
+  &quot;custom_fields&quot;:
+  [
+    {
+      &quot;key&quot;: &quot;VIP&quot;,
+      &quot;value&quot;: &quot;false&quot;
+    },
+    {
+      &quot;key&quot;: &quot;Niss&quot;,
+      &quot;value&quot;: &quot;To the max&quot;
+    }
+  ]
+}
+</code></p>
+
+<h2 id="examples">Examples</h2>
+
+<h3 id="xml">XML</h3>
+
+<p>Template</p>
+<pre class="highlight xml"><code><span class="cp">&lt;?xml version='1.0' encoding='utf-8'?&gt;</span>
+<span class="nt">&lt;export&gt;</span>
+  <span class="nt">&lt;visitor_name&gt;</span>{visitor_name}<span class="nt">&lt;/visitor_name&gt;</span>
+  <span class="nt">&lt;chat&gt;</span>{chat_transcript}<span class="nt">&lt;/chat&gt;</span>
+<span class="nt">&lt;/export&gt;</span>
+</code></pre>
+
+<p>Output
+<code class="prettyprint">
+&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;
+&lt;export&gt;
+  &lt;visitor_name&gt;Markus&lt;/visitor_name&gt;
+  &lt;chat&gt;
+    &lt;message&gt;
+      &lt;content&gt;First message&lt;/content&gt;
+      &lt;created_at&gt;007-01-14T20:34:22+00:00&lt;/created_at&gt;
+      &lt;sender&gt;
+        &lt;name&gt;Markus&lt;/name&gt;
+        &lt;type&gt;visitor&lt;/type&gt;
+      &lt;/sender
+    &lt;/message&gt;
+    &lt;message&gt;
+      &lt;content&gt;Second message&lt;/content&gt;
+      &lt;created_at&gt;007-01-14T20:34:22+05:00&lt;/created_at&gt;
+      &lt;sender&gt;
+        &lt;name&gt;Stenver&lt;/name&gt;
+        &lt;type&gt;operator&lt;/type&gt;
+      &lt;/sender
+    &lt;/message&gt;
+  &lt;/chat&gt;
+&lt;/export&gt;
+</code></p>
+
+<h3 id="json">JSON</h3>
+
+<p>Template
+<code class="prettyprint">
+{
+  &quot;export&quot;:
+  {
+    &quot;visitor_name&quot;: &quot;{visitor_name}&quot;,
+    &quot;chat&quot;: {chat_transcript},
+    &quot;custom_fields&quot;: {custom_fields}
+  }
+}
+</code></p>
+
+<p>Output
+<code class="prettyprint">
+{
+  &quot;export&quot;: {
+    &quot;visitor_name&quot;: &quot;Markus&quot;,
+    &quot;chat&quot;: [
+      {
+        &quot;content&quot;: &quot;First message&quot;,
+        &quot;created_at&quot;: &quot;007-01-14T20:34:22+00:00&quot;,
+        &quot;sender&quot;:
+        {
+          &quot;name&quot;: &quot;Markus&quot;,
+          &quot;type&quot;: &quot;Visitor&quot;
+        }
+      },
+      {
+        &quot;content&quot;: &quot;Second message&quot;,
+        &quot;created_at&quot;: &quot;07-01-14T20:34:22+05:00&quot;,
+        &quot;sender&quot;:
+        {
+          &quot;name&quot;: &quot;Stenver&quot;,
+          &quot;type&quot;: &quot;Operator&quot;
+        }
+      }
+    ],
+    &quot;custom_fields&quot;:[
+      {
+        &quot;custom key 1&quot;: &quot;value 1&quot;
+      },
+      {
+        &quot;custom key 2&quot;: &quot;value 2&quot;
+      }
+    ]
+  }
+}
+</code></p>
+
+<h2 id="post-sites-site_id-crm-exports">POST <code class="prettyprint">/sites/{site_id}/crm/exports</code></h2>
+
+<p>Creates a new export for the <code class="prettyprint">{site_id}</code>. The operator whose API token is used to make the request should have rights on the site.</p>
+
+<p>The endpoint accepts the following parameters</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>The <code class="prettyprint">site_id</code> who owns the export</td>
+</tr>
+<tr>
+<td><code class="prettyprint">name</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">type</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">content_type</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">email_recipients</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">object</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">crm_recipients</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">object</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">template</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+</tbody></table>
+<pre class="highlight shell"><code>curl --include <span class="se">\</span>
+     --request POST <span class="se">\</span>
+     --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
+     --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
+     --data-binary <span class="s2">"{
+  </span><span class="se">\"</span><span class="s2">name</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">Some template name</span><span class="se">\"</span><span class="s2">,
+  </span><span class="se">\"</span><span class="s2">type</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">engagement</span><span class="se">\"</span><span class="s2">,
+  </span><span class="se">\"</span><span class="s2">content_type</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">application/xml</span><span class="se">\"</span><span class="s2">,
+  </span><span class="se">\"</span><span class="s2">email_recipient</span><span class="se">\"</span><span class="s2">: {
+      </span><span class="se">\"</span><span class="s2">enabled</span><span class="se">\"</span><span class="s2">: true,
+      </span><span class="se">\"</span><span class="s2">emails</span><span class="se">\"</span><span class="s2">: [</span><span class="se">\"</span><span class="s2">example@example.com</span><span class="se">\"</span><span class="s2">]
+  },
+  </span><span class="se">\"</span><span class="s2">crm_recipient</span><span class="se">\"</span><span class="s2">:{
+      </span><span class="se">\"</span><span class="s2">enabled</span><span class="se">\"</span><span class="s2">: true,
+      </span><span class="se">\"</span><span class="s2">url</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">http://example.com/crm</span><span class="se">\"</span><span class="s2">,
+      </span><span class="se">\"</span><span class="s2">headers</span><span class="se">\"</span><span class="s2">: {
+        </span><span class="se">\"</span><span class="s2">Authorization</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">Some Auth Token</span><span class="se">\"</span><span class="s2">,
+        </span><span class="se">\"</span><span class="s2">Accept</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">application/xml</span><span class="se">\"</span><span class="s2">
+      }
+  },
+  </span><span class="se">\"</span><span class="s2">template</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">&lt;?xml version='1.0' encoding='UTF-8'?&gt;</span><span class="se">\n</span><span class="s2">&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;</span><span class="se">\n</span><span class="s2">&lt;/export&gt;</span><span class="se">\"</span><span class="s2">
+}
+"</span> <span class="se">\</span>
+  <span class="s2">"https://api.salemove.com/sites/</span><span class="nv">$siteId</span><span class="s2">/crm/exports/"</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="c1">#!/usr/bin/env ruby</span>
+<span class="nb">require</span> <span class="s1">'rubygems'</span>
+<span class="nb">require</span> <span class="s1">'rest-client'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
+
+<span class="n">token</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">strip</span>
+<span class="n">site_id</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">strip</span>
+
+<span class="n">values</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"My Template"</span><span class="p">,</span>
+  <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"engagement"</span><span class="p">,</span>
+  <span class="s2">"content_type"</span><span class="p">:</span> <span class="s2">"application/xml"</span><span class="p">,</span>
+  <span class="s2">"email_recipient"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"enabled"</span><span class="p">:</span> <span class="kp">false</span><span class="p">,</span>
+    <span class="s2">"emails"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"example@example.com"</span>
+    <span class="p">]</span>
+  <span class="p">},</span>
+  <span class="s2">"crm_recipient"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"enabled"</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span>
+    <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"https://leads.client.com/engagements"</span><span class="p">,</span>
+    <span class="s2">"headers"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"Authorization"</span><span class="p">:</span> <span class="s2">"Basic spA0tdMgcDpFOHA0WTdyMg==</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span>
+      <span class="s2">"Accept"</span><span class="p">:</span> <span class="s2">"application/xml"</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="s2">"template"</span><span class="p">:</span> <span class="s2">"&lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;&lt;/export&gt;"</span>
+<span class="p">}</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">:authorization</span> <span class="o">=&gt;</span> <span class="s2">"Token </span><span class="si">#{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+  <span class="ss">:accept</span> <span class="o">=&gt;</span> <span class="s1">'application/vnd.salemove.v1+json'</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">post</span> <span class="s2">"https://api.salemove.com/sites/</span><span class="si">#{</span><span class="n">site_id</span><span class="si">}</span><span class="s2">/crm/exports"</span><span class="p">,</span> <span class="n">values</span><span class="p">.</span><span class="nf">to_json</span><span class="p">,</span> <span class="n">headers</span>
+<span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">body</span>
+</code></pre>
+
+<blockquote>
+<p>Generates the output</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/sites/47e2cb4c-d3d2-48ea-9a8f-604ed837410f/crm/templates/9b19b333-4568-41ba-8dc5-d5af32e49d14"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9b19b333-4568-41ba-8dc5-d5af32e49d14"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Some template name"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"site_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"47e2cb4c-d3d2-48ea-9a8f-604ed837410f"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"engagement"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"content_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/xml"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"email_recipient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"emails"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example@example.com"</span><span class="p">]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"crm_recipient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com/crm"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"Authorization"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Some Auth Token"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"Accept"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/xml"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;?xml version='1.0' encoding='UTF-8'?&gt;\n&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;\n&lt;/export&gt;"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre>
+
+<h2 id="get-sites-site_id-crm-exports-id">GET <code class="prettyprint">/sites/{site_id}/crm/exports/{id}</code></h2>
+
+<p>It fetches the information of the export with id <code class="prettyprint">{id}</code>. The operator whose API token is used to make the request should have rights on the site.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>The <code class="prettyprint">site_id</code> that owns the export definition</td>
+</tr>
+<tr>
+<td><code class="prettyprint">id</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>The <code class="prettyprint">id</code> of the export</td>
+</tr>
+</tbody></table>
+<pre class="highlight shell"><code>curl --include <span class="se">\</span>
+     --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
+     --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
+  <span class="s1">'https://api.salemove.com/sites/$siteId/crm/exports/eda2197b-e1df-4fdb-818a-2763da2c66b9'</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="c1">#!/usr/bin/env ruby</span>
+<span class="nb">require</span> <span class="s1">'rubygems'</span>
+<span class="nb">require</span> <span class="s1">'rest-client'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
+
+<span class="n">token</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">strip</span>
+<span class="n">site_id</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">strip</span>
+<span class="n">export_id</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="nf">strip</span>
+
+<span class="n">values</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">:authorization</span> <span class="o">=&gt;</span> <span class="s2">"Token </span><span class="si">#{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+  <span class="ss">:accept</span> <span class="o">=&gt;</span> <span class="s1">'application/vnd.salemove.v1+json'</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s2">"https://api.salemove.com/sites/</span><span class="si">#{</span><span class="n">site_id</span><span class="si">}</span><span class="s2">/crm/exports/</span><span class="si">#{</span><span class="n">export_id</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>  <span class="n">headers</span>
+<span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">body</span>
+</code></pre>
+
+<blockquote>
+<p>Generates the output</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/sites/47e2cb4c-d3d2-48ea-9a8f-604ed837410f/crm/templates/9b19b333-4568-41ba-8dc5-d5af32e49d14"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9b19b333-4568-41ba-8dc5-d5af32e49d14"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Some template name"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"site_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"47e2cb4c-d3d2-48ea-9a8f-604ed837410f"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"engagement"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"content_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/xml"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"email_recipient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"emails"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example@example.com"</span><span class="p">]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"crm_recipient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com/crm"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"Accept"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/xml"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"Authorization"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Some Auth Token"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;?xml version='1.0' encoding='UTF-8'?&gt;\n&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;\n&lt;/export&gt;"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h2 id="put-sites-site_id-crm-exports-id">PUT <code class="prettyprint">/sites/{site_id}/crm/exports/{id}</code></h2>
+
+<p>It updates the export with <code class="prettyprint">id</code>. The operator whose API token is used to make the request should have right on the site.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>The <code class="prettyprint">site_id</code> that owns the export definition</td>
+</tr>
+<tr>
+<td><code class="prettyprint">id</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>The <code class="prettyprint">id</code> of the export</td>
+</tr>
+<tr>
+<td><code class="prettyprint">name</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">type</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">content_type</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">email_recipients</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">object</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">crm_recipients</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">object</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">template</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+</tbody></table>
+<pre class="highlight shell"><code>curl --include <span class="se">\</span>
+     --request PUT <span class="se">\</span>
+     --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
+     --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
+     --data-binary <span class="s2">"{
+  </span><span class="se">\"</span><span class="s2">name</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">Some template name</span><span class="se">\"</span><span class="s2">,
+  </span><span class="se">\"</span><span class="s2">type</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">engagement</span><span class="se">\"</span><span class="s2">,
+  </span><span class="se">\"</span><span class="s2">content_type</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">application/xml</span><span class="se">\"</span><span class="s2">,
+  </span><span class="se">\"</span><span class="s2">email_recipient</span><span class="se">\"</span><span class="s2">: {
+      </span><span class="se">\"</span><span class="s2">enabled</span><span class="se">\"</span><span class="s2">: true,
+      </span><span class="se">\"</span><span class="s2">emails</span><span class="se">\"</span><span class="s2">: [</span><span class="se">\"</span><span class="s2">example@example.com</span><span class="se">\"</span><span class="s2">]
+  },
+  </span><span class="se">\"</span><span class="s2">crm_recipient</span><span class="se">\"</span><span class="s2">:{
+      </span><span class="se">\"</span><span class="s2">enabled</span><span class="se">\"</span><span class="s2">: true,
+      </span><span class="se">\"</span><span class="s2">url</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">http://example.com/crm</span><span class="se">\"</span><span class="s2">,
+      </span><span class="se">\"</span><span class="s2">headers</span><span class="se">\"</span><span class="s2">: {
+        </span><span class="se">\"</span><span class="s2">Authorization</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">Some Auth Token</span><span class="se">\"</span><span class="s2">,
+        </span><span class="se">\"</span><span class="s2">Accept</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">application/xml</span><span class="se">\"</span><span class="s2">
+      }
+  },
+  </span><span class="se">\"</span><span class="s2">template</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">&lt;?xml version='1.0' encoding='UTF-8'?&gt;</span><span class="se">\n</span><span class="s2">&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;</span><span class="se">\n</span><span class="s2">&lt;/export&gt;</span><span class="se">\"</span><span class="s2">
+}
+"</span> <span class="se">\</span>
+  <span class="s2">"https://api.salemove.com/sites/</span><span class="nv">$siteId</span><span class="s2">/crm/exports/</span><span class="nv">$exportId</span><span class="s2">"</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="c1">#!/usr/bin/env ruby</span>
+<span class="nb">require</span> <span class="s1">'rubygems'</span>
+<span class="nb">require</span> <span class="s1">'rest-client'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
+
+<span class="n">token</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">strip</span>
+<span class="n">site_id</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">strip</span>
+<span class="n">export_id</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="nf">strip</span>
+
+<span class="n">values</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"My Template"</span><span class="p">,</span>
+  <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"engagement"</span><span class="p">,</span>
+  <span class="s2">"content_type"</span><span class="p">:</span> <span class="s2">"application/xml"</span><span class="p">,</span>
+  <span class="s2">"email_recipient"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"enabled"</span><span class="p">:</span> <span class="kp">false</span><span class="p">,</span>
+    <span class="s2">"emails"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"example@example.com"</span>
+    <span class="p">]</span>
+  <span class="p">},</span>
+  <span class="s2">"crm_recipient"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"enabled"</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span>
+    <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"https://exports.client.com/engagements"</span><span class="p">,</span>
+    <span class="s2">"headers"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"Authorization"</span><span class="p">:</span> <span class="s2">"Basic sAAA3tdMgcDoFOHA1WTdyMg==</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span>
+      <span class="s2">"Accept"</span><span class="p">:</span> <span class="s2">"application/xml"</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="s2">"template"</span><span class="p">:</span> <span class="s2">"&lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;&lt;/export&gt;"</span>
+<span class="p">}</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">:authorization</span> <span class="o">=&gt;</span> <span class="s2">"Token </span><span class="si">#{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+  <span class="ss">:accept</span> <span class="o">=&gt;</span> <span class="s1">'application/vnd.salemove.v1+json'</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">put</span> <span class="s2">"https://api.salemove.com/sites/</span><span class="si">#{</span><span class="n">site_id</span><span class="si">}</span><span class="s2">/crm/exports/</span><span class="si">#{</span><span class="n">export_id</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">values</span><span class="p">.</span><span class="nf">to_json</span><span class="p">,</span> <span class="n">headers</span>
+<span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">body</span>
+</code></pre>
+
+<blockquote>
+<p>Generates the output</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/sites/47e2cb4c-d3d2-48ea-9a8f-604ed837410f/crm/templates/9b19b333-4568-41ba-8dc5-d5af32e49d14"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9b19b333-4568-41ba-8dc5-d5af32e49d14"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Some template name"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"site_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"47e2cb4c-d3d2-48ea-9a8f-604ed837410f"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"engagement"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"content_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/xml"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"email_recipient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"emails"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example@example.com"</span><span class="p">]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"crm_recipient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com/crm"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"Authorization"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Some Auth Token"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"Accept"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/xml"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;?xml version='1.0' encoding='UTF-8'?&gt;\n&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;\n&lt;/export&gt;"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h2 id="delete-sites-site_id-crm-exports-id">DELETE <code class="prettyprint">/sites/{site_id}/crm/exports/{id}</code></h2>
+
+<p>It deletes the export with <code class="prettyprint">id</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The <code class="prettyprint">site_id</code> that owns the export definition</td>
+</tr>
+<tr>
+<td><code class="prettyprint">id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The <code class="prettyprint">id</code> of the export</td>
+</tr>
+</tbody></table>
+<pre class="highlight shell"><code>curl --include <span class="se">\</span>
+     --request DELETE <span class="se">\</span>
+     --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
+     --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
+  <span class="s2">"https://api.salemove.com/sites/</span><span class="nv">$siteId</span><span class="s2">/crm/exports/</span><span class="nv">$exportId</span><span class="s2">"</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="c1">#!/usr/bin/env ruby</span>
+<span class="nb">require</span> <span class="s1">'rubygems'</span>
+<span class="nb">require</span> <span class="s1">'rest-client'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
+
+<span class="n">token</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">strip</span>
+<span class="n">site_id</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">strip</span>
+<span class="n">export_id</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="nf">strip</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">:authorization</span> <span class="o">=&gt;</span> <span class="s2">"Token </span><span class="si">#{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+  <span class="ss">:accept</span> <span class="o">=&gt;</span> <span class="s1">'application/vnd.salemove.v1+json'</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">delete</span> <span class="s2">"https://api.salemove.com/sites/</span><span class="si">#{</span><span class="n">site_id</span><span class="si">}</span><span class="s2">/crm/exports/</span><span class="si">#{</span><span class="n">export_id</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">headers</span>
+<span class="nb">puts</span> <span class="n">response</span>
+</code></pre>
+
+<h2 id="get-sites-site_id-crm-exports">GET <code class="prettyprint">/sites/{site_id}/crm/exports</code></h2>
+
+<p>It fetches the collection of export definitions for the site with <code class="prettyprint">site_id</code>. The operator whose API token is used to make the request should have rights on the site. The <code class="prettyprint">templatate</code> definition is not included in this endpoint for each export definition. Please see the endpoint for fetching a single export definition for accessing the template definition.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The <code class="prettyprint">site_id</code> that owns the export definition</td>
+</tr>
+<tr>
+<td><code class="prettyprint">page</code></td>
+<td><code class="prettyprint">integer</code></td>
+<td>No</td>
+<td>The requested page if pagination is used</td>
+</tr>
+<tr>
+<td><code class="prettyprint">per_page</code></td>
+<td><code class="prettyprint">integer</code></td>
+<td>No</td>
+<td>The number of exports included per page</td>
+</tr>
+<tr>
+<td><code class="prettyprint">order</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>Specifies if the colletion should be sorted (<code class="prettyprint">asc</code> or <code class="prettyprint">desc</code>) by creation time.</td>
+</tr>
+</tbody></table>
+<pre class="highlight shell"><code>curl --include <span class="se">\</span>
+     --request GET <span class="se">\</span>
+     --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
+     --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
+  <span class="s2">"https://api.salemove.com/sites/</span><span class="nv">$siteId</span><span class="s2">/crm/exports"</span>
+</code></pre>
+<pre class="highlight ruby"><code><span class="c1">#!/usr/bin/env ruby</span>
+<span class="nb">require</span> <span class="s1">'rubygems'</span>
+<span class="nb">require</span> <span class="s1">'rest-client'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
+
+<span class="n">token</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">strip</span>
+<span class="n">site_id</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">strip</span>
+
+<span class="n">values</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">:authorization</span> <span class="o">=&gt;</span> <span class="s2">"Token </span><span class="si">#{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+  <span class="ss">:accept</span> <span class="o">=&gt;</span> <span class="s1">'application/vnd.salemove.v1+json'</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="no">RestClient</span><span class="p">.</span><span class="nf">get</span> <span class="s2">"https://api.salemove.com/sites/</span><span class="si">#{</span><span class="n">site_id</span><span class="si">}</span><span class="s2">/crm/exports"</span><span class="p">,</span>  <span class="n">headers</span>
+<span class="nb">puts</span> <span class="n">response</span><span class="p">.</span><span class="nf">body</span>
+</code></pre>
+
+<blockquote>
+<p>Generates the output</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"last_page"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/sites/47e2cb4c-d3d2-48ea-9a8f-604ed837410f/crm/exports?page=1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"exports"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+        </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/sites/47e2cb4c-d3d2-48ea-9a8f-604ed837410f/crm/templates/0168099b-1d90-418d-bbd0-15b96edd55a8"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0168099b-1d90-418d-bbd0-15b96edd55a8"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My Template"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"site_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"47e2cb4c-d3d2-48ea-9a8f-604ed837410f"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"engagement"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"content_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/xml"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"email_recipient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"emails"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example@example.com"</span><span class="p">]</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"crm_recipient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://leads.client.com/engagements"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="nt">"Accept"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/xml"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"Authorization"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Basic sPPA0AMgcDpFOHA0WTdyMg==\n"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>

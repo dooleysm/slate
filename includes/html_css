@@ -206,28 +206,23 @@ The 'hotlink' would be: http://www.site.com#sm_show_reactive_tab_20_seconds.
 
 <p>This composed action updates the visitor&rsquo;s information and shows a desktop notification to the online operators notifying about the presence of the visitor. This action hash patter is as follows:</p>
 <pre class="highlight plaintext"><code>/* Show notification and save visitor's contact information */
-#sm_show_notification?(attribute=value[&amp;attribute=value]*)
+sm_show_notification?(attribute=value[&amp;attribute=value]*)
 </code></pre>
 <pre class="highlight plaintext"><code>/* Show notification with a specific message and save visitor's contact information*/
-#sm_show_notification?message=message-value&amp;(attribute=value[&amp;attribute=value]*)
+sm_show_notification?message=message-value&amp;(attribute=value[&amp;attribute=value]*)
 </code></pre>
 
 <p>Show notification and save visitor&rsquo;s contact information
-&ldquo;`</p>
+<code class="prettyprint">
+sm_show_notification?name=visitor+name&amp;phone=56567775&amp;email=visitor@email.com&amp;note=visitor+note&amp;custom_attributes[attribute1]=attribute1+value&amp;custom_attributes[attribute2]=attribute2+value
+</code></p>
 
-<h1 id="sm_show_notification-name-visitor-name-amp-phone-56567775-amp-email-visitor-email-com-amp-note-visitor-note-amp-custom_attributes-attribute1-attribute1-value-amp-custom_attributes-attribute2-attribute2-value">sm_show_notification?name=visitor+name&amp;phone=56567775&amp;email=visitor@email.com&amp;note=visitor+note&amp;custom_attributes[attribute1]=attribute1+value&amp;custom_attributes[attribute2]=attribute2+value</h1>
-<pre class="highlight plaintext"><code>
-Show notification with a message and save visitor's contact information
-
+<p>Show notification with a message and save visitor&rsquo;s contact information</p>
+<pre class="highlight plaintext"><code>sm_show_notification?message=some+message&amp;name=visitor+name&amp;phone=56567775&amp;email=visitor@email.com&amp;note=visitor+note&amp;custom_attributes[attribute1]=attribute1+value&amp;custom_attributes[attribute2]=attribute2+value
 </code></pre>
 
-<h1 id="sm_show_notification-message-some-message-amp-name-visitor-name-amp-phone-56567775-amp-email-visitor-email-com-amp-note-visitor-note-amp-custom_attributes-attribute1-attribute1-value-amp-custom_attributes-attribute2-attribute2-value">sm_show_notification?message=some+message&amp;name=visitor+name&amp;phone=56567775&amp;email=visitor@email.com&amp;note=visitor+note&amp;custom_attributes[attribute1]=attribute1+value&amp;custom_attributes[attribute2]=attribute2+value</h1>
-<pre class="highlight plaintext"><code>
-The fields that can be updated by means of this action are: name, email, phone, notes and custom attributes. Notice that the custom attributes is a collection of attributes and are encoded in the URL as `custom_attribute[attributeName]=attributeValue`.
+<p>The fields that can be updated by means of this action are: name, email, phone, notes and custom attributes. Notice that the custom attributes is a collection of attributes and are encoded in the URL as <code class="prettyprint">custom_attribute[attributeName]=attributeValue</code>.</p>
 
-Multiple parameters are separated by ampersand `&amp;` symbol. If a field value contains spaces they must be replaced with `+` or `%20` symbols. The `+` or `%20` signs will be replaced with spaces automatically by the SaleMove's backend. If some or all contact information parameters are ommited the ommited fields' values will not be updated.
+<p>Multiple parameters are separated by ampersand <code class="prettyprint">&amp;</code> symbol. If a field value contains spaces they must be replaced with <code class="prettyprint">+</code> or <code class="prettyprint">%20</code> symbols. The <code class="prettyprint">+</code> or <code class="prettyprint">%20</code> signs will be replaced with spaces automatically by the SaleMove&rsquo;s backend. If some or all contact information parameters are ommited the ommited fields&rsquo; values will not be updated.</p>
 
-A typical use case for this action is to notify to operators about the online presence of high profile visitors. If there is some information about the visitor that is already known then that information can be pushed into SaleMove so it is shown to the operators. Later, this information can be used by the operators to provide the right information and experience to such high profile visitors.
-
-
-</code></pre>
+<p>A typical use case for this action is to notify to operators about the online presence of high profile visitors. If there is some information about the visitor that is already known then that information can be pushed into SaleMove so it is shown to the operators. Later, this information can be used by the operators to provide the right information and experience to such high profile visitors.</p>
