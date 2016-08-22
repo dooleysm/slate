@@ -12,178 +12,178 @@ toc_footers:
   - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
 includes:
-  - errors
+  - operators
+  - visitors
+  - sites
+  - site_visitor
+  - site_reactive_tab
+  - engagements
+  - statistics
+  - exports
+  - saml
+  - js_api
+  - html_css
+
 
 search: true
 ---
 
-# Introduction
+# SaleMove API
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+This describes the resources that make up official SaleMove API v1. If you have any problems, requests or questions please contact support.
 
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+## Current Version
 
-This example API documentation page was created with [Slate](https://github.com/tripit/slate). Feel free to edit it and use it as a base for your own API's documentation.
+The current API version is **v1** and it must be explicitly requested via the `Accept` header.
 
-# Authentication
-
-> To authorize, use this code:
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+```
+Accept: application/vnd.salemove.v1+json
 ```
 
-```python
-import kittn
+## Schema
 
-api = kittn.authorize('meowmeowmeow')
+All API access is over HTTPS, and accessed from the `https://api.salemove.com` endpoint. All data is sent and received as `JSON`.
+
+```
+HTTP/1.1 200 OK
+Date: Thu, 29 Jan 2015 11:44:37 GMT
+Status: 200 OK
+Connection: close
+Content-Type: text/html;charset=utf-8
+Access-Control-Allow-Origin: https://salemove.com
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, PATCH
+Access-Control-Allow-Headers: *, Content-Type, Accept, AUTHORIZATION, Cache-Control, X-Salemove-Visit-Session-Id
+Access-Control-Allow-Credentials: true
+Access-Control-Max-Age: 1728000
+Access-Control-Expose-Headers: Cache-Control, Content-Language, Content-Type, Expires, Last-Modified, Pragma
+Content-Length: 0
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
 ```
 
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
+Blank fields are included as `null` instead of being ommited.
+
+All timestamps are formatted in `ISO 8601`.
+
+```
+YYYY-MM-DDTHH:MM:SSZ
 ```
 
-```javascript
-const kittn = require('kittn');
+This documentation provides an example response for each API method. The example responses illustrate attributes that are returned by that method.
 
-let api = kittn.authorize('meowmeowmeow');
+## Parameters
+
+Many API methods take optional parameters. For `GET` requests, any parameters not specified as part of the path can be passed as an `HTTP` query string parameter. For `POST`, `PATCH`, `PUT`, and `DELETE` requests, parameters not included in the URL should be encoded as `JSON` with a `content-type` of `application/json`.
+
+## Client Errors
+
+If the request is malformed then an error is thrown. The response contains a description of the error. In general, the response includes two attributes namely `error` which contains a short description of the error encountered and a `debug_message` which contains a more detail explanation of the error.
+
 ```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-
-# Kittens
-
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
+HTTP/1.1 400 400
 ```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
 ```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
-
-```json
 [
   {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+    "error": "BadRequest",
+    "message": "Invalid api version used",
+    "debug_message": "Invalid api version used. Make sure you set the 'Accept' header with API version e.g. 'application/vnd.salemove.v1+json'"
   }
 ]
 ```
 
-This endpoint retrieves all kittens.
+## HTTP Verbs
+Where possible, API strives to use appropriate HTTP verbs for each action.
 
-### HTTP Request
+|Verbs | Description|
+---------|-----------
+|`HEAD` | Can be issued against any resource to get just the HTTP header info.|
+|`GET` | Used for retrieving resources.|
+|`POST` | Used for creating resources.|
+|`PATCH` | Used for updating resources with partial JSON data.  For instance, an Issue resource has `title` and `body` attributes.  A PATCH request may accept one or more of the attributes to update the resource.  PATCH is a relatively new and uncommon HTTP verb, so resource endpoints also accept `POST` requests.|
+|`PUT` | Used for replacing resources or collections. For `PUT` requests with no `body` attribute, be sure to set the `Content-Length` header to zero.|
+|`DELETE` |Used for deleting resources.|
 
-`GET http://example.com/api/kittens`
+## Authentication
 
-### Query Parameters
+### Headers
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+Along with the request the following headers need to be sent:
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+|Header|Description|
+-------|-----------
+|`Accept`|It specify the api version. For the version `1` of the API the header value is `application/vnd.salemove.v1+json`|
+|`Authorization`|The API token. The tokens are assigned per operator. A token is a 32 character string. For example `2pFuPlTYkH7T4MylrwxApA`|
 
-## Get a Specific Kitten
+CURL Example:
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
+```
+# curl -X GET -i https://api.salemove.com/operators -H "Authorization: Token API_TOKEN" -H "Accept: application/vnd.salemove.v1+json"
 ```
 
-```python
-import kittn
+Javascript Example:
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
+```
+$.ajax({
+  type: 'GET',
+  url: 'https://api.salemove.com/engagements',
+  headers: {
+    'Accept': 'application/vnd.salemove.v1+json',
+    'Authorization': 'Token API_TOKEN'
+  },
+  success: function(response){
+    ajaxResponse = response;
+  }
+});
 ```
 
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
+## Cross Origin Resource Sharing
+
+The API supports Cross Origin Resource Sharing (CORS) for AJAX requests from any origin. More information about CORS in [CORS W3C Recommendation](http://www.w3.org/TR/cors/), or the intro from the [HTML 5 Security Guide](https://www.owasp.org/index.php/HTML5_Security_Cheat_Sheet).
+
+
+## Pagination
+
+Some requests return a collection of items divided by pages. A specific page can be requested by setting the parameter `page` and the size of the page can be set with the parameter `per_page`. The minimum page size is `1` the maximum page size is `100` and the default page size is `30`. The collections can be ordered using the parameter `order` with values `asc` or `desc`.
+
+
+Fetchs all the operators with 30 items per page
+
+```
+GET /operators
 ```
 
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
+Fetchs the second page of operators. Notice the parameter `page` with a value of `2` (`page=2`)
+```
+GET /operators?page=2
 ```
 
-> The above command returns JSON structured like this:
+### Link Header
 
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
+The responses for collections that are paginated include an attribute `next_page` that points to the next page of items for the collection. In addition, the response includes a `last_page` attribute that points to the last page of the collection.
+
+
+```
+[
+  {
+      "next_page" : "http://api.salemove.com/collections?page=2",
+      "last_page" : "http://api.salemove.com/collections?page=3",
+      "collection" : [
+        {
+          "href" : "http://api.salemove.com/collections/1",
+          "attribute" : "value",
+          "..." : "..."
+        },
+        {
+          "href" : "http://api.salemove.com/collections/2",
+          "attribute" : "value",
+          "..." : "..."
+        },
+      ]
+  }
+]
 ```
 
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
+<div id="salemove"></div>
 
