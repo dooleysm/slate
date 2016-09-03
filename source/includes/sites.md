@@ -2,10 +2,6 @@
 
 ## Search by `hostname` `GET /sites?hostname={hostname}`
 
-A site can have one ore more `addresses` where an `address` is a combination of `hostname` + `path`. As an example a valid address is `salemove.com/auto` where `hostname`=`salemove.com` and `path`=`/auto`.
-
-This endpoint fetches a list of sites that have the `hostname` within the site's addresses.
-
 ```shell
 # curl --include \
      --header "Authorization: Token $token" \
@@ -44,18 +40,12 @@ response = RestClient.get "https://api.salemove.com/sites?hostname=#{hostname}",
   ]
 }
 ```
+A site can have one ore more `addresses` where an `address` is a combination of `hostname` + `path`. As an example a valid address is `salemove.com/auto` where `hostname`=`salemove.com` and `path`=`/auto`.
+
+This endpoint fetches a list of sites that have the `hostname` within the site's addresses.
+
 
 ## POST `/sites`
-
-An operator with `manager` privileges can use the API token associated to the account to create new sites.
-
-
-|Parameter|Type|Required|Description|
-|---------|----|--------|-----------|
-|`name`|`string`|Yes|The name for the new site|
-|`domains`|`array`|Yes|A list of site's addresses|
-|`clone_from_id`|`string`|No|The new site will be configured using this `site_id` as template. The new site will copy the visuals, teams and business rules from the `site_id` passed in this parameter.|
-
 
 ```shell
 curl --include \
@@ -103,14 +93,15 @@ puts response.body
 }
 ```
 
-## GET `/sites/{id}`
-
-It fetches the site with id `id`. The operator whose API token is used to send the request should have rights on the site with id `id`.
+An operator with `manager` privileges can use the API token associated to the account to create new sites.
 
 |Parameter|Type|Required|Description|
 |---------|----|--------|-----------|
-|`id`|`string`|Yes|The site `id` that is requested|
+|`name`|`string`|Yes|The name for the new site|
+|`domains`|`array`|Yes|A list of site's addresses|
+|`clone_from_id`|`string`|No|The new site will be configured using this `site_id` as template. The new site will copy the visuals, teams and business rules from the `site_id` passed in this parameter.|
 
+## GET `/sites/{id}`
 
 ```shell
 curl --include \
@@ -150,18 +141,14 @@ puts response.body
     "salemove_enabled": false
 }
 ```
-
-## PUT `/sites/{id}`
-
-It updates the site with id `id`. The operator whose API token is used to send the request should have rghts on the site with id `id`.
+It fetches the site with id `id`. The operator whose API token is used to send the request should have rights on the site with id `id`.
 
 |Parameter|Type|Required|Description|
 |---------|----|--------|-----------|
-|`id`|`string`|Yes|The site `id` that is being updated|
-|`salemove_enabled`|`boolean`|No|if `true` then it enables SaleMove for the Site, if `false` it disables SaleMove for the site. When SaleMove is enabled the SaleMove integration is delivered otherwise a `204` `No-Content` is delivered|
-|`reactive_enabled`|`boolean`|No|If `true` then the Reactive Tab is shown to the visitor. If `false` then the Reactive Tab is hidden to the visitor.|
-|`clone_from_id`|`string`|No|The new site will be configured using this `site_id` as template. The new site will copy the visuals, teams and business rules from the `site_id` passed in this parameter.|
+|`id`|`string`|Yes|The site `id` that is requested|
 
+
+## PUT `/sites/{id}`
 
 ```shell
 # curl --include \
@@ -222,3 +209,15 @@ Connection: keep-alive
 }
 
 ```
+
+It updates the site with id `id`. The operator whose API token is used to send the request should have rghts on the site with id `id`.
+
+|Parameter|Type|Required|Description|
+|---------|----|--------|-----------|
+|`id`|`string`|Yes|The site `id` that is being updated|
+|`salemove_enabled`|`boolean`|No|if `true` then it enables SaleMove for the Site, if `false` it disables SaleMove for the site. When SaleMove is enabled the SaleMove integration is delivered otherwise a `204` `No-Content` is delivered|
+|`reactive_enabled`|`boolean`|No|If `true` then the Reactive Tab is shown to the visitor. If `false` then the Reactive Tab is hidden to the visitor.|
+|`clone_from_id`|`string`|No|The new site will be configured using this `site_id` as template. The new site will copy the visuals, teams and business rules from the `site_id` passed in this parameter.|
+
+
+

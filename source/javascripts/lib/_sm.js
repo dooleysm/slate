@@ -1,7 +1,7 @@
 (function(){
   // Install SM
   var jq = document.createElement('script');
-  jq.src = "https://api.local.dev/salemove_integration.js";
+  jq.src = "https://api.salemove.com/salemove_integration.js";
   document.head.appendChild(jq);
 
   // Install Visitor App
