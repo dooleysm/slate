@@ -1,62 +1,6 @@
 <h1 id="engagements">Engagements</h1>
 
 <h2 id="get-engagements">GET /engagements</h2>
-
-<p>Fetches a collection of engagements. The endpoint requires a list of <code class="prettyprint">site_ids</code> as well as a set of <code class="prettyprint">operator_ids</code>. The requester needs to have access to the sites and operators send along with the request. The results are paginated and sorted by engagement id in descending order.</p>
-
-<p>The endpoint accepts the following filters.</p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Required</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code class="prettyprint">operator_ids</code></td>
-<td>Yes</td>
-<td>Array of strings</td>
-<td>A list of operator ids whose engagements are requested.</td>
-</tr>
-<tr>
-<td><code class="prettyprint">site_ids</code></td>
-<td>Yes</td>
-<td>Array of strings</td>
-<td>A list of site ids whose engagements are requested.</td>
-</tr>
-<tr>
-<td><code class="prettyprint">start_date</code></td>
-<td>No</td>
-<td><code class="prettyprint">iso8601</code> Date</td>
-<td>The response will include engagements that happen from <code class="prettyprint">start_date</code> forward in time.</td>
-</tr>
-<tr>
-<td><code class="prettyprint">end_date</code></td>
-<td>No</td>
-<td><code class="prettyprint">iso8601</code> Date</td>
-<td>The response will include engagement that happen on <code class="prettyprint">end_date</code> or before <code class="prettyprint">start_data</code>.</td>
-</tr>
-<tr>
-<td><code class="prettyprint">page</code></td>
-<td>No</td>
-<td>Number</td>
-<td>If pagination is used then this parameter specifies what page is requested.</td>
-</tr>
-<tr>
-<td><code class="prettyprint">per_page</code></td>
-<td>No</td>
-<td>Number</td>
-<td>If pagination is used then this parameter specifies the number of engagements per page.</td>
-</tr>
-<tr>
-<td><code class="prettyprint">order</code></td>
-<td>No</td>
-<td>[<code class="prettyprint">asc</code>, <code class="prettyprint">desc</code>]</td>
-<td>It specifies if the results should be sorted in <code class="prettyprint">ascending</code> or <code class="prettyprint">descending</code> order. Engagements are sorted by starting time in descending order.</td>
-</tr>
-</tbody></table>
 <pre class="highlight shell"><code>curl -X GET --include <span class="se">\</span>
      --header <span class="s2">"Authorization: Token API_TOKEN"</span> <span class="se">\</span>
      --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
@@ -169,9 +113,63 @@
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<h2 id="get-engagement-engagement_id">GET /engagement/:engagement_id</h2>
+<p>Fetches a collection of engagements. The endpoint requires a list of <code class="prettyprint">site_ids</code> as well as a set of <code class="prettyprint">operator_ids</code>. The requester needs to have access to the sites and operators send along with the request. The results are paginated and sorted by engagement id in descending order.</p>
 
-<p>Fetches a single engagement by ID. The Operator whose token is used for sending the request should be authorized to access the Site&rsquo;s information to which the engagement belongs.</p>
+<p>The endpoint accepts the following filters.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">operator_ids</code></td>
+<td>Yes</td>
+<td>Array of strings</td>
+<td>A list of operator ids whose engagements are requested.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">site_ids</code></td>
+<td>Yes</td>
+<td>Array of strings</td>
+<td>A list of site ids whose engagements are requested.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">start_date</code></td>
+<td>No</td>
+<td><code class="prettyprint">iso8601</code> Date</td>
+<td>The response will include engagements that happen from <code class="prettyprint">start_date</code> forward in time.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">end_date</code></td>
+<td>No</td>
+<td><code class="prettyprint">iso8601</code> Date</td>
+<td>The response will include engagement that happen on <code class="prettyprint">end_date</code> or before <code class="prettyprint">start_data</code>.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">page</code></td>
+<td>No</td>
+<td>Number</td>
+<td>If pagination is used then this parameter specifies what page is requested.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">per_page</code></td>
+<td>No</td>
+<td>Number</td>
+<td>If pagination is used then this parameter specifies the number of engagements per page.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">order</code></td>
+<td>No</td>
+<td>[<code class="prettyprint">asc</code>, <code class="prettyprint">desc</code>]</td>
+<td>It specifies if the results should be sorted in <code class="prettyprint">ascending</code> or <code class="prettyprint">descending</code> order. Engagements are sorted by starting time in descending order.</td>
+</tr>
+</tbody></table>
+
+<h2 id="get-engagement-engagement_id">GET /engagement/:engagement_id</h2>
 <pre class="highlight shell"><code>curl -X GET --include <span class="se">\</span>
      --header <span class="s2">"Authorization: Token API_TOKEN"</span> <span class="se">\</span>
      --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
@@ -232,9 +230,9 @@
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<h2 id="get-engagements-engagement_id-chat_transcript">GET /engagements/:engagement_id/chat_transcript</h2>
+<p>Fetches a single engagement by ID. The Operator whose token is used for sending the request should be authorized to access the Site&rsquo;s information to which the engagement belongs.</p>
 
-<p>Fetches an engagement&rsquo;s chat transcript. The operator whose token is used for sending the request should be authorized to access the Site&rsquo;s information to which the engagement belongs.</p>
+<h2 id="get-engagements-engagement_id-chat_transcript">GET /engagements/:engagement_id/chat_transcript</h2>
 <pre class="highlight shell"><code>curl -X GET --include <span class="se">\</span>
      --header <span class="s2">"Authorization: Token API_TOKEN"</span> <span class="se">\</span>
      --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
@@ -299,9 +297,9 @@
 }]
 </code></pre>
 
-<h2 id="post-engagements-engagement_id-export">POST /engagements/:engagement_id/export</h2>
+<p>Fetches an engagement&rsquo;s chat transcript. The operator whose token is used for sending the request should be authorized to access the Site&rsquo;s information to which the engagement belongs.</p>
 
-<p>It exports the engagement using all exports definitions configured for the Site to which the engagement started on. The Operator whose token is used for sending the request should be authorized to access the Sites&rsquo; information to which the engagement belongs. If the engagement is transfered to other sites and the Operator is not authorized in all the sites then the export will contain only the data concern to the sites that the Operator&rsquo;s is authorized to access.</p>
+<h2 id="post-engagements-engagement_id-export">POST /engagements/:engagement_id/export</h2>
 <pre class="highlight shell"><code>curl --include <span class="se">\</span>
      --request POST <span class="se">\</span>
      --header <span class="s2">"Authorization: Token API_TOKEN"</span> <span class="se">\</span>
@@ -333,3 +331,5 @@
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="nt">"success"</span><span class="p">:</span><span class="kc">true</span><span class="p">}</span><span class="w">
 </span></code></pre>
+
+<p>It exports the engagement using all exports definitions configured for the Site to which the engagement started on. The Operator whose token is used for sending the request should be authorized to access the Sites&rsquo; information to which the engagement belongs. If the engagement is transfered to other sites and the Operator is not authorized in all the sites then the export will contain only the data concern to the sites that the Operator&rsquo;s is authorized to access.</p>

@@ -203,17 +203,15 @@
 <p>XML Template
 <code class="prettyprint">
 &lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;&lt;export&gt;{site_names}&lt;gexport&gt;
-</code></p>
-
-<p>XML Output
+</code>
+XML Output
 <code class="prettyprint">
  &quot;&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;&lt;export&gt;
         &lt;site&gt;&lt;name&gt;first site&lt;gname&gt;&lt;/site&gt;
         &lt;site&gt;&lt;name&gt;second site&lt;gname&gt;&lt;/site&gt;
         &lt;gexport&gt;&quot;
-</code></p>
-
-<p>JSON Template
+</code>
+JSON Template
 <code class="prettyprint">
 {&quot;sites&quot;: {site_names}}
 </code></p>
@@ -337,31 +335,31 @@
 </code></p>
 
 <p>XML Output
-&ldquo;`
-&lt;?xml version=&lsquo;1.0&rsquo; encoding=&#39;utf-8&rsquo;?&gt;<export>
-  <message>
-    <content>See on niss</content>
-    <created_at>some date</created_at>
-    <sender>
-      <name>Markys</name>
-      <type>visitor</type>
-    </sender
-  </message>
-  <message>
-    <content>Ok dyyd</content>
-    <created_at>other date</created_at>
-    <sender>
-      <name>Stenver</name>
-      <type>operator</type>
-    </sender
-  </message>
-</export></p>
-<pre class="highlight plaintext"><code>
-JSON Template
-</code></pre>
+<code class="prettyprint">
+&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;&lt;export&gt;
+  &lt;message&gt;
+    &lt;content&gt;See on niss&lt;/content&gt;
+    &lt;created_at&gt;some date&lt;/created_at&gt;
+    &lt;sender&gt;
+      &lt;name&gt;Markys&lt;/name&gt;
+      &lt;type&gt;visitor&lt;/type&gt;
+    &lt;/sender
+  &lt;/message&gt;
+  &lt;message&gt;
+    &lt;content&gt;Ok dyyd&lt;/content&gt;
+    &lt;created_at&gt;other date&lt;/created_at&gt;
+    &lt;sender&gt;
+      &lt;name&gt;Stenver&lt;/name&gt;
+      &lt;type&gt;operator&lt;/type&gt;
+    &lt;/sender
+  &lt;/message&gt;
+&lt;/export&gt;
+</code></p>
 
-<p>{&quot;chat&rdquo;: {chat_transcript}}
-&ldquo;`</p>
+<p>JSON Template
+<code class="prettyprint">
+{&quot;chat&quot;: {chat_transcript}}
+</code></p>
 
 <p>JSON Output
 <code class="prettyprint">
@@ -602,62 +600,6 @@ JSON Template
 </code></p>
 
 <h2 id="post-sites-site_id-crm-exports">POST <code class="prettyprint">/sites/{site_id}/crm/exports</code></h2>
-
-<p>Creates a new export for the <code class="prettyprint">{site_id}</code>. The operator whose API token is used to make the request should have rights on the site.</p>
-
-<p>The endpoint accepts the following parameters</p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Required</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code class="prettyprint">site_id</code></td>
-<td>Yes</td>
-<td><code class="prettyprint">string</code></td>
-<td>The <code class="prettyprint">site_id</code> who owns the export</td>
-</tr>
-<tr>
-<td><code class="prettyprint">name</code></td>
-<td>Yes</td>
-<td><code class="prettyprint">string</code></td>
-<td>Look at the template definition for the description of this parameter</td>
-</tr>
-<tr>
-<td><code class="prettyprint">type</code></td>
-<td>Yes</td>
-<td><code class="prettyprint">string</code></td>
-<td>Look at the template definition for the description of this parameter</td>
-</tr>
-<tr>
-<td><code class="prettyprint">content_type</code></td>
-<td>Yes</td>
-<td><code class="prettyprint">string</code></td>
-<td>Look at the template definition for the description of this parameter</td>
-</tr>
-<tr>
-<td><code class="prettyprint">email_recipients</code></td>
-<td>Yes</td>
-<td><code class="prettyprint">object</code></td>
-<td>Look at the template definition for the description of this parameter</td>
-</tr>
-<tr>
-<td><code class="prettyprint">crm_recipients</code></td>
-<td>Yes</td>
-<td><code class="prettyprint">object</code></td>
-<td>Look at the template definition for the description of this parameter</td>
-</tr>
-<tr>
-<td><code class="prettyprint">template</code></td>
-<td>Yes</td>
-<td><code class="prettyprint">string</code></td>
-<td>Look at the template definition for the description of this parameter</td>
-</tr>
-</tbody></table>
 <pre class="highlight shell"><code>curl --include <span class="se">\</span>
      --request POST <span class="se">\</span>
      --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
@@ -748,9 +690,9 @@ JSON Template
 
 </span></code></pre>
 
-<h2 id="get-sites-site_id-crm-exports-id">GET <code class="prettyprint">/sites/{site_id}/crm/exports/{id}</code></h2>
+<p>Creates a new export for the <code class="prettyprint">{site_id}</code>. The operator whose API token is used to make the request should have rights on the site.</p>
 
-<p>It fetches the information of the export with id <code class="prettyprint">{id}</code>. The operator whose API token is used to make the request should have rights on the site.</p>
+<p>The endpoint accepts the following parameters</p>
 
 <table><thead>
 <tr>
@@ -764,15 +706,47 @@ JSON Template
 <td><code class="prettyprint">site_id</code></td>
 <td>Yes</td>
 <td><code class="prettyprint">string</code></td>
-<td>The <code class="prettyprint">site_id</code> that owns the export definition</td>
+<td>The <code class="prettyprint">site_id</code> who owns the export</td>
 </tr>
 <tr>
-<td><code class="prettyprint">id</code></td>
+<td><code class="prettyprint">name</code></td>
 <td>Yes</td>
 <td><code class="prettyprint">string</code></td>
-<td>The <code class="prettyprint">id</code> of the export</td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">type</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">content_type</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">email_recipients</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">object</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">crm_recipients</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">object</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">template</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
 </tr>
 </tbody></table>
+
+<h2 id="get-sites-site_id-crm-exports-id">GET <code class="prettyprint">/sites/{site_id}/crm/exports/{id}</code></h2>
 <pre class="highlight shell"><code>curl --include <span class="se">\</span>
      --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
      --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
@@ -824,9 +798,7 @@ JSON Template
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<h2 id="put-sites-site_id-crm-exports-id">PUT <code class="prettyprint">/sites/{site_id}/crm/exports/{id}</code></h2>
-
-<p>It updates the export with <code class="prettyprint">id</code>. The operator whose API token is used to make the request should have right on the site.</p>
+<p>It fetches the information of the export with id <code class="prettyprint">{id}</code>. The operator whose API token is used to make the request should have rights on the site.</p>
 
 <table><thead>
 <tr>
@@ -848,43 +820,9 @@ JSON Template
 <td><code class="prettyprint">string</code></td>
 <td>The <code class="prettyprint">id</code> of the export</td>
 </tr>
-<tr>
-<td><code class="prettyprint">name</code></td>
-<td>Yes</td>
-<td><code class="prettyprint">string</code></td>
-<td>Look at the template definition for the description of this parameter</td>
-</tr>
-<tr>
-<td><code class="prettyprint">type</code></td>
-<td>Yes</td>
-<td><code class="prettyprint">string</code></td>
-<td>Look at the template definition for the description of this parameter</td>
-</tr>
-<tr>
-<td><code class="prettyprint">content_type</code></td>
-<td>Yes</td>
-<td><code class="prettyprint">string</code></td>
-<td>Look at the template definition for the description of this parameter</td>
-</tr>
-<tr>
-<td><code class="prettyprint">email_recipients</code></td>
-<td>Yes</td>
-<td><code class="prettyprint">object</code></td>
-<td>Look at the template definition for the description of this parameter</td>
-</tr>
-<tr>
-<td><code class="prettyprint">crm_recipients</code></td>
-<td>Yes</td>
-<td><code class="prettyprint">object</code></td>
-<td>Look at the template definition for the description of this parameter</td>
-</tr>
-<tr>
-<td><code class="prettyprint">template</code></td>
-<td>Yes</td>
-<td><code class="prettyprint">string</code></td>
-<td>Look at the template definition for the description of this parameter</td>
-</tr>
 </tbody></table>
+
+<h2 id="put-sites-site_id-crm-exports-id">PUT <code class="prettyprint">/sites/{site_id}/crm/exports/{id}</code></h2>
 <pre class="highlight shell"><code>curl --include <span class="se">\</span>
      --request PUT <span class="se">\</span>
      --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
@@ -975,31 +913,67 @@ JSON Template
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<h2 id="delete-sites-site_id-crm-exports-id">DELETE <code class="prettyprint">/sites/{site_id}/crm/exports/{id}</code></h2>
-
-<p>It deletes the export with <code class="prettyprint">id</code></p>
+<p>It updates the export with <code class="prettyprint">id</code>. The operator whose API token is used to make the request should have right on the site.</p>
 
 <table><thead>
 <tr>
 <th>Parameter</th>
-<th>Type</th>
 <th>Required</th>
+<th>Type</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
 <td><code class="prettyprint">site_id</code></td>
-<td><code class="prettyprint">string</code></td>
 <td>Yes</td>
+<td><code class="prettyprint">string</code></td>
 <td>The <code class="prettyprint">site_id</code> that owns the export definition</td>
 </tr>
 <tr>
 <td><code class="prettyprint">id</code></td>
-<td><code class="prettyprint">string</code></td>
 <td>Yes</td>
+<td><code class="prettyprint">string</code></td>
 <td>The <code class="prettyprint">id</code> of the export</td>
 </tr>
+<tr>
+<td><code class="prettyprint">name</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">type</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">content_type</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">email_recipients</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">object</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">crm_recipients</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">object</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">template</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
 </tbody></table>
+
+<h2 id="delete-sites-site_id-crm-exports-id">DELETE <code class="prettyprint">/sites/{site_id}/crm/exports/{id}</code></h2>
 <pre class="highlight shell"><code>curl --include <span class="se">\</span>
      --request DELETE <span class="se">\</span>
      --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
@@ -1024,9 +998,7 @@ JSON Template
 <span class="nb">puts</span> <span class="n">response</span>
 </code></pre>
 
-<h2 id="get-sites-site_id-crm-exports">GET <code class="prettyprint">/sites/{site_id}/crm/exports</code></h2>
-
-<p>It fetches the collection of export definitions for the site with <code class="prettyprint">site_id</code>. The operator whose API token is used to make the request should have rights on the site. The <code class="prettyprint">templatate</code> definition is not included in this endpoint for each export definition. Please see the endpoint for fetching a single export definition for accessing the template definition.</p>
+<p>It deletes the export with <code class="prettyprint">id</code></p>
 
 <table><thead>
 <tr>
@@ -1043,24 +1015,14 @@ JSON Template
 <td>The <code class="prettyprint">site_id</code> that owns the export definition</td>
 </tr>
 <tr>
-<td><code class="prettyprint">page</code></td>
-<td><code class="prettyprint">integer</code></td>
-<td>No</td>
-<td>The requested page if pagination is used</td>
-</tr>
-<tr>
-<td><code class="prettyprint">per_page</code></td>
-<td><code class="prettyprint">integer</code></td>
-<td>No</td>
-<td>The number of exports included per page</td>
-</tr>
-<tr>
-<td><code class="prettyprint">order</code></td>
+<td><code class="prettyprint">id</code></td>
 <td><code class="prettyprint">string</code></td>
-<td>No</td>
-<td>Specifies if the colletion should be sorted (<code class="prettyprint">asc</code> or <code class="prettyprint">desc</code>) by creation time.</td>
+<td>Yes</td>
+<td>The <code class="prettyprint">id</code> of the export</td>
 </tr>
 </tbody></table>
+
+<h2 id="get-sites-site_id-crm-exports">GET <code class="prettyprint">/sites/{site_id}/crm/exports</code></h2>
 <pre class="highlight shell"><code>curl --include <span class="se">\</span>
      --request GET <span class="se">\</span>
      --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
@@ -1113,3 +1075,39 @@ JSON Template
     </span><span class="p">}]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
+
+<p>It fetches the collection of export definitions for the site with <code class="prettyprint">site_id</code>. The operator whose API token is used to make the request should have rights on the site. The <code class="prettyprint">templatate</code> definition is not included in this endpoint for each export definition. Please see the endpoint for fetching a single export definition for accessing the template definition.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The <code class="prettyprint">site_id</code> that owns the export definition</td>
+</tr>
+<tr>
+<td><code class="prettyprint">page</code></td>
+<td><code class="prettyprint">integer</code></td>
+<td>No</td>
+<td>The requested page if pagination is used</td>
+</tr>
+<tr>
+<td><code class="prettyprint">per_page</code></td>
+<td><code class="prettyprint">integer</code></td>
+<td>No</td>
+<td>The number of exports included per page</td>
+</tr>
+<tr>
+<td><code class="prettyprint">order</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>Specifies if the colletion should be sorted (<code class="prettyprint">asc</code> or <code class="prettyprint">desc</code>) by creation time.</td>
+</tr>
+</tbody></table>

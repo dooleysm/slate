@@ -1,10 +1,6 @@
 <h1 id="sites">Sites</h1>
 
 <h2 id="search-by-hostname-get-sites-hostname-hostname">Search by <code class="prettyprint">hostname</code> <code class="prettyprint">GET /sites?hostname={hostname}</code></h2>
-
-<p>A site can have one ore more <code class="prettyprint">addresses</code> where an <code class="prettyprint">address</code> is a combination of <code class="prettyprint">hostname</code> + <code class="prettyprint">path</code>. As an example a valid address is <code class="prettyprint">salemove.com/auto</code> where <code class="prettyprint">hostname</code>=<code class="prettyprint">salemove.com</code> and <code class="prettyprint">path</code>=<code class="prettyprint">/auto</code>.</p>
-
-<p>This endpoint fetches a list of sites that have the <code class="prettyprint">hostname</code> within the site&rsquo;s addresses.</p>
 <pre class="highlight shell"><code><span class="c"># curl --include \</span>
      --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
      --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
@@ -41,37 +37,11 @@
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
+<p>A site can have one ore more <code class="prettyprint">addresses</code> where an <code class="prettyprint">address</code> is a combination of <code class="prettyprint">hostname</code> + <code class="prettyprint">path</code>. As an example a valid address is <code class="prettyprint">salemove.com/auto</code> where <code class="prettyprint">hostname</code>=<code class="prettyprint">salemove.com</code> and <code class="prettyprint">path</code>=<code class="prettyprint">/auto</code>.</p>
+
+<p>This endpoint fetches a list of sites that have the <code class="prettyprint">hostname</code> within the site&rsquo;s addresses.</p>
+
 <h2 id="post-sites">POST <code class="prettyprint">/sites</code></h2>
-
-<p>An operator with <code class="prettyprint">manager</code> privileges can use the API token associated to the account to create new sites.</p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code class="prettyprint">name</code></td>
-<td><code class="prettyprint">string</code></td>
-<td>Yes</td>
-<td>The name for the new site</td>
-</tr>
-<tr>
-<td><code class="prettyprint">domains</code></td>
-<td><code class="prettyprint">array</code></td>
-<td>Yes</td>
-<td>A list of site&rsquo;s addresses</td>
-</tr>
-<tr>
-<td><code class="prettyprint">clone_from_id</code></td>
-<td><code class="prettyprint">string</code></td>
-<td>No</td>
-<td>The new site will be configured using this <code class="prettyprint">site_id</code> as template. The new site will copy the visuals, teams and business rules from the <code class="prettyprint">site_id</code> passed in this parameter.</td>
-</tr>
-</tbody></table>
 <pre class="highlight shell"><code>curl --include <span class="se">\</span>
      --request POST <span class="se">\</span>
      --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
@@ -115,9 +85,7 @@
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<h2 id="get-sites-id">GET <code class="prettyprint">/sites/{id}</code></h2>
-
-<p>It fetches the site with id <code class="prettyprint">id</code>. The operator whose API token is used to send the request should have rights on the site with id <code class="prettyprint">id</code>.</p>
+<p>An operator with <code class="prettyprint">manager</code> privileges can use the API token associated to the account to create new sites.</p>
 
 <table><thead>
 <tr>
@@ -128,12 +96,26 @@
 </tr>
 </thead><tbody>
 <tr>
-<td><code class="prettyprint">id</code></td>
+<td><code class="prettyprint">name</code></td>
 <td><code class="prettyprint">string</code></td>
 <td>Yes</td>
-<td>The site <code class="prettyprint">id</code> that is requested</td>
+<td>The name for the new site</td>
+</tr>
+<tr>
+<td><code class="prettyprint">domains</code></td>
+<td><code class="prettyprint">array</code></td>
+<td>Yes</td>
+<td>A list of site&rsquo;s addresses</td>
+</tr>
+<tr>
+<td><code class="prettyprint">clone_from_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The new site will be configured using this <code class="prettyprint">site_id</code> as template. The new site will copy the visuals, teams and business rules from the <code class="prettyprint">site_id</code> passed in this parameter.</td>
 </tr>
 </tbody></table>
+
+<h2 id="get-sites-id">GET <code class="prettyprint">/sites/{id}</code></h2>
 <pre class="highlight shell"><code>curl --include <span class="se">\</span>
      --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
      --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
@@ -170,9 +152,7 @@
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<h2 id="put-sites-id">PUT <code class="prettyprint">/sites/{id}</code></h2>
-
-<p>It updates the site with id <code class="prettyprint">id</code>. The operator whose API token is used to send the request should have rghts on the site with id <code class="prettyprint">id</code>.</p>
+<p>It fetches the site with id <code class="prettyprint">id</code>. The operator whose API token is used to send the request should have rights on the site with id <code class="prettyprint">id</code>.</p>
 
 <table><thead>
 <tr>
@@ -186,27 +166,11 @@
 <td><code class="prettyprint">id</code></td>
 <td><code class="prettyprint">string</code></td>
 <td>Yes</td>
-<td>The site <code class="prettyprint">id</code> that is being updated</td>
-</tr>
-<tr>
-<td><code class="prettyprint">salemove_enabled</code></td>
-<td><code class="prettyprint">boolean</code></td>
-<td>No</td>
-<td>if <code class="prettyprint">true</code> then it enables SaleMove for the Site, if <code class="prettyprint">false</code> it disables SaleMove for the site. When SaleMove is enabled the SaleMove integration is delivered otherwise a <code class="prettyprint">204</code> <code class="prettyprint">No-Content</code> is delivered</td>
-</tr>
-<tr>
-<td><code class="prettyprint">reactive_enabled</code></td>
-<td><code class="prettyprint">boolean</code></td>
-<td>No</td>
-<td>If <code class="prettyprint">true</code> then the Reactive Tab is shown to the visitor. If <code class="prettyprint">false</code> then the Reactive Tab is hidden to the visitor.</td>
-</tr>
-<tr>
-<td><code class="prettyprint">clone_from_id</code></td>
-<td><code class="prettyprint">string</code></td>
-<td>No</td>
-<td>The new site will be configured using this <code class="prettyprint">site_id</code> as template. The new site will copy the visuals, teams and business rules from the <code class="prettyprint">site_id</code> passed in this parameter.</td>
+<td>The site <code class="prettyprint">id</code> that is requested</td>
 </tr>
 </tbody></table>
+
+<h2 id="put-sites-id">PUT <code class="prettyprint">/sites/{id}</code></h2>
 <pre class="highlight shell"><code><span class="c"># curl --include \</span>
      --request PUT <span class="se">\</span>
      --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
@@ -263,3 +227,39 @@ Connection: keep-alive
 }
 
 </code></pre>
+
+<p>It updates the site with id <code class="prettyprint">id</code>. The operator whose API token is used to send the request should have rghts on the site with id <code class="prettyprint">id</code>.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The site <code class="prettyprint">id</code> that is being updated</td>
+</tr>
+<tr>
+<td><code class="prettyprint">salemove_enabled</code></td>
+<td><code class="prettyprint">boolean</code></td>
+<td>No</td>
+<td>if <code class="prettyprint">true</code> then it enables SaleMove for the Site, if <code class="prettyprint">false</code> it disables SaleMove for the site. When SaleMove is enabled the SaleMove integration is delivered otherwise a <code class="prettyprint">204</code> <code class="prettyprint">No-Content</code> is delivered</td>
+</tr>
+<tr>
+<td><code class="prettyprint">reactive_enabled</code></td>
+<td><code class="prettyprint">boolean</code></td>
+<td>No</td>
+<td>If <code class="prettyprint">true</code> then the Reactive Tab is shown to the visitor. If <code class="prettyprint">false</code> then the Reactive Tab is hidden to the visitor.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">clone_from_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The new site will be configured using this <code class="prettyprint">site_id</code> as template. The new site will copy the visuals, teams and business rules from the <code class="prettyprint">site_id</code> passed in this parameter.</td>
+</tr>
+</tbody></table>

@@ -3,8 +3,6 @@
 <h2 id="cobrowsing">Cobrowsing</h2>
 
 <h3 id="prevent-elements-to-be-shown-to-the-operator">Prevent elements to be shown to the operator</h3>
-
-<p>To prevent elements to be shown in the operator session during observation or engagement add the class <code class="prettyprint">sm_cobrowsing_hidden_field</code> to the html elements.</p>
 <pre class="highlight plaintext"><code>&lt;div class='sm_cobrowsing_hidden_field'&gt;
   This element will not be displayed to the operator
 &lt;/div&gt;
@@ -26,9 +24,9 @@
 &lt;/form&gt;
 </code></pre>
 
-<h3 id="prevent-fields-39-values-to-be-shown-to-the-operator">Prevent fields&rsquo; values to be shown to the operator</h3>
+<p>To prevent elements to be shown in the operator session during observation or engagement add the class <code class="prettyprint">sm_cobrowsing_hidden_field</code> to the html elements.</p>
 
-<p>To prevent a field value to be shown to the operator during observation or engagement add the class <code class="prettyprint">sm_cobrowsing_masked_field</code> to the html elements.</p>
+<h3 id="prevent-fields-39-values-to-be-shown-to-the-operator">Prevent fields&rsquo; values to be shown to the operator</h3>
 <pre class="highlight plaintext"><code>&lt;form action="action" method="get"&gt;
 First name:
 &lt;!-- This input field value will be shown as `*`(s) to the operator --&gt;
@@ -40,9 +38,9 @@ Last name:
 &lt;/form&gt;
 </code></pre>
 
-<h3 id="disable-elements-to-the-operator">Disable elements to the operator</h3>
+<p>To prevent a field value to be shown to the operator during observation or engagement add the class <code class="prettyprint">sm_cobrowsing_masked_field</code> to the html elements.</p>
 
-<p>To disable an element so the operator can not interact with it during an observation or engagement add the class <code class="prettyprint">sm_cobrowsing_disabled_field</code> to the element(s).</p>
+<h3 id="disable-elements-to-the-operator">Disable elements to the operator</h3>
 <pre class="highlight plaintext"><code>&lt;form action="action" method="get"&gt;
 First name:
 &lt;!-- The operator can see the field and its value but he/she can not mofidy the field value --&gt;
@@ -54,11 +52,9 @@ Last name:
 &lt;/form&gt;
 </code></pre>
 
+<p>To disable an element so the operator can not interact with it during an observation or engagement add the class <code class="prettyprint">sm_cobrowsing_disabled_field</code> to the element(s).</p>
+
 <h2 id="contact-operator-button">Contact Operator Button</h2>
-
-<p>A Contact Operator Button is an element in the web page that when clicked on it opens the <code class="prettyprint">media-selection</code> modal. To add a Contact Operator button can be a <code class="prettyprint">div</code> or <code class="prettyprint">span</code> element with the class <code class="prettyprint">salemove-button</code>.</p>
-
-<p>The default look and feel of the button is as follows</p>
 <pre class="highlight plaintext"><code>&lt;div class="salemove-button"&gt;
     &lt;a href="javascript:void(0);" class="salemove-button-inner"&gt;
         &lt;div class="salemove-button-content"&gt;
@@ -74,7 +70,6 @@ Last name:
     &lt;/a&gt;
     &lt;style&gt;
         /* #3582FA - hover background color, #444444 - regular text color, #F4F4F4 - regular background color */
-
         .salemove-button .salemove-button-inner {
             width: 188px !important;
             height: 39px !important;
@@ -108,7 +103,11 @@ Last name:
     &lt;/style&gt;
 &lt;/div&gt;
 </code></pre>
-<pre class="highlight plaintext"><code>Add image
+
+<p>A Contact Operator Button is an element in the web page that when clicked on it opens the <code class="prettyprint">media-selection</code> modal. To add a Contact Operator button can be a <code class="prettyprint">div</code> or <code class="prettyprint">span</code> element with the class <code class="prettyprint">salemove-button</code>.</p>
+
+<p>The default look and feel of the button is as follows:</p>
+<pre class="highlight plaintext"><code>TODO Add image
 </code></pre>
 
 <p>The button can be configued by means of the SaleMove JS-SDK &ndash; Link to the SDK Docs). When using the SaleMove JS-SDK to configure the Contact Operator Button three things can be configured:</p>
@@ -156,10 +155,6 @@ Last name:
 </code></pre>
 
 <h2 id="custom-contact-operator-widget">Custom Contact Operator Widget</h2>
-
-<p>It is possible to instrument any html element in the webpage to open the <code class="prettyprint">media-selection</code> modal. To set an element to behave as a Custom Operator Widget add the attribute <code class="prettyprint">data-sm-show-media-selection-on</code> with a string value with the name of the event that will trigger the <code class="prettyprint">media-selection</code> modal. As an example, if the <code class="prettyprint">media-selection</code> modal should be open on a <code class="prettyprint">double-click</code> event on an <code class="prettyprint">div</code> then such a <code class="prettyprint">div</code> should look like <code class="prettyprint">&lt;div data-sm-show-media-selection-on=&quot;doubleclick&quot;&gt;&lt;/div&gt;</code>. The following <a href="http://www.w3schools.com/jsref/dom_obj_event.asp">DOM event</a> are supported.</p>
-
-<p>Notice that this type of widget can not be configued using the SaleMove JavaScript SDK.</p>
 <pre class="highlight plaintext"><code>&lt;!--
 The link opens the media selection modal when the visitor clicks on it
 --&gt;
@@ -174,13 +169,15 @@ The link opens the media selection modal when the visitor clicks on it
 &lt;/div&gt;
 </code></pre>
 
+<p>It is possible to instrument any html element in the webpage to open the <code class="prettyprint">media-selection</code> modal. To set an element to behave as a Custom Operator Widget add the attribute <code class="prettyprint">data-sm-show-media-selection-on</code> with a string value with the name of the event that will trigger the <code class="prettyprint">media-selection</code> modal. As an example, if the <code class="prettyprint">media-selection</code> modal should be open on a <code class="prettyprint">double-click</code> event on an <code class="prettyprint">div</code> then such a <code class="prettyprint">div</code> should look like <code class="prettyprint">&lt;div data-sm-show-media-selection-on=&quot;doubleclick&quot;&gt;&lt;/div&gt;</code>. The following <a href="http://www.w3schools.com/jsref/dom_obj_event.asp">DOM event</a> are supported.</p>
+
+<p>Notice that this type of widget can not be configued using the SaleMove JavaScript SDK.</p>
+
 <h2 id="hotlinks">Hotlinks</h2>
 
 <p>A Hotlink is a URL with a hash at the end. The Hash at the end of the URL describes an action that is triggered when the visitor loads such a URL. A Hotlink follows the pattern <code class="prettyprint">http://[Client Domain]#[Action]. As an example if the visitor laods the Url</code>https://finantialadvisor.com#sm_show_media_selection<code class="prettyprint">the media selection will be open when the visitor loads the</code>finantialadvisor.com` website.</p>
 
 <h3 id="open-media-selection-dialog">Open Media Selection Dialog</h3>
-
-<p>To open the media selection dialog as soon as the page loads add the hash <code class="prettyprint">#sm_show_media_selection</code> <code class="prettyprint">URL-hash</code>. A typical use case for this action is to open the <code class="prettyprint">media-selection</code> dialog inmediately after the visitor clicks on a link and navigates to a new page.</p>
 <pre class="highlight plaintext"><code>&lt;!--
 With site address:      http://www.site.com
 The ‘hotlink' would be: http://www.site.com#sm_show_media_selection
@@ -190,9 +187,9 @@ The ‘hotlink' would be: http://www.site.com#sm_show_media_selection
 ...
 </code></pre>
 
-<h3 id="expand-reactive-tab">Expand Reactive Tab</h3>
+<p>To open the media selection dialog as soon as the page loads add the hash <code class="prettyprint">#sm_show_media_selection</code> <code class="prettyprint">URL-hash</code>. A typical use case for this action is to open the <code class="prettyprint">media-selection</code> dialog inmediately after the visitor clicks on a link and navigates to a new page.</p>
 
-<p>To expand the Reactive Tab for few seconds as soon as the page loads add the has <code class="prettyprint">sm_show_reactive_tab_X_seconds</code> where <code class="prettyprint">X</code> is the number of seconds that the reactive tab should be expanded to the visitor. As an example if the visitor loads the Url <code class="prettyprint">https://finantialadvisor.com#sm_show_reactive_tab_20_seconds</code> the Reactive Tab will be expanded and shown to the visitor for <code class="prettyprint">20</code> <code class="prettyprint">seconds</code>. A typical use case for this action is to open the <code class="prettyprint">operator selector</code> inmediately after the visitor clicks on a link and navigates to a new page.</p>
+<h3 id="expand-reactive-tab">Expand Reactive Tab</h3>
 <pre class="highlight plaintext"><code>&lt;!--
 With site address:      http://www.site.com
 The 'hotlink' would be: http://www.site.com#sm_show_reactive_tab_20_seconds.
@@ -202,9 +199,9 @@ The 'hotlink' would be: http://www.site.com#sm_show_reactive_tab_20_seconds.
 ...
 </code></pre>
 
-<h3 id="show-notification-amp-save-visitor-information">Show Notification &amp; Save Visitor Information</h3>
+<p>To expand the Reactive Tab for few seconds as soon as the page loads add the has <code class="prettyprint">sm_show_reactive_tab_X_seconds</code> where <code class="prettyprint">X</code> is the number of seconds that the reactive tab should be expanded to the visitor. As an example if the visitor loads the Url <code class="prettyprint">https://finantialadvisor.com#sm_show_reactive_tab_20_seconds</code> the Reactive Tab will be expanded and shown to the visitor for <code class="prettyprint">20</code> <code class="prettyprint">seconds</code>. A typical use case for this action is to open the <code class="prettyprint">operator selector</code> inmediately after the visitor clicks on a link and navigates to a new page.</p>
 
-<p>This composed action updates the visitor&rsquo;s information and shows a desktop notification to the online operators notifying about the presence of the visitor. This action hash patter is as follows:</p>
+<h3 id="show-notification-amp-save-visitor-information">Show Notification &amp; Save Visitor Information</h3>
 <pre class="highlight plaintext"><code>/* Show notification and save visitor's contact information */
 sm_show_notification?(attribute=value[&amp;attribute=value]*)
 </code></pre>
@@ -216,6 +213,8 @@ sm_show_notification?message=message-value&amp;(attribute=value[&amp;attribute=v
 <code class="prettyprint">
 sm_show_notification?name=visitor+name&amp;phone=56567775&amp;email=visitor@email.com&amp;note=visitor+note&amp;custom_attributes[attribute1]=attribute1+value&amp;custom_attributes[attribute2]=attribute2+value
 </code></p>
+
+<p>This composed action updates the visitor&rsquo;s information and shows a desktop notification to the online operators notifying about the presence of the visitor. This action hash patter is as follows:</p>
 
 <p>Show notification with a message and save visitor&rsquo;s contact information</p>
 <pre class="highlight plaintext"><code>sm_show_notification?message=some+message&amp;name=visitor+name&amp;phone=56567775&amp;email=visitor@email.com&amp;note=visitor+note&amp;custom_attributes[attribute1]=attribute1+value&amp;custom_attributes[attribute2]=attribute2+value

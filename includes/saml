@@ -7,6 +7,8 @@
 <p>The SAML parameters can be configured programatically or by requesting help from your success maanager.</p>
 
 <h2 id="post-saml">POST <code class="prettyprint">/saml</code></h2>
+<pre class="highlight shell"><code></code></pre>
+<pre class="highlight ruby"><code></code></pre>
 
 <p>It creates a SAML provider and it can be associated to a site.</p>
 
@@ -65,6 +67,8 @@
 <p>Later the information of the new SAML provider can be fetched at the url <code class="prettyprint">subdomain.app.salemove.com/saml/metadata</code>. Where the <code class="prettyprint">subdomain</code> is the value of the parameter <code class="prettyprint">subdomain</code> sent along with the POST request.</p>
 
 <h2 id="put-saml-saml_id">PUT <code class="prettyprint">/saml/{saml_id}</code></h2>
+<pre class="highlight shell"><code></code></pre>
+<pre class="highlight ruby"><code></code></pre>
 
 <p>It updates the configuration of a SAML provider.</p>
 

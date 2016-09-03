@@ -125,14 +125,12 @@
 <p>This describes the resources that make up official SaleMove API v1. If you have any problems, requests or questions please contact support.</p>
 
 <h2 id="current-version">Current Version</h2>
-
-<p>The current API version is <strong>v1</strong> and it must be explicitly requested via the <code class="prettyprint">Accept</code> header.</p>
 <pre class="highlight plaintext"><code>Accept: application/vnd.salemove.v1+json
 </code></pre>
 
-<h2 id="schema">Schema</h2>
+<p>The current API version is <strong>v1</strong> and it must be explicitly requested via the <code class="prettyprint">Accept</code> header.</p>
 
-<p>All API access is over HTTPS, and accessed from the <code class="prettyprint">https://api.salemove.com</code> endpoint. All data is sent and received as <code class="prettyprint">JSON</code>.</p>
+<h2 id="schema">Schema</h2>
 <pre class="highlight plaintext"><code>HTTP/1.1 200 OK
 Date: Thu, 29 Jan 2015 11:44:37 GMT
 Status: 200 OK
@@ -149,12 +147,14 @@ X-XSS-Protection: 1; mode=block
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
 </code></pre>
+<pre class="highlight plaintext"><code>YYYY-MM-DDTHH:MM:SSZ
+</code></pre>
+
+<p>All API access is over HTTPS, and accessed from the <code class="prettyprint">https://api.salemove.com</code> endpoint. All data is sent and received as <code class="prettyprint">JSON</code>.</p>
 
 <p>Blank fields are included as <code class="prettyprint">null</code> instead of being ommited.</p>
 
 <p>All timestamps are formatted in <code class="prettyprint">ISO 8601</code>.</p>
-<pre class="highlight plaintext"><code>YYYY-MM-DDTHH:MM:SSZ
-</code></pre>
 
 <p>This documentation provides an example response for each API method. The example responses illustrate attributes that are returned by that method.</p>
 
@@ -163,8 +163,6 @@ X-Frame-Options: SAMEORIGIN
 <p>Many API methods take optional parameters. For <code class="prettyprint">GET</code> requests, any parameters not specified as part of the path can be passed as an <code class="prettyprint">HTTP</code> query string parameter. For <code class="prettyprint">POST</code>, <code class="prettyprint">PATCH</code>, <code class="prettyprint">PUT</code>, and <code class="prettyprint">DELETE</code> requests, parameters not included in the URL should be encoded as <code class="prettyprint">JSON</code> with a <code class="prettyprint">content-type</code> of <code class="prettyprint">application/json</code>.</p>
 
 <h2 id="client-errors">Client Errors</h2>
-
-<p>If the request is malformed then an error is thrown. The response contains a description of the error. In general, the response includes two attributes namely <code class="prettyprint">error</code> which contains a short description of the error encountered and a <code class="prettyprint">debug_message</code> which contains a more detail explanation of the error.</p>
 <pre class="highlight plaintext"><code>HTTP/1.1 400 400
 </code></pre>
 <pre class="highlight plaintext"><code>[
@@ -175,6 +173,8 @@ X-Frame-Options: SAMEORIGIN
   }
 ]
 </code></pre>
+
+<p>If the request is malformed then an error is thrown. The response contains a description of the error. In general, the response includes two attributes namely <code class="prettyprint">error</code> which contains a short description of the error encountered and a <code class="prettyprint">debug_message</code> which contains a more detail explanation of the error.</p>
 
 <h2 id="http-verbs">HTTP Verbs</h2>
 
@@ -215,6 +215,20 @@ X-Frame-Options: SAMEORIGIN
 <h2 id="authentication">Authentication</h2>
 
 <h3 id="headers">Headers</h3>
+<pre class="highlight shell"><code><span class="c"># curl -X GET -i https://api.salemove.com/operators -H "Authorization: Token API_TOKEN" -H "Accept: application/vnd.salemove.v1+json"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+  <span class="na">type</span><span class="p">:</span> <span class="s1">'GET'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://api.salemove.com/engagements'</span><span class="p">,</span>
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s1">'Accept'</span><span class="p">:</span> <span class="s1">'application/vnd.salemove.v1+json'</span><span class="p">,</span>
+    <span class="s1">'Authorization'</span><span class="p">:</span> <span class="s1">'Token API_TOKEN'</span>
+  <span class="p">},</span>
+  <span class="na">success</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+    <span class="nx">ajaxResponse</span> <span class="o">=</span> <span class="nx">response</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
 
 <p>Along with the request the following headers need to be sent:</p>
 
@@ -234,44 +248,17 @@ X-Frame-Options: SAMEORIGIN
 </tr>
 </tbody></table>
 
-<p>CURL Example:</p>
-<pre class="highlight plaintext"><code># curl -X GET -i https://api.salemove.com/operators -H "Authorization: Token API_TOKEN" -H "Accept: application/vnd.salemove.v1+json"
-</code></pre>
-
-<p>Javascript Example:</p>
-<pre class="highlight plaintext"><code>$.ajax({
-  type: 'GET',
-  url: 'https://api.salemove.com/engagements',
-  headers: {
-    'Accept': 'application/vnd.salemove.v1+json',
-    'Authorization': 'Token API_TOKEN'
-  },
-  success: function(response){
-    ajaxResponse = response;
-  }
-});
-</code></pre>
-
 <h2 id="cross-origin-resource-sharing">Cross Origin Resource Sharing</h2>
 
 <p>The API supports Cross Origin Resource Sharing (CORS) for AJAX requests from any origin. More information about CORS in <a href="http://www.w3.org/TR/cors/">CORS W3C Recommendation</a>, or the intro from the <a href="https://www.owasp.org/index.php/HTML5_Security_Cheat_Sheet">HTML 5 Security Guide</a>.</p>
 
 <h2 id="pagination">Pagination</h2>
-
-<p>Some requests return a collection of items divided by pages. A specific page can be requested by setting the parameter <code class="prettyprint">page</code> and the size of the page can be set with the parameter <code class="prettyprint">per_page</code>. The minimum page size is <code class="prettyprint">1</code> the maximum page size is <code class="prettyprint">100</code> and the default page size is <code class="prettyprint">30</code>. The collections can be ordered using the parameter <code class="prettyprint">order</code> with values <code class="prettyprint">asc</code> or <code class="prettyprint">desc</code>.</p>
-
-<p>Fetchs all the operators with 30 items per page</p>
 <pre class="highlight plaintext"><code>GET /operators
 </code></pre>
 
-<p>Fetchs the second page of operators. Notice the parameter <code class="prettyprint">page</code> with a value of <code class="prettyprint">2</code> (<code class="prettyprint">page=2</code>)
-<code class="prettyprint">
-GET /operators?page=2
-</code></p>
-
-<h3 id="link-header">Link Header</h3>
-
-<p>The responses for collections that are paginated include an attribute <code class="prettyprint">next_page</code> that points to the next page of items for the collection. In addition, the response includes a <code class="prettyprint">last_page</code> attribute that points to the last page of the collection.</p>
+<blockquote>
+<p>Generates the output</p>
+</blockquote>
 <pre class="highlight plaintext"><code>[
   {
       "next_page" : "http://api.salemove.com/collections?page=2",
@@ -292,6 +279,19 @@ GET /operators?page=2
 ]
 </code></pre>
 
+<p>Some requests return a collection of items divided by pages. A specific page can be requested by setting the parameter <code class="prettyprint">page</code> and the size of the page can be set with the parameter <code class="prettyprint">per_page</code>. The minimum page size is <code class="prettyprint">1</code> the maximum page size is <code class="prettyprint">100</code> and the default page size is <code class="prettyprint">30</code>. The collections can be ordered using the parameter <code class="prettyprint">order</code> with values <code class="prettyprint">asc</code> or <code class="prettyprint">desc</code>.</p>
+
+<p>Fetchs all the operators with 30 items per page</p>
+
+<p>Fetchs the second page of operators. Notice the parameter <code class="prettyprint">page</code> with a value of <code class="prettyprint">2</code> (<code class="prettyprint">page=2</code>)
+<code class="prettyprint">
+GET /operators?page=2
+</code></p>
+
+<h3 id="link-header">Link Header</h3>
+
+<p>The responses for collections that are paginated include an attribute <code class="prettyprint">next_page</code> that points to the next page of items for the collection. In addition, the response includes a <code class="prettyprint">last_page</code> attribute that points to the last page of the collection.</p>
+
 <div id="salemove"></div>
 
           
@@ -306,10 +306,6 @@ GET /operators?page=2
           <h1 id="sites">Sites</h1>
 
 <h2 id="search-by-hostname-get-sites-hostname-hostname">Search by <code class="prettyprint">hostname</code> <code class="prettyprint">GET /sites?hostname={hostname}</code></h2>
-
-<p>A site can have one ore more <code class="prettyprint">addresses</code> where an <code class="prettyprint">address</code> is a combination of <code class="prettyprint">hostname</code> + <code class="prettyprint">path</code>. As an example a valid address is <code class="prettyprint">salemove.com/auto</code> where <code class="prettyprint">hostname</code>=<code class="prettyprint">salemove.com</code> and <code class="prettyprint">path</code>=<code class="prettyprint">/auto</code>.</p>
-
-<p>This endpoint fetches a list of sites that have the <code class="prettyprint">hostname</code> within the site&rsquo;s addresses.</p>
 <pre class="highlight shell"><code><span class="c"># curl --include \</span>
      --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
      --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
@@ -346,37 +342,11 @@ GET /operators?page=2
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
+<p>A site can have one ore more <code class="prettyprint">addresses</code> where an <code class="prettyprint">address</code> is a combination of <code class="prettyprint">hostname</code> + <code class="prettyprint">path</code>. As an example a valid address is <code class="prettyprint">salemove.com/auto</code> where <code class="prettyprint">hostname</code>=<code class="prettyprint">salemove.com</code> and <code class="prettyprint">path</code>=<code class="prettyprint">/auto</code>.</p>
+
+<p>This endpoint fetches a list of sites that have the <code class="prettyprint">hostname</code> within the site&rsquo;s addresses.</p>
+
 <h2 id="post-sites">POST <code class="prettyprint">/sites</code></h2>
-
-<p>An operator with <code class="prettyprint">manager</code> privileges can use the API token associated to the account to create new sites.</p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code class="prettyprint">name</code></td>
-<td><code class="prettyprint">string</code></td>
-<td>Yes</td>
-<td>The name for the new site</td>
-</tr>
-<tr>
-<td><code class="prettyprint">domains</code></td>
-<td><code class="prettyprint">array</code></td>
-<td>Yes</td>
-<td>A list of site&rsquo;s addresses</td>
-</tr>
-<tr>
-<td><code class="prettyprint">clone_from_id</code></td>
-<td><code class="prettyprint">string</code></td>
-<td>No</td>
-<td>The new site will be configured using this <code class="prettyprint">site_id</code> as template. The new site will copy the visuals, teams and business rules from the <code class="prettyprint">site_id</code> passed in this parameter.</td>
-</tr>
-</tbody></table>
 <pre class="highlight shell"><code>curl --include <span class="se">\</span>
      --request POST <span class="se">\</span>
      --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
@@ -420,9 +390,7 @@ GET /operators?page=2
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<h2 id="get-sites-id">GET <code class="prettyprint">/sites/{id}</code></h2>
-
-<p>It fetches the site with id <code class="prettyprint">id</code>. The operator whose API token is used to send the request should have rights on the site with id <code class="prettyprint">id</code>.</p>
+<p>An operator with <code class="prettyprint">manager</code> privileges can use the API token associated to the account to create new sites.</p>
 
 <table><thead>
 <tr>
@@ -433,12 +401,26 @@ GET /operators?page=2
 </tr>
 </thead><tbody>
 <tr>
-<td><code class="prettyprint">id</code></td>
+<td><code class="prettyprint">name</code></td>
 <td><code class="prettyprint">string</code></td>
 <td>Yes</td>
-<td>The site <code class="prettyprint">id</code> that is requested</td>
+<td>The name for the new site</td>
+</tr>
+<tr>
+<td><code class="prettyprint">domains</code></td>
+<td><code class="prettyprint">array</code></td>
+<td>Yes</td>
+<td>A list of site&rsquo;s addresses</td>
+</tr>
+<tr>
+<td><code class="prettyprint">clone_from_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The new site will be configured using this <code class="prettyprint">site_id</code> as template. The new site will copy the visuals, teams and business rules from the <code class="prettyprint">site_id</code> passed in this parameter.</td>
 </tr>
 </tbody></table>
+
+<h2 id="get-sites-id">GET <code class="prettyprint">/sites/{id}</code></h2>
 <pre class="highlight shell"><code>curl --include <span class="se">\</span>
      --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
      --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
@@ -475,9 +457,7 @@ GET /operators?page=2
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<h2 id="put-sites-id">PUT <code class="prettyprint">/sites/{id}</code></h2>
-
-<p>It updates the site with id <code class="prettyprint">id</code>. The operator whose API token is used to send the request should have rghts on the site with id <code class="prettyprint">id</code>.</p>
+<p>It fetches the site with id <code class="prettyprint">id</code>. The operator whose API token is used to send the request should have rights on the site with id <code class="prettyprint">id</code>.</p>
 
 <table><thead>
 <tr>
@@ -491,27 +471,11 @@ GET /operators?page=2
 <td><code class="prettyprint">id</code></td>
 <td><code class="prettyprint">string</code></td>
 <td>Yes</td>
-<td>The site <code class="prettyprint">id</code> that is being updated</td>
-</tr>
-<tr>
-<td><code class="prettyprint">salemove_enabled</code></td>
-<td><code class="prettyprint">boolean</code></td>
-<td>No</td>
-<td>if <code class="prettyprint">true</code> then it enables SaleMove for the Site, if <code class="prettyprint">false</code> it disables SaleMove for the site. When SaleMove is enabled the SaleMove integration is delivered otherwise a <code class="prettyprint">204</code> <code class="prettyprint">No-Content</code> is delivered</td>
-</tr>
-<tr>
-<td><code class="prettyprint">reactive_enabled</code></td>
-<td><code class="prettyprint">boolean</code></td>
-<td>No</td>
-<td>If <code class="prettyprint">true</code> then the Reactive Tab is shown to the visitor. If <code class="prettyprint">false</code> then the Reactive Tab is hidden to the visitor.</td>
-</tr>
-<tr>
-<td><code class="prettyprint">clone_from_id</code></td>
-<td><code class="prettyprint">string</code></td>
-<td>No</td>
-<td>The new site will be configured using this <code class="prettyprint">site_id</code> as template. The new site will copy the visuals, teams and business rules from the <code class="prettyprint">site_id</code> passed in this parameter.</td>
+<td>The site <code class="prettyprint">id</code> that is requested</td>
 </tr>
 </tbody></table>
+
+<h2 id="put-sites-id">PUT <code class="prettyprint">/sites/{id}</code></h2>
 <pre class="highlight shell"><code><span class="c"># curl --include \</span>
      --request PUT <span class="se">\</span>
      --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
@@ -569,13 +533,47 @@ Connection: keep-alive
 
 </code></pre>
 
+<p>It updates the site with id <code class="prettyprint">id</code>. The operator whose API token is used to send the request should have rghts on the site with id <code class="prettyprint">id</code>.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The site <code class="prettyprint">id</code> that is being updated</td>
+</tr>
+<tr>
+<td><code class="prettyprint">salemove_enabled</code></td>
+<td><code class="prettyprint">boolean</code></td>
+<td>No</td>
+<td>if <code class="prettyprint">true</code> then it enables SaleMove for the Site, if <code class="prettyprint">false</code> it disables SaleMove for the site. When SaleMove is enabled the SaleMove integration is delivered otherwise a <code class="prettyprint">204</code> <code class="prettyprint">No-Content</code> is delivered</td>
+</tr>
+<tr>
+<td><code class="prettyprint">reactive_enabled</code></td>
+<td><code class="prettyprint">boolean</code></td>
+<td>No</td>
+<td>If <code class="prettyprint">true</code> then the Reactive Tab is shown to the visitor. If <code class="prettyprint">false</code> then the Reactive Tab is hidden to the visitor.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">clone_from_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The new site will be configured using this <code class="prettyprint">site_id</code> as template. The new site will copy the visuals, teams and business rules from the <code class="prettyprint">site_id</code> passed in this parameter.</td>
+</tr>
+</tbody></table>
+
           <h1 id="site-visitors">Site Visitors</h1>
 
 <p>A Site has visitors and the information of those visitors can be fetched and updated programatically by means of the following endpoints.</p>
 
 <h2 id="get-sites-site_id-visitors-visitor_id">GET <code class="prettyprint">/sites/{site_id}/visitors/{visitor_id}</code></h2>
-
-<p>It fetches the visitor&rsquo;s information with id <code class="prettyprint">visitor_id</code> for the site with id <code class="prettyprint">site_id</code>. The operator whose API Token is used for making the request should have rights on the site.</p>
 <pre class="highlight shell"><code>curl --include <span class="se">\</span>
      --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
      --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
@@ -613,67 +611,9 @@ Connection: keep-alive
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
+<p>It fetches the visitor&rsquo;s information with id <code class="prettyprint">visitor_id</code> for the site with id <code class="prettyprint">site_id</code>. The operator whose API Token is used for making the request should have rights on the site.</p>
+
 <h2 id="put-sites-site_id-visitors-visitor_id">PUT <code class="prettyprint">/sites/{site_id}/visitors/{visitor_id}</code></h2>
-
-<p>It updates the visitor&rsquo;s information with id <code class="prettyprint">visitor_id</code> for the site with id <code class="prettyprint">site_id</code>. The operator whose API token is used for making the request should have rights on the site.</p>
-
-<table><thead>
-<tr>
-<th>Paramter</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code class="prettyprint">site_id</code></td>
-<td><code class="prettyprint">string</code></td>
-<td>Yes</td>
-<td>The site id whose visitor&rsquo;s information will be updated</td>
-</tr>
-<tr>
-<td><code class="prettyprint">visitor_id</code></td>
-<td><code class="prettyprint">string</code></td>
-<td>Yes</td>
-<td>The visitor whose information will be updated</td>
-</tr>
-<tr>
-<td><code class="prettyprint">name</code></td>
-<td><code class="prettyprint">string</code></td>
-<td>No</td>
-<td>The visitor&rsquo;s name</td>
-</tr>
-<tr>
-<td><code class="prettyprint">email</code></td>
-<td><code class="prettyprint">string</code></td>
-<td>No</td>
-<td>The visitor&rsquo;s email</td>
-</tr>
-<tr>
-<td><code class="prettyprint">phone</code></td>
-<td><code class="prettyprint">string</code></td>
-<td>No</td>
-<td>The visitor&rsquo;s phone</td>
-</tr>
-<tr>
-<td><code class="prettyprint">note</code></td>
-<td><code class="prettyprint">string</code></td>
-<td>No</td>
-<td>The visitor&rsquo;s notes.</td>
-</tr>
-<tr>
-<td><code class="prettyprint">note_updated_method</code></td>
-<td><code class="prettyprint">enum</code></td>
-<td>No</td>
-<td>Specifies a method for updating the visitor&rsquo;s note. The default value is <code class="prettyprint">replace</code>. Available values are <code class="prettyprint">replace</code> and <code class="prettyprint">append</code>. If the method is <code class="prettyprint">replace</code> then the notes for the visitor will be overwriten by the field <code class="prettyprint">note</code> in the request. If the method is <code class="prettyprint">append</code> then the field <code class="prettyprint">note</code> in the request will append to the existing visitor&rsquo;s notes.</td>
-</tr>
-<tr>
-<td><code class="prettyprint">custom_attributes</code></td>
-<td><code class="prettyprint">object</code></td>
-<td>No</td>
-<td>An object with custom key-value pairs to be assigned to the visitor. The server treats all keys and values as strings and also returns them as strings. Nested key-value pairs are not supported.</td>
-</tr>
-</tbody></table>
 <pre class="highlight shell"><code>curl --include <span class="se">\</span>
      --request PUT <span class="se">\</span>
      --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
@@ -738,6 +678,66 @@ Connection: keep-alive
   </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bb40afd7-7f65-4869-93ea-48a61c783aba"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
+
+<p>It updates the visitor&rsquo;s information with id <code class="prettyprint">visitor_id</code> for the site with id <code class="prettyprint">site_id</code>. The operator whose API token is used for making the request should have rights on the site.</p>
+
+<table><thead>
+<tr>
+<th>Paramter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The site id whose visitor&rsquo;s information will be updated</td>
+</tr>
+<tr>
+<td><code class="prettyprint">visitor_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The visitor whose information will be updated</td>
+</tr>
+<tr>
+<td><code class="prettyprint">name</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The visitor&rsquo;s name</td>
+</tr>
+<tr>
+<td><code class="prettyprint">email</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The visitor&rsquo;s email</td>
+</tr>
+<tr>
+<td><code class="prettyprint">phone</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The visitor&rsquo;s phone</td>
+</tr>
+<tr>
+<td><code class="prettyprint">note</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>The visitor&rsquo;s notes.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">note_updated_method</code></td>
+<td><code class="prettyprint">enum</code></td>
+<td>No</td>
+<td>Specifies a method for updating the visitor&rsquo;s note. The default value is <code class="prettyprint">replace</code>. Available values are <code class="prettyprint">replace</code> and <code class="prettyprint">append</code>. If the method is <code class="prettyprint">replace</code> then the notes for the visitor will be overwriten by the field <code class="prettyprint">note</code> in the request. If the method is <code class="prettyprint">append</code> then the field <code class="prettyprint">note</code> in the request will append to the existing visitor&rsquo;s notes.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">custom_attributes</code></td>
+<td><code class="prettyprint">object</code></td>
+<td>No</td>
+<td>An object with custom key-value pairs to be assigned to the visitor. The server treats all keys and values as strings and also returns them as strings. Nested key-value pairs are not supported.</td>
+</tr>
+</tbody></table>
 
           <h1 id="site-reactive-tab">Site Reactive Tab</h1>
 
@@ -854,62 +854,6 @@ Connection: keep-alive
           <h1 id="engagements">Engagements</h1>
 
 <h2 id="get-engagements">GET /engagements</h2>
-
-<p>Fetches a collection of engagements. The endpoint requires a list of <code class="prettyprint">site_ids</code> as well as a set of <code class="prettyprint">operator_ids</code>. The requester needs to have access to the sites and operators send along with the request. The results are paginated and sorted by engagement id in descending order.</p>
-
-<p>The endpoint accepts the following filters.</p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Required</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code class="prettyprint">operator_ids</code></td>
-<td>Yes</td>
-<td>Array of strings</td>
-<td>A list of operator ids whose engagements are requested.</td>
-</tr>
-<tr>
-<td><code class="prettyprint">site_ids</code></td>
-<td>Yes</td>
-<td>Array of strings</td>
-<td>A list of site ids whose engagements are requested.</td>
-</tr>
-<tr>
-<td><code class="prettyprint">start_date</code></td>
-<td>No</td>
-<td><code class="prettyprint">iso8601</code> Date</td>
-<td>The response will include engagements that happen from <code class="prettyprint">start_date</code> forward in time.</td>
-</tr>
-<tr>
-<td><code class="prettyprint">end_date</code></td>
-<td>No</td>
-<td><code class="prettyprint">iso8601</code> Date</td>
-<td>The response will include engagement that happen on <code class="prettyprint">end_date</code> or before <code class="prettyprint">start_data</code>.</td>
-</tr>
-<tr>
-<td><code class="prettyprint">page</code></td>
-<td>No</td>
-<td>Number</td>
-<td>If pagination is used then this parameter specifies what page is requested.</td>
-</tr>
-<tr>
-<td><code class="prettyprint">per_page</code></td>
-<td>No</td>
-<td>Number</td>
-<td>If pagination is used then this parameter specifies the number of engagements per page.</td>
-</tr>
-<tr>
-<td><code class="prettyprint">order</code></td>
-<td>No</td>
-<td>[<code class="prettyprint">asc</code>, <code class="prettyprint">desc</code>]</td>
-<td>It specifies if the results should be sorted in <code class="prettyprint">ascending</code> or <code class="prettyprint">descending</code> order. Engagements are sorted by starting time in descending order.</td>
-</tr>
-</tbody></table>
 <pre class="highlight shell"><code>curl -X GET --include <span class="se">\</span>
      --header <span class="s2">"Authorization: Token API_TOKEN"</span> <span class="se">\</span>
      --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
@@ -1022,9 +966,63 @@ Connection: keep-alive
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<h2 id="get-engagement-engagement_id">GET /engagement/:engagement_id</h2>
+<p>Fetches a collection of engagements. The endpoint requires a list of <code class="prettyprint">site_ids</code> as well as a set of <code class="prettyprint">operator_ids</code>. The requester needs to have access to the sites and operators send along with the request. The results are paginated and sorted by engagement id in descending order.</p>
 
-<p>Fetches a single engagement by ID. The Operator whose token is used for sending the request should be authorized to access the Site&rsquo;s information to which the engagement belongs.</p>
+<p>The endpoint accepts the following filters.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">operator_ids</code></td>
+<td>Yes</td>
+<td>Array of strings</td>
+<td>A list of operator ids whose engagements are requested.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">site_ids</code></td>
+<td>Yes</td>
+<td>Array of strings</td>
+<td>A list of site ids whose engagements are requested.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">start_date</code></td>
+<td>No</td>
+<td><code class="prettyprint">iso8601</code> Date</td>
+<td>The response will include engagements that happen from <code class="prettyprint">start_date</code> forward in time.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">end_date</code></td>
+<td>No</td>
+<td><code class="prettyprint">iso8601</code> Date</td>
+<td>The response will include engagement that happen on <code class="prettyprint">end_date</code> or before <code class="prettyprint">start_data</code>.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">page</code></td>
+<td>No</td>
+<td>Number</td>
+<td>If pagination is used then this parameter specifies what page is requested.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">per_page</code></td>
+<td>No</td>
+<td>Number</td>
+<td>If pagination is used then this parameter specifies the number of engagements per page.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">order</code></td>
+<td>No</td>
+<td>[<code class="prettyprint">asc</code>, <code class="prettyprint">desc</code>]</td>
+<td>It specifies if the results should be sorted in <code class="prettyprint">ascending</code> or <code class="prettyprint">descending</code> order. Engagements are sorted by starting time in descending order.</td>
+</tr>
+</tbody></table>
+
+<h2 id="get-engagement-engagement_id">GET /engagement/:engagement_id</h2>
 <pre class="highlight shell"><code>curl -X GET --include <span class="se">\</span>
      --header <span class="s2">"Authorization: Token API_TOKEN"</span> <span class="se">\</span>
      --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
@@ -1085,9 +1083,9 @@ Connection: keep-alive
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<h2 id="get-engagements-engagement_id-chat_transcript">GET /engagements/:engagement_id/chat_transcript</h2>
+<p>Fetches a single engagement by ID. The Operator whose token is used for sending the request should be authorized to access the Site&rsquo;s information to which the engagement belongs.</p>
 
-<p>Fetches an engagement&rsquo;s chat transcript. The operator whose token is used for sending the request should be authorized to access the Site&rsquo;s information to which the engagement belongs.</p>
+<h2 id="get-engagements-engagement_id-chat_transcript">GET /engagements/:engagement_id/chat_transcript</h2>
 <pre class="highlight shell"><code>curl -X GET --include <span class="se">\</span>
      --header <span class="s2">"Authorization: Token API_TOKEN"</span> <span class="se">\</span>
      --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
@@ -1152,9 +1150,9 @@ Connection: keep-alive
 }]
 </code></pre>
 
-<h2 id="post-engagements-engagement_id-export">POST /engagements/:engagement_id/export</h2>
+<p>Fetches an engagement&rsquo;s chat transcript. The operator whose token is used for sending the request should be authorized to access the Site&rsquo;s information to which the engagement belongs.</p>
 
-<p>It exports the engagement using all exports definitions configured for the Site to which the engagement started on. The Operator whose token is used for sending the request should be authorized to access the Sites&rsquo; information to which the engagement belongs. If the engagement is transfered to other sites and the Operator is not authorized in all the sites then the export will contain only the data concern to the sites that the Operator&rsquo;s is authorized to access.</p>
+<h2 id="post-engagements-engagement_id-export">POST /engagements/:engagement_id/export</h2>
 <pre class="highlight shell"><code>curl --include <span class="se">\</span>
      --request POST <span class="se">\</span>
      --header <span class="s2">"Authorization: Token API_TOKEN"</span> <span class="se">\</span>
@@ -1186,6 +1184,8 @@ Connection: keep-alive
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="nt">"success"</span><span class="p">:</span><span class="kc">true</span><span class="p">}</span><span class="w">
 </span></code></pre>
+
+<p>It exports the engagement using all exports definitions configured for the Site to which the engagement started on. The Operator whose token is used for sending the request should be authorized to access the Sites&rsquo; information to which the engagement belongs. If the engagement is transfered to other sites and the Operator is not authorized in all the sites then the export will contain only the data concern to the sites that the Operator&rsquo;s is authorized to access.</p>
 
           <h1 id="statistics">Statistics</h1>
 
@@ -2079,17 +2079,15 @@ Accept: application/vnd.salemove.v1+json
 <p>XML Template
 <code class="prettyprint">
 &lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;&lt;export&gt;{site_names}&lt;gexport&gt;
-</code></p>
-
-<p>XML Output
+</code>
+XML Output
 <code class="prettyprint">
  &quot;&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;&lt;export&gt;
         &lt;site&gt;&lt;name&gt;first site&lt;gname&gt;&lt;/site&gt;
         &lt;site&gt;&lt;name&gt;second site&lt;gname&gt;&lt;/site&gt;
         &lt;gexport&gt;&quot;
-</code></p>
-
-<p>JSON Template
+</code>
+JSON Template
 <code class="prettyprint">
 {&quot;sites&quot;: {site_names}}
 </code></p>
@@ -2213,31 +2211,31 @@ Accept: application/vnd.salemove.v1+json
 </code></p>
 
 <p>XML Output
-&ldquo;`
-&lt;?xml version=&lsquo;1.0&rsquo; encoding=&#39;utf-8&rsquo;?&gt;<export>
-  <message>
-    <content>See on niss</content>
-    <created_at>some date</created_at>
-    <sender>
-      <name>Markys</name>
-      <type>visitor</type>
-    </sender
-  </message>
-  <message>
-    <content>Ok dyyd</content>
-    <created_at>other date</created_at>
-    <sender>
-      <name>Stenver</name>
-      <type>operator</type>
-    </sender
-  </message>
-</export></p>
-<pre class="highlight plaintext"><code>
-JSON Template
-</code></pre>
+<code class="prettyprint">
+&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;&lt;export&gt;
+  &lt;message&gt;
+    &lt;content&gt;See on niss&lt;/content&gt;
+    &lt;created_at&gt;some date&lt;/created_at&gt;
+    &lt;sender&gt;
+      &lt;name&gt;Markys&lt;/name&gt;
+      &lt;type&gt;visitor&lt;/type&gt;
+    &lt;/sender
+  &lt;/message&gt;
+  &lt;message&gt;
+    &lt;content&gt;Ok dyyd&lt;/content&gt;
+    &lt;created_at&gt;other date&lt;/created_at&gt;
+    &lt;sender&gt;
+      &lt;name&gt;Stenver&lt;/name&gt;
+      &lt;type&gt;operator&lt;/type&gt;
+    &lt;/sender
+  &lt;/message&gt;
+&lt;/export&gt;
+</code></p>
 
-<p>{&quot;chat&rdquo;: {chat_transcript}}
-&ldquo;`</p>
+<p>JSON Template
+<code class="prettyprint">
+{&quot;chat&quot;: {chat_transcript}}
+</code></p>
 
 <p>JSON Output
 <code class="prettyprint">
@@ -2478,62 +2476,6 @@ JSON Template
 </code></p>
 
 <h2 id="post-sites-site_id-crm-exports">POST <code class="prettyprint">/sites/{site_id}/crm/exports</code></h2>
-
-<p>Creates a new export for the <code class="prettyprint">{site_id}</code>. The operator whose API token is used to make the request should have rights on the site.</p>
-
-<p>The endpoint accepts the following parameters</p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Required</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code class="prettyprint">site_id</code></td>
-<td>Yes</td>
-<td><code class="prettyprint">string</code></td>
-<td>The <code class="prettyprint">site_id</code> who owns the export</td>
-</tr>
-<tr>
-<td><code class="prettyprint">name</code></td>
-<td>Yes</td>
-<td><code class="prettyprint">string</code></td>
-<td>Look at the template definition for the description of this parameter</td>
-</tr>
-<tr>
-<td><code class="prettyprint">type</code></td>
-<td>Yes</td>
-<td><code class="prettyprint">string</code></td>
-<td>Look at the template definition for the description of this parameter</td>
-</tr>
-<tr>
-<td><code class="prettyprint">content_type</code></td>
-<td>Yes</td>
-<td><code class="prettyprint">string</code></td>
-<td>Look at the template definition for the description of this parameter</td>
-</tr>
-<tr>
-<td><code class="prettyprint">email_recipients</code></td>
-<td>Yes</td>
-<td><code class="prettyprint">object</code></td>
-<td>Look at the template definition for the description of this parameter</td>
-</tr>
-<tr>
-<td><code class="prettyprint">crm_recipients</code></td>
-<td>Yes</td>
-<td><code class="prettyprint">object</code></td>
-<td>Look at the template definition for the description of this parameter</td>
-</tr>
-<tr>
-<td><code class="prettyprint">template</code></td>
-<td>Yes</td>
-<td><code class="prettyprint">string</code></td>
-<td>Look at the template definition for the description of this parameter</td>
-</tr>
-</tbody></table>
 <pre class="highlight shell"><code>curl --include <span class="se">\</span>
      --request POST <span class="se">\</span>
      --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
@@ -2624,9 +2566,9 @@ JSON Template
 
 </span></code></pre>
 
-<h2 id="get-sites-site_id-crm-exports-id">GET <code class="prettyprint">/sites/{site_id}/crm/exports/{id}</code></h2>
+<p>Creates a new export for the <code class="prettyprint">{site_id}</code>. The operator whose API token is used to make the request should have rights on the site.</p>
 
-<p>It fetches the information of the export with id <code class="prettyprint">{id}</code>. The operator whose API token is used to make the request should have rights on the site.</p>
+<p>The endpoint accepts the following parameters</p>
 
 <table><thead>
 <tr>
@@ -2640,15 +2582,47 @@ JSON Template
 <td><code class="prettyprint">site_id</code></td>
 <td>Yes</td>
 <td><code class="prettyprint">string</code></td>
-<td>The <code class="prettyprint">site_id</code> that owns the export definition</td>
+<td>The <code class="prettyprint">site_id</code> who owns the export</td>
 </tr>
 <tr>
-<td><code class="prettyprint">id</code></td>
+<td><code class="prettyprint">name</code></td>
 <td>Yes</td>
 <td><code class="prettyprint">string</code></td>
-<td>The <code class="prettyprint">id</code> of the export</td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">type</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">content_type</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">email_recipients</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">object</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">crm_recipients</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">object</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">template</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
 </tr>
 </tbody></table>
+
+<h2 id="get-sites-site_id-crm-exports-id">GET <code class="prettyprint">/sites/{site_id}/crm/exports/{id}</code></h2>
 <pre class="highlight shell"><code>curl --include <span class="se">\</span>
      --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
      --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
@@ -2700,9 +2674,7 @@ JSON Template
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<h2 id="put-sites-site_id-crm-exports-id">PUT <code class="prettyprint">/sites/{site_id}/crm/exports/{id}</code></h2>
-
-<p>It updates the export with <code class="prettyprint">id</code>. The operator whose API token is used to make the request should have right on the site.</p>
+<p>It fetches the information of the export with id <code class="prettyprint">{id}</code>. The operator whose API token is used to make the request should have rights on the site.</p>
 
 <table><thead>
 <tr>
@@ -2724,43 +2696,9 @@ JSON Template
 <td><code class="prettyprint">string</code></td>
 <td>The <code class="prettyprint">id</code> of the export</td>
 </tr>
-<tr>
-<td><code class="prettyprint">name</code></td>
-<td>Yes</td>
-<td><code class="prettyprint">string</code></td>
-<td>Look at the template definition for the description of this parameter</td>
-</tr>
-<tr>
-<td><code class="prettyprint">type</code></td>
-<td>Yes</td>
-<td><code class="prettyprint">string</code></td>
-<td>Look at the template definition for the description of this parameter</td>
-</tr>
-<tr>
-<td><code class="prettyprint">content_type</code></td>
-<td>Yes</td>
-<td><code class="prettyprint">string</code></td>
-<td>Look at the template definition for the description of this parameter</td>
-</tr>
-<tr>
-<td><code class="prettyprint">email_recipients</code></td>
-<td>Yes</td>
-<td><code class="prettyprint">object</code></td>
-<td>Look at the template definition for the description of this parameter</td>
-</tr>
-<tr>
-<td><code class="prettyprint">crm_recipients</code></td>
-<td>Yes</td>
-<td><code class="prettyprint">object</code></td>
-<td>Look at the template definition for the description of this parameter</td>
-</tr>
-<tr>
-<td><code class="prettyprint">template</code></td>
-<td>Yes</td>
-<td><code class="prettyprint">string</code></td>
-<td>Look at the template definition for the description of this parameter</td>
-</tr>
 </tbody></table>
+
+<h2 id="put-sites-site_id-crm-exports-id">PUT <code class="prettyprint">/sites/{site_id}/crm/exports/{id}</code></h2>
 <pre class="highlight shell"><code>curl --include <span class="se">\</span>
      --request PUT <span class="se">\</span>
      --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
@@ -2851,31 +2789,67 @@ JSON Template
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<h2 id="delete-sites-site_id-crm-exports-id">DELETE <code class="prettyprint">/sites/{site_id}/crm/exports/{id}</code></h2>
-
-<p>It deletes the export with <code class="prettyprint">id</code></p>
+<p>It updates the export with <code class="prettyprint">id</code>. The operator whose API token is used to make the request should have right on the site.</p>
 
 <table><thead>
 <tr>
 <th>Parameter</th>
-<th>Type</th>
 <th>Required</th>
+<th>Type</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
 <td><code class="prettyprint">site_id</code></td>
-<td><code class="prettyprint">string</code></td>
 <td>Yes</td>
+<td><code class="prettyprint">string</code></td>
 <td>The <code class="prettyprint">site_id</code> that owns the export definition</td>
 </tr>
 <tr>
 <td><code class="prettyprint">id</code></td>
-<td><code class="prettyprint">string</code></td>
 <td>Yes</td>
+<td><code class="prettyprint">string</code></td>
 <td>The <code class="prettyprint">id</code> of the export</td>
 </tr>
+<tr>
+<td><code class="prettyprint">name</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">type</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">content_type</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">email_recipients</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">object</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">crm_recipients</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">object</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
+<tr>
+<td><code class="prettyprint">template</code></td>
+<td>Yes</td>
+<td><code class="prettyprint">string</code></td>
+<td>Look at the template definition for the description of this parameter</td>
+</tr>
 </tbody></table>
+
+<h2 id="delete-sites-site_id-crm-exports-id">DELETE <code class="prettyprint">/sites/{site_id}/crm/exports/{id}</code></h2>
 <pre class="highlight shell"><code>curl --include <span class="se">\</span>
      --request DELETE <span class="se">\</span>
      --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
@@ -2900,9 +2874,7 @@ JSON Template
 <span class="nb">puts</span> <span class="n">response</span>
 </code></pre>
 
-<h2 id="get-sites-site_id-crm-exports">GET <code class="prettyprint">/sites/{site_id}/crm/exports</code></h2>
-
-<p>It fetches the collection of export definitions for the site with <code class="prettyprint">site_id</code>. The operator whose API token is used to make the request should have rights on the site. The <code class="prettyprint">templatate</code> definition is not included in this endpoint for each export definition. Please see the endpoint for fetching a single export definition for accessing the template definition.</p>
+<p>It deletes the export with <code class="prettyprint">id</code></p>
 
 <table><thead>
 <tr>
@@ -2919,24 +2891,14 @@ JSON Template
 <td>The <code class="prettyprint">site_id</code> that owns the export definition</td>
 </tr>
 <tr>
-<td><code class="prettyprint">page</code></td>
-<td><code class="prettyprint">integer</code></td>
-<td>No</td>
-<td>The requested page if pagination is used</td>
-</tr>
-<tr>
-<td><code class="prettyprint">per_page</code></td>
-<td><code class="prettyprint">integer</code></td>
-<td>No</td>
-<td>The number of exports included per page</td>
-</tr>
-<tr>
-<td><code class="prettyprint">order</code></td>
+<td><code class="prettyprint">id</code></td>
 <td><code class="prettyprint">string</code></td>
-<td>No</td>
-<td>Specifies if the colletion should be sorted (<code class="prettyprint">asc</code> or <code class="prettyprint">desc</code>) by creation time.</td>
+<td>Yes</td>
+<td>The <code class="prettyprint">id</code> of the export</td>
 </tr>
 </tbody></table>
+
+<h2 id="get-sites-site_id-crm-exports">GET <code class="prettyprint">/sites/{site_id}/crm/exports</code></h2>
 <pre class="highlight shell"><code>curl --include <span class="se">\</span>
      --request GET <span class="se">\</span>
      --header <span class="s2">"Authorization: Token </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
@@ -2990,6 +2952,42 @@ JSON Template
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
+<p>It fetches the collection of export definitions for the site with <code class="prettyprint">site_id</code>. The operator whose API token is used to make the request should have rights on the site. The <code class="prettyprint">templatate</code> definition is not included in this endpoint for each export definition. Please see the endpoint for fetching a single export definition for accessing the template definition.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">site_id</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>Yes</td>
+<td>The <code class="prettyprint">site_id</code> that owns the export definition</td>
+</tr>
+<tr>
+<td><code class="prettyprint">page</code></td>
+<td><code class="prettyprint">integer</code></td>
+<td>No</td>
+<td>The requested page if pagination is used</td>
+</tr>
+<tr>
+<td><code class="prettyprint">per_page</code></td>
+<td><code class="prettyprint">integer</code></td>
+<td>No</td>
+<td>The number of exports included per page</td>
+</tr>
+<tr>
+<td><code class="prettyprint">order</code></td>
+<td><code class="prettyprint">string</code></td>
+<td>No</td>
+<td>Specifies if the colletion should be sorted (<code class="prettyprint">asc</code> or <code class="prettyprint">desc</code>) by creation time.</td>
+</tr>
+</tbody></table>
+
           <h1 id="saml">SAML</h1>
 
 <p>SaleMove supports clients using Single Sign-On via Security Assertion Markup Language (SAML 2.0). SAML is an XML-based, open-standard data format that allows parties to securely exchange user authentication and authorization data.  SAML-Based Single Sign-On (SSO) allows clients to have full control over the authorization and authentication of user accounts that can access to the web-based Operator Application. In this model, SaleMove acts as a service provider while SaleMove&rsquo;s clients act as identity providers that control usernames, passwords and other information used during the identification, authentication and authorization process of users by SaleMove web applications. In addition, all logs remain with the identity provider (SaleMove’s client) for audit purposes.</p>
@@ -2999,6 +2997,8 @@ JSON Template
 <p>The SAML parameters can be configured programatically or by requesting help from your success maanager.</p>
 
 <h2 id="post-saml">POST <code class="prettyprint">/saml</code></h2>
+<pre class="highlight shell"><code></code></pre>
+<pre class="highlight ruby"><code></code></pre>
 
 <p>It creates a SAML provider and it can be associated to a site.</p>
 
@@ -3057,6 +3057,8 @@ JSON Template
 <p>Later the information of the new SAML provider can be fetched at the url <code class="prettyprint">subdomain.app.salemove.com/saml/metadata</code>. Where the <code class="prettyprint">subdomain</code> is the value of the parameter <code class="prettyprint">subdomain</code> sent along with the POST request.</p>
 
 <h2 id="put-saml-saml_id">PUT <code class="prettyprint">/saml/{saml_id}</code></h2>
+<pre class="highlight shell"><code></code></pre>
+<pre class="highlight ruby"><code></code></pre>
 
 <p>It updates the configuration of a SAML provider.</p>
 
@@ -3157,18 +3159,18 @@ JSON Template
 </tbody></table>
 
           <h1 id="javascript-api-deprecated">JavaScript API [Deprecated]</h1>
+<pre class="highlight shell"><code>sm.getApi<span class="o">()</span>.then<span class="o">(</span>
+    <span class="k">function</span><span class="o">(</span>api<span class="o">){</span>
+      console.log<span class="o">(</span><span class="s2">"I got the api!"</span>, api<span class="o">)</span>;
+      window.salemoveApi <span class="o">=</span> api;
+    <span class="o">}</span>,
+    <span class="k">function</span><span class="o">(</span>err<span class="o">){</span> console.log<span class="o">(</span><span class="s2">"An error occured: "</span>, err<span class="o">)}</span>
+  <span class="o">)</span>;
+</code></pre>
 
 <p>SaleMove API V1 has been released please find the documentation in <a href="https://js-sdk-docs.salemove.com/extra/README.md.html">here</a></p>
 
 <p>SaleMove Legacy JS API can be used for handling specific events during the observation and engagement process. The API is bundled with the <code class="prettyprint">salemove_integration</code> script. <a href="https://js-sdk-docs.salemove.com/extra/README.md.html">Promises</a> are used to provide access to the JS SDK.</p>
-<pre class="highlight plaintext"><code>sm.getApi().then(
-    function(api){
-      console.log("I got the api!", api);
-      window.salemoveApi = api;
-    },
-    function(err){ console.log("An error occured: ", err)}
-  );
-</code></pre>
 
 <p>The promise is resolved as soon as the SaleMove is fully bootstrapped.</p>
 
@@ -3206,64 +3208,89 @@ JSON Template
 </tbody></table>
 
 <h3 id="engagement-start">Engagement Start</h3>
+<pre class="highlight shell"><code>salemoveApi.addEventListener<span class="o">(</span>
+  salemoveApi.EVENTS.ENGAGEMENT_START,
+  <span class="k">function</span><span class="o">(</span>engagement<span class="o">){</span>
+    console.log<span class="o">(</span><span class="s1">'The engagement with id '</span> + engagement.engagementId + <span class="s1">' started'</span><span class="o">)</span>;
+  <span class="o">}</span>
+<span class="o">)</span>;
+</code></pre>
 
 <p>Fired when an engagement starts (proactive or reactive). The callback receives a JSON object with the engagement Id as a parameter.</p>
-<pre class="highlight plaintext"><code>salemoveApi.addEventListener(
-  salemoveApi.EVENTS.ENGAGEMENT_START,
-  function(engagement){
-    console.log('The engagement with id ' + engagement.engagementId + ' started');
-  }
-);
-</code></pre>
 
 <h3 id="engagement-end">Engagement End</h3>
+<pre class="highlight shell"><code>salemoveApi.addEventListener<span class="o">(</span>
+  salemoveApi.EVENTS.ENGAGEMENT_END,
+  <span class="k">function</span><span class="o">(</span>engagement<span class="o">){</span>
+    console.log<span class="o">(</span><span class="s1">'The engagement with id '</span> + engagement.engagementId + <span class="s1">' ended'</span><span class="o">)</span>;
+  <span class="o">}</span>
+<span class="o">)</span>;
+</code></pre>
 
 <p>Fired when an engagement ends either by the operator or the visitor. The callback receives a JSON object with the engagement Id as a parameter.</p>
-<pre class="highlight plaintext"><code>salemoveApi.addEventListener(
-  salemoveApi.EVENTS.ENGAGEMENT_END,
-  function(engagement){
-    console.log('The engagement with id ' + engagement.engagementId + ' ended');
-  }
-);
+
+<h3 id="operators-list-update">Operators List Update</h3>
+<pre class="highlight shell"><code>salemoveApi.addEventListener<span class="o">(</span>
+  salemoveApi.EVENTS.OPERATOR_LIST_UPDATE,
+  <span class="k">function</span><span class="o">(</span>operatorList<span class="o">){</span>
+    console.log<span class="o">(</span>operatorList<span class="o">)</span>
+  <span class="o">}</span>
+<span class="o">)</span>;
 </code></pre>
 
-<h3 id="engagment-list-update">Engagment List Update</h3>
+<blockquote>
+<p>Output</p>
+</blockquote>
+<pre class="highlight shell"><code><span class="o">[{</span>
+  id: <span class="s1">'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11'</span>,
+  name: <span class="s1">'John Doe'</span>,
+  picture: <span class="o">{</span>
+    url: <span class="s1">'http://some.url/picture.png'</span>
+  <span class="o">}</span>,
+  state: <span class="o">{</span>
+    available: <span class="nb">true</span>,
+    media: <span class="o">[</span><span class="s1">'audio'</span>, <span class="s1">'chat'</span><span class="o">]</span>
+  <span class="o">}</span>
+<span class="o">}</span>,
+<span class="o">{</span>
+  id: <span class="s1">'ef117ae4-f8a9-45e9-874c-087e19c8dbe6'</span>,
+  name: <span class="s1">'John Snow'</span>,
+  picture: <span class="o">{</span>
+    url: <span class="s1">'http://some.url/another_picture.png'</span>
+  <span class="o">}</span>,
+  state: <span class="o">{</span>
+    available: <span class="nb">false</span>,
+    media: <span class="o">[</span><span class="s1">'video'</span>,<span class="s1">'audio'</span>, <span class="s1">'chat'</span><span class="o">]</span>
+  <span class="o">}</span>
+<span class="o">}]</span>
+</code></pre>
 
 <p>Fired when an operator goes online or offline. The callback receives an Array of online operators as a parameter. Every operator in the list contains the following attributes: id, name, picture, and state (availability and media availability).</p>
-<pre class="highlight plaintext"><code>salemoveApi.addEventListener(
-  salemoveApi.EVENTS.OPERATOR_LIST_UPDATE,
-  function(operatorList){
-    console.log(operatorList)
-  }
-);
-</code></pre>
-
-<p>Output</p>
-<pre class="highlight plaintext"><code>[{
-  id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
-  name: 'John Doe',
-  picture: {
-    url: 'http://some.url/picture.png'
-  },
-  state: {
-    available: true,
-    media: ['audio', 'chat']
-  }
-},
-{
-  id: 'ef117ae4-f8a9-45e9-874c-087e19c8dbe6',
-  name: 'John Snow',
-  picture: {
-    url: 'http://some.url/another_picture.png'
-  },
-  state: {
-    available: false,
-    media: ['video','audio', 'chat']
-  }
-}]
-</code></pre>
 
 <h3 id="operator-status-update">Operator Status Update</h3>
+<pre class="highlight shell"><code>salemoveApi.addEventListener<span class="o">(</span>
+  salemoveApi.EVENTS.OPERATOR_STATUS_UPDATE,
+  <span class="k">function</span><span class="o">(</span>operatorNewStatus<span class="o">){</span>
+    console.log<span class="o">(</span>operatorNewStatus<span class="o">)</span>
+  <span class="o">}</span>
+<span class="o">)</span>;
+</code></pre>
+
+<blockquote>
+<p>Output</p>
+</blockquote>
+<pre class="highlight shell"><code><span class="o">{</span>
+  id: <span class="s1">'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11'</span>,
+  name: <span class="s1">'John Doe'</span>,
+  picture: <span class="o">{</span>
+    url: <span class="s1">'http://some.url/picture.png'</span>
+  <span class="o">}</span>,
+  state: <span class="o">{</span>
+    available: <span class="nb">true</span>,
+    media: <span class="o">[</span><span class="s1">'audio'</span>, <span class="s1">'chat'</span><span class="o">]</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
 
 <p>Fired when an operator updates his/her availability or his/her media availability. The callback receives an JSON object as a parameter. The object contains the following operator&rsquo;s attributes: id, name, picture, state (availability and media availability).</p>
 
@@ -3290,74 +3317,53 @@ JSON Template
 <td>An object with two attributes <code class="prettyprint">available</code> and <code class="prettyprint">media</code>. The <code class="prettyprint">available</code> attribute indicates if the operator is available for starting and engagement. The <code class="prettyprint">media</code> attribute indicates what the operator is available for. The <code class="prettyprint">media</code> attribute possible values are: <code class="prettyprint">video</code>, <code class="prettyprint">audio</code>, <code class="prettyprint">chat</code></td>
 </tr>
 </tbody></table>
-<pre class="highlight plaintext"><code>salemoveApi.addEventListener(
-  salemoveApi.EVENTS.OPERATOR_STATUS_UPDATE,
-  function(operatorNewStatus){
-    console.log(operatorNewStatus)
-  }
-);
-</code></pre>
 
-<p>Output</p>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="err">id:</span><span class="w"> </span><span class="err">'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',</span><span class="w">
-  </span><span class="err">name:</span><span class="w"> </span><span class="err">'John</span><span class="w"> </span><span class="err">Doe',</span><span class="w">
-  </span><span class="err">picture:</span><span class="w"> </span><span class="err">{</span><span class="w">
-    </span><span class="err">url:</span><span class="w"> </span><span class="err">'http://some.url/picture.png'</span><span class="w">
-  </span><span class="p">}</span><span class="err">,</span><span class="w">
-  </span><span class="err">state:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="err">available:</span><span class="w"> </span><span class="err">true,</span><span class="w">
-    </span><span class="err">media:</span><span class="w"> </span><span class="err">['audio',</span><span class="w"> </span><span class="err">'chat']</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="err">}</span><span class="w">
-</span></code></pre>
-
+<blockquote>
 <p>The following example keeps track of operators online and their availability statuses.</p>
-<pre class="highlight plaintext"><code>sm.getApi().then(function(api) {
-  var operators = [];
+</blockquote>
+<pre class="highlight shell"><code>sm.getApi<span class="o">()</span>.then<span class="o">(</span><span class="k">function</span><span class="o">(</span>api<span class="o">)</span> <span class="o">{</span>
+  var operators <span class="o">=</span> <span class="o">[]</span>;
 
-  onOperatorStatusChange = function(updatedOperator) {
-    operators = operators.map(function(operator) {
-      if (operator.id == updatedOperator.id) {
-        return updatedOperator;
-      } else {
-        return operator;
-      }
-    });
-    updateElementUI();
-  }
+  onOperatorStatusChange <span class="o">=</span> <span class="k">function</span><span class="o">(</span>updatedOperator<span class="o">)</span> <span class="o">{</span>
+    operators <span class="o">=</span> operators.map<span class="o">(</span><span class="k">function</span><span class="o">(</span>operator<span class="o">)</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span>operator.id <span class="o">==</span> updatedOperator.id<span class="o">)</span> <span class="o">{</span>
+        <span class="k">return </span>updatedOperator;
+      <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="k">return </span>operator;
+      <span class="o">}</span>
+    <span class="o">})</span>;
+    updateElementUI<span class="o">()</span>;
+  <span class="o">}</span>
 
-  onOperatorListChange = function(updatedOperators) {
-    operators = updatedOperators;
-    updateElementUI();
-  }
+  onOperatorListChange <span class="o">=</span> <span class="k">function</span><span class="o">(</span>updatedOperators<span class="o">)</span> <span class="o">{</span>
+    operators <span class="o">=</span> updatedOperators;
+    updateElementUI<span class="o">()</span>;
+  <span class="o">}</span>
 
-  updateElementUI = function() {
-    filterAvailableOperators = function(operators) {
-      return operators.filter(function(operator) {
-        return operator.state.available;
-      });
-    }
+  updateElementUI <span class="o">=</span> <span class="k">function</span><span class="o">()</span> <span class="o">{</span>
+    filterAvailableOperators <span class="o">=</span> <span class="k">function</span><span class="o">(</span>operators<span class="o">)</span> <span class="o">{</span>
+      <span class="k">return </span>operators.filter<span class="o">(</span><span class="k">function</span><span class="o">(</span>operator<span class="o">)</span> <span class="o">{</span>
+        <span class="k">return </span>operator.state.available;
+      <span class="o">})</span>;
+    <span class="o">}</span>
 
-    var availableOperators = filterAvailableOperators(operators);
-    if (availableOperators.length == 0) {
-      alert("No operators are available.");
+    var availableOperators <span class="o">=</span> filterAvailableOperators<span class="o">(</span>operators<span class="o">)</span>;
+    <span class="k">if</span> <span class="o">(</span>availableOperators.length <span class="o">==</span> 0<span class="o">)</span> <span class="o">{</span>
+      alert<span class="o">(</span><span class="s2">"No operators are available."</span><span class="o">)</span>;
       // Update application to indicate that no operators are available
-    }
-    else {
-      alert("At least one operator is now available.");
+    <span class="o">}</span>
+    <span class="k">else</span> <span class="o">{</span>
+      alert<span class="o">(</span><span class="s2">"At least one operator is now available."</span><span class="o">)</span>;
       // Update application to indicate that at least one operator is available
-    }
-  }
+    <span class="o">}</span>
+  <span class="o">}</span>
 
-  api.addEventListener(api.EVENTS.OPERATOR_LIST_UPDATE, onOperatorListChange);
-  api.addEventListener(api.EVENTS.OPERATOR_STATUS_UPDATE, onOperatorStatusChange);
-});
+  api.addEventListener<span class="o">(</span>api.EVENTS.OPERATOR_LIST_UPDATE, onOperatorListChange<span class="o">)</span>;
+  api.addEventListener<span class="o">(</span>api.EVENTS.OPERATOR_STATUS_UPDATE, onOperatorStatusChange<span class="o">)</span>;
+<span class="o">})</span>;
 </code></pre>
 
 <h2 id="listeners">Listeners</h2>
-
-<p>The function <code class="prettyprint">addEventListener</code> is provided to add a callback for any of the events supported. The <code class="prettyprint">addEventListener</code> function accepts two parameters namely <code class="prettyprint">EventName</code> and <code class="prettyprint">Callback</code>. The <code class="prettyprint">EventName</code> parameter is one of the events suppported by the JS API and the <code class="prettyprint">Callback</code> is a function fired when the event is triggered.</p>
 <pre class="highlight plaintext"><code>addEventListener(&lt;EventName&gt;, &lt;Callback&gt;)
 </code></pre>
 <pre class="highlight plaintext"><code>salemoveApi.addEventListener(
@@ -3384,12 +3390,11 @@ salemoveApi.removeEventListener(
   salemoveApi.EVENTS.ENGAGEMENT_END,
   callback
 );
-`
 </code></pre>
 
-<h2 id="headers">Headers</h2>
+<p>The function <code class="prettyprint">addEventListener</code> is provided to add a callback for any of the events supported. The <code class="prettyprint">addEventListener</code> function accepts two parameters namely <code class="prettyprint">EventName</code> and <code class="prettyprint">Callback</code>. The <code class="prettyprint">EventName</code> parameter is one of the events suppported by the JS API and the <code class="prettyprint">Callback</code> is a function fired when the event is triggered.</p>
 
-<p>There are few REST end-points that can be accessed only by a currently online visitor. The visitor needs to send few headers to the API for authentication. The JS API provides the function <code class="prettyprint">getRequestHeaders</code> that returns the collection of Headers needed to make an AJAX request.</p>
+<h2 id="headers">Headers</h2>
 <pre class="highlight plaintext"><code>$.ajax({
   type: 'GET',
   url: 'https://api.salemove.com/visitor',
@@ -3400,13 +3405,13 @@ salemoveApi.removeEventListener(
 });
 </code></pre>
 
+<p>There are few REST end-points that can be accessed only by a currently online visitor. The visitor needs to send few headers to the API for authentication. The JS API provides the function <code class="prettyprint">getRequestHeaders</code> that returns the collection of Headers needed to make an AJAX request.</p>
+
           <h1 id="html-and-css-customizations">HTML and CSS Customizations</h1>
 
 <h2 id="cobrowsing">Cobrowsing</h2>
 
 <h3 id="prevent-elements-to-be-shown-to-the-operator">Prevent elements to be shown to the operator</h3>
-
-<p>To prevent elements to be shown in the operator session during observation or engagement add the class <code class="prettyprint">sm_cobrowsing_hidden_field</code> to the html elements.</p>
 <pre class="highlight plaintext"><code>&lt;div class='sm_cobrowsing_hidden_field'&gt;
   This element will not be displayed to the operator
 &lt;/div&gt;
@@ -3428,9 +3433,9 @@ salemoveApi.removeEventListener(
 &lt;/form&gt;
 </code></pre>
 
-<h3 id="prevent-fields-39-values-to-be-shown-to-the-operator">Prevent fields&rsquo; values to be shown to the operator</h3>
+<p>To prevent elements to be shown in the operator session during observation or engagement add the class <code class="prettyprint">sm_cobrowsing_hidden_field</code> to the html elements.</p>
 
-<p>To prevent a field value to be shown to the operator during observation or engagement add the class <code class="prettyprint">sm_cobrowsing_masked_field</code> to the html elements.</p>
+<h3 id="prevent-fields-39-values-to-be-shown-to-the-operator">Prevent fields&rsquo; values to be shown to the operator</h3>
 <pre class="highlight plaintext"><code>&lt;form action="action" method="get"&gt;
 First name:
 &lt;!-- This input field value will be shown as `*`(s) to the operator --&gt;
@@ -3442,9 +3447,9 @@ Last name:
 &lt;/form&gt;
 </code></pre>
 
-<h3 id="disable-elements-to-the-operator">Disable elements to the operator</h3>
+<p>To prevent a field value to be shown to the operator during observation or engagement add the class <code class="prettyprint">sm_cobrowsing_masked_field</code> to the html elements.</p>
 
-<p>To disable an element so the operator can not interact with it during an observation or engagement add the class <code class="prettyprint">sm_cobrowsing_disabled_field</code> to the element(s).</p>
+<h3 id="disable-elements-to-the-operator">Disable elements to the operator</h3>
 <pre class="highlight plaintext"><code>&lt;form action="action" method="get"&gt;
 First name:
 &lt;!-- The operator can see the field and its value but he/she can not mofidy the field value --&gt;
@@ -3456,11 +3461,9 @@ Last name:
 &lt;/form&gt;
 </code></pre>
 
+<p>To disable an element so the operator can not interact with it during an observation or engagement add the class <code class="prettyprint">sm_cobrowsing_disabled_field</code> to the element(s).</p>
+
 <h2 id="contact-operator-button">Contact Operator Button</h2>
-
-<p>A Contact Operator Button is an element in the web page that when clicked on it opens the <code class="prettyprint">media-selection</code> modal. To add a Contact Operator button can be a <code class="prettyprint">div</code> or <code class="prettyprint">span</code> element with the class <code class="prettyprint">salemove-button</code>.</p>
-
-<p>The default look and feel of the button is as follows</p>
 <pre class="highlight plaintext"><code>&lt;div class="salemove-button"&gt;
     &lt;a href="javascript:void(0);" class="salemove-button-inner"&gt;
         &lt;div class="salemove-button-content"&gt;
@@ -3476,7 +3479,6 @@ Last name:
     &lt;/a&gt;
     &lt;style&gt;
         /* #3582FA - hover background color, #444444 - regular text color, #F4F4F4 - regular background color */
-
         .salemove-button .salemove-button-inner {
             width: 188px !important;
             height: 39px !important;
@@ -3510,7 +3512,11 @@ Last name:
     &lt;/style&gt;
 &lt;/div&gt;
 </code></pre>
-<pre class="highlight plaintext"><code>Add image
+
+<p>A Contact Operator Button is an element in the web page that when clicked on it opens the <code class="prettyprint">media-selection</code> modal. To add a Contact Operator button can be a <code class="prettyprint">div</code> or <code class="prettyprint">span</code> element with the class <code class="prettyprint">salemove-button</code>.</p>
+
+<p>The default look and feel of the button is as follows:</p>
+<pre class="highlight plaintext"><code>TODO Add image
 </code></pre>
 
 <p>The button can be configued by means of the SaleMove JS-SDK &ndash; Link to the SDK Docs). When using the SaleMove JS-SDK to configure the Contact Operator Button three things can be configured:</p>
@@ -3558,10 +3564,6 @@ Last name:
 </code></pre>
 
 <h2 id="custom-contact-operator-widget">Custom Contact Operator Widget</h2>
-
-<p>It is possible to instrument any html element in the webpage to open the <code class="prettyprint">media-selection</code> modal. To set an element to behave as a Custom Operator Widget add the attribute <code class="prettyprint">data-sm-show-media-selection-on</code> with a string value with the name of the event that will trigger the <code class="prettyprint">media-selection</code> modal. As an example, if the <code class="prettyprint">media-selection</code> modal should be open on a <code class="prettyprint">double-click</code> event on an <code class="prettyprint">div</code> then such a <code class="prettyprint">div</code> should look like <code class="prettyprint">&lt;div data-sm-show-media-selection-on=&quot;doubleclick&quot;&gt;&lt;/div&gt;</code>. The following <a href="http://www.w3schools.com/jsref/dom_obj_event.asp">DOM event</a> are supported.</p>
-
-<p>Notice that this type of widget can not be configued using the SaleMove JavaScript SDK.</p>
 <pre class="highlight plaintext"><code>&lt;!--
 The link opens the media selection modal when the visitor clicks on it
 --&gt;
@@ -3576,13 +3578,15 @@ The link opens the media selection modal when the visitor clicks on it
 &lt;/div&gt;
 </code></pre>
 
+<p>It is possible to instrument any html element in the webpage to open the <code class="prettyprint">media-selection</code> modal. To set an element to behave as a Custom Operator Widget add the attribute <code class="prettyprint">data-sm-show-media-selection-on</code> with a string value with the name of the event that will trigger the <code class="prettyprint">media-selection</code> modal. As an example, if the <code class="prettyprint">media-selection</code> modal should be open on a <code class="prettyprint">double-click</code> event on an <code class="prettyprint">div</code> then such a <code class="prettyprint">div</code> should look like <code class="prettyprint">&lt;div data-sm-show-media-selection-on=&quot;doubleclick&quot;&gt;&lt;/div&gt;</code>. The following <a href="http://www.w3schools.com/jsref/dom_obj_event.asp">DOM event</a> are supported.</p>
+
+<p>Notice that this type of widget can not be configued using the SaleMove JavaScript SDK.</p>
+
 <h2 id="hotlinks">Hotlinks</h2>
 
 <p>A Hotlink is a URL with a hash at the end. The Hash at the end of the URL describes an action that is triggered when the visitor loads such a URL. A Hotlink follows the pattern <code class="prettyprint">http://[Client Domain]#[Action]. As an example if the visitor laods the Url</code>https://finantialadvisor.com#sm_show_media_selection<code class="prettyprint">the media selection will be open when the visitor loads the</code>finantialadvisor.com` website.</p>
 
 <h3 id="open-media-selection-dialog">Open Media Selection Dialog</h3>
-
-<p>To open the media selection dialog as soon as the page loads add the hash <code class="prettyprint">#sm_show_media_selection</code> <code class="prettyprint">URL-hash</code>. A typical use case for this action is to open the <code class="prettyprint">media-selection</code> dialog inmediately after the visitor clicks on a link and navigates to a new page.</p>
 <pre class="highlight plaintext"><code>&lt;!--
 With site address:      http://www.site.com
 The ‘hotlink' would be: http://www.site.com#sm_show_media_selection
@@ -3592,9 +3596,9 @@ The ‘hotlink' would be: http://www.site.com#sm_show_media_selection
 ...
 </code></pre>
 
-<h3 id="expand-reactive-tab">Expand Reactive Tab</h3>
+<p>To open the media selection dialog as soon as the page loads add the hash <code class="prettyprint">#sm_show_media_selection</code> <code class="prettyprint">URL-hash</code>. A typical use case for this action is to open the <code class="prettyprint">media-selection</code> dialog inmediately after the visitor clicks on a link and navigates to a new page.</p>
 
-<p>To expand the Reactive Tab for few seconds as soon as the page loads add the has <code class="prettyprint">sm_show_reactive_tab_X_seconds</code> where <code class="prettyprint">X</code> is the number of seconds that the reactive tab should be expanded to the visitor. As an example if the visitor loads the Url <code class="prettyprint">https://finantialadvisor.com#sm_show_reactive_tab_20_seconds</code> the Reactive Tab will be expanded and shown to the visitor for <code class="prettyprint">20</code> <code class="prettyprint">seconds</code>. A typical use case for this action is to open the <code class="prettyprint">operator selector</code> inmediately after the visitor clicks on a link and navigates to a new page.</p>
+<h3 id="expand-reactive-tab">Expand Reactive Tab</h3>
 <pre class="highlight plaintext"><code>&lt;!--
 With site address:      http://www.site.com
 The 'hotlink' would be: http://www.site.com#sm_show_reactive_tab_20_seconds.
@@ -3604,9 +3608,9 @@ The 'hotlink' would be: http://www.site.com#sm_show_reactive_tab_20_seconds.
 ...
 </code></pre>
 
-<h3 id="show-notification-amp-save-visitor-information">Show Notification &amp; Save Visitor Information</h3>
+<p>To expand the Reactive Tab for few seconds as soon as the page loads add the has <code class="prettyprint">sm_show_reactive_tab_X_seconds</code> where <code class="prettyprint">X</code> is the number of seconds that the reactive tab should be expanded to the visitor. As an example if the visitor loads the Url <code class="prettyprint">https://finantialadvisor.com#sm_show_reactive_tab_20_seconds</code> the Reactive Tab will be expanded and shown to the visitor for <code class="prettyprint">20</code> <code class="prettyprint">seconds</code>. A typical use case for this action is to open the <code class="prettyprint">operator selector</code> inmediately after the visitor clicks on a link and navigates to a new page.</p>
 
-<p>This composed action updates the visitor&rsquo;s information and shows a desktop notification to the online operators notifying about the presence of the visitor. This action hash patter is as follows:</p>
+<h3 id="show-notification-amp-save-visitor-information">Show Notification &amp; Save Visitor Information</h3>
 <pre class="highlight plaintext"><code>/* Show notification and save visitor's contact information */
 sm_show_notification?(attribute=value[&amp;attribute=value]*)
 </code></pre>
@@ -3618,6 +3622,8 @@ sm_show_notification?message=message-value&amp;(attribute=value[&amp;attribute=v
 <code class="prettyprint">
 sm_show_notification?name=visitor+name&amp;phone=56567775&amp;email=visitor@email.com&amp;note=visitor+note&amp;custom_attributes[attribute1]=attribute1+value&amp;custom_attributes[attribute2]=attribute2+value
 </code></p>
+
+<p>This composed action updates the visitor&rsquo;s information and shows a desktop notification to the online operators notifying about the presence of the visitor. This action hash patter is as follows:</p>
 
 <p>Show notification with a message and save visitor&rsquo;s contact information</p>
 <pre class="highlight plaintext"><code>sm_show_notification?message=some+message&amp;name=visitor+name&amp;phone=56567775&amp;email=visitor@email.com&amp;note=visitor+note&amp;custom_attributes[attribute1]=attribute1+value&amp;custom_attributes[attribute2]=attribute2+value

@@ -1,16 +1,16 @@
 <h1 id="javascript-api-deprecated">JavaScript API [Deprecated]</h1>
+<pre class="highlight shell"><code>sm.getApi<span class="o">()</span>.then<span class="o">(</span>
+    <span class="k">function</span><span class="o">(</span>api<span class="o">){</span>
+      console.log<span class="o">(</span><span class="s2">"I got the api!"</span>, api<span class="o">)</span>;
+      window.salemoveApi <span class="o">=</span> api;
+    <span class="o">}</span>,
+    <span class="k">function</span><span class="o">(</span>err<span class="o">){</span> console.log<span class="o">(</span><span class="s2">"An error occured: "</span>, err<span class="o">)}</span>
+  <span class="o">)</span>;
+</code></pre>
 
 <p>SaleMove API V1 has been released please find the documentation in <a href="https://js-sdk-docs.salemove.com/extra/README.md.html">here</a></p>
 
 <p>SaleMove Legacy JS API can be used for handling specific events during the observation and engagement process. The API is bundled with the <code class="prettyprint">salemove_integration</code> script. <a href="https://js-sdk-docs.salemove.com/extra/README.md.html">Promises</a> are used to provide access to the JS SDK.</p>
-<pre class="highlight plaintext"><code>sm.getApi().then(
-    function(api){
-      console.log("I got the api!", api);
-      window.salemoveApi = api;
-    },
-    function(err){ console.log("An error occured: ", err)}
-  );
-</code></pre>
 
 <p>The promise is resolved as soon as the SaleMove is fully bootstrapped.</p>
 
@@ -48,64 +48,89 @@
 </tbody></table>
 
 <h3 id="engagement-start">Engagement Start</h3>
+<pre class="highlight shell"><code>salemoveApi.addEventListener<span class="o">(</span>
+  salemoveApi.EVENTS.ENGAGEMENT_START,
+  <span class="k">function</span><span class="o">(</span>engagement<span class="o">){</span>
+    console.log<span class="o">(</span><span class="s1">'The engagement with id '</span> + engagement.engagementId + <span class="s1">' started'</span><span class="o">)</span>;
+  <span class="o">}</span>
+<span class="o">)</span>;
+</code></pre>
 
 <p>Fired when an engagement starts (proactive or reactive). The callback receives a JSON object with the engagement Id as a parameter.</p>
-<pre class="highlight plaintext"><code>salemoveApi.addEventListener(
-  salemoveApi.EVENTS.ENGAGEMENT_START,
-  function(engagement){
-    console.log('The engagement with id ' + engagement.engagementId + ' started');
-  }
-);
-</code></pre>
 
 <h3 id="engagement-end">Engagement End</h3>
+<pre class="highlight shell"><code>salemoveApi.addEventListener<span class="o">(</span>
+  salemoveApi.EVENTS.ENGAGEMENT_END,
+  <span class="k">function</span><span class="o">(</span>engagement<span class="o">){</span>
+    console.log<span class="o">(</span><span class="s1">'The engagement with id '</span> + engagement.engagementId + <span class="s1">' ended'</span><span class="o">)</span>;
+  <span class="o">}</span>
+<span class="o">)</span>;
+</code></pre>
 
 <p>Fired when an engagement ends either by the operator or the visitor. The callback receives a JSON object with the engagement Id as a parameter.</p>
-<pre class="highlight plaintext"><code>salemoveApi.addEventListener(
-  salemoveApi.EVENTS.ENGAGEMENT_END,
-  function(engagement){
-    console.log('The engagement with id ' + engagement.engagementId + ' ended');
-  }
-);
+
+<h3 id="operators-list-update">Operators List Update</h3>
+<pre class="highlight shell"><code>salemoveApi.addEventListener<span class="o">(</span>
+  salemoveApi.EVENTS.OPERATOR_LIST_UPDATE,
+  <span class="k">function</span><span class="o">(</span>operatorList<span class="o">){</span>
+    console.log<span class="o">(</span>operatorList<span class="o">)</span>
+  <span class="o">}</span>
+<span class="o">)</span>;
 </code></pre>
 
-<h3 id="engagment-list-update">Engagment List Update</h3>
+<blockquote>
+<p>Output</p>
+</blockquote>
+<pre class="highlight shell"><code><span class="o">[{</span>
+  id: <span class="s1">'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11'</span>,
+  name: <span class="s1">'John Doe'</span>,
+  picture: <span class="o">{</span>
+    url: <span class="s1">'http://some.url/picture.png'</span>
+  <span class="o">}</span>,
+  state: <span class="o">{</span>
+    available: <span class="nb">true</span>,
+    media: <span class="o">[</span><span class="s1">'audio'</span>, <span class="s1">'chat'</span><span class="o">]</span>
+  <span class="o">}</span>
+<span class="o">}</span>,
+<span class="o">{</span>
+  id: <span class="s1">'ef117ae4-f8a9-45e9-874c-087e19c8dbe6'</span>,
+  name: <span class="s1">'John Snow'</span>,
+  picture: <span class="o">{</span>
+    url: <span class="s1">'http://some.url/another_picture.png'</span>
+  <span class="o">}</span>,
+  state: <span class="o">{</span>
+    available: <span class="nb">false</span>,
+    media: <span class="o">[</span><span class="s1">'video'</span>,<span class="s1">'audio'</span>, <span class="s1">'chat'</span><span class="o">]</span>
+  <span class="o">}</span>
+<span class="o">}]</span>
+</code></pre>
 
 <p>Fired when an operator goes online or offline. The callback receives an Array of online operators as a parameter. Every operator in the list contains the following attributes: id, name, picture, and state (availability and media availability).</p>
-<pre class="highlight plaintext"><code>salemoveApi.addEventListener(
-  salemoveApi.EVENTS.OPERATOR_LIST_UPDATE,
-  function(operatorList){
-    console.log(operatorList)
-  }
-);
-</code></pre>
-
-<p>Output</p>
-<pre class="highlight plaintext"><code>[{
-  id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
-  name: 'John Doe',
-  picture: {
-    url: 'http://some.url/picture.png'
-  },
-  state: {
-    available: true,
-    media: ['audio', 'chat']
-  }
-},
-{
-  id: 'ef117ae4-f8a9-45e9-874c-087e19c8dbe6',
-  name: 'John Snow',
-  picture: {
-    url: 'http://some.url/another_picture.png'
-  },
-  state: {
-    available: false,
-    media: ['video','audio', 'chat']
-  }
-}]
-</code></pre>
 
 <h3 id="operator-status-update">Operator Status Update</h3>
+<pre class="highlight shell"><code>salemoveApi.addEventListener<span class="o">(</span>
+  salemoveApi.EVENTS.OPERATOR_STATUS_UPDATE,
+  <span class="k">function</span><span class="o">(</span>operatorNewStatus<span class="o">){</span>
+    console.log<span class="o">(</span>operatorNewStatus<span class="o">)</span>
+  <span class="o">}</span>
+<span class="o">)</span>;
+</code></pre>
+
+<blockquote>
+<p>Output</p>
+</blockquote>
+<pre class="highlight shell"><code><span class="o">{</span>
+  id: <span class="s1">'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11'</span>,
+  name: <span class="s1">'John Doe'</span>,
+  picture: <span class="o">{</span>
+    url: <span class="s1">'http://some.url/picture.png'</span>
+  <span class="o">}</span>,
+  state: <span class="o">{</span>
+    available: <span class="nb">true</span>,
+    media: <span class="o">[</span><span class="s1">'audio'</span>, <span class="s1">'chat'</span><span class="o">]</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
 
 <p>Fired when an operator updates his/her availability or his/her media availability. The callback receives an JSON object as a parameter. The object contains the following operator&rsquo;s attributes: id, name, picture, state (availability and media availability).</p>
 
@@ -132,74 +157,53 @@
 <td>An object with two attributes <code class="prettyprint">available</code> and <code class="prettyprint">media</code>. The <code class="prettyprint">available</code> attribute indicates if the operator is available for starting and engagement. The <code class="prettyprint">media</code> attribute indicates what the operator is available for. The <code class="prettyprint">media</code> attribute possible values are: <code class="prettyprint">video</code>, <code class="prettyprint">audio</code>, <code class="prettyprint">chat</code></td>
 </tr>
 </tbody></table>
-<pre class="highlight plaintext"><code>salemoveApi.addEventListener(
-  salemoveApi.EVENTS.OPERATOR_STATUS_UPDATE,
-  function(operatorNewStatus){
-    console.log(operatorNewStatus)
-  }
-);
-</code></pre>
 
-<p>Output</p>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="err">id:</span><span class="w"> </span><span class="err">'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',</span><span class="w">
-  </span><span class="err">name:</span><span class="w"> </span><span class="err">'John</span><span class="w"> </span><span class="err">Doe',</span><span class="w">
-  </span><span class="err">picture:</span><span class="w"> </span><span class="err">{</span><span class="w">
-    </span><span class="err">url:</span><span class="w"> </span><span class="err">'http://some.url/picture.png'</span><span class="w">
-  </span><span class="p">}</span><span class="err">,</span><span class="w">
-  </span><span class="err">state:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="err">available:</span><span class="w"> </span><span class="err">true,</span><span class="w">
-    </span><span class="err">media:</span><span class="w"> </span><span class="err">['audio',</span><span class="w"> </span><span class="err">'chat']</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="err">}</span><span class="w">
-</span></code></pre>
-
+<blockquote>
 <p>The following example keeps track of operators online and their availability statuses.</p>
-<pre class="highlight plaintext"><code>sm.getApi().then(function(api) {
-  var operators = [];
+</blockquote>
+<pre class="highlight shell"><code>sm.getApi<span class="o">()</span>.then<span class="o">(</span><span class="k">function</span><span class="o">(</span>api<span class="o">)</span> <span class="o">{</span>
+  var operators <span class="o">=</span> <span class="o">[]</span>;
 
-  onOperatorStatusChange = function(updatedOperator) {
-    operators = operators.map(function(operator) {
-      if (operator.id == updatedOperator.id) {
-        return updatedOperator;
-      } else {
-        return operator;
-      }
-    });
-    updateElementUI();
-  }
+  onOperatorStatusChange <span class="o">=</span> <span class="k">function</span><span class="o">(</span>updatedOperator<span class="o">)</span> <span class="o">{</span>
+    operators <span class="o">=</span> operators.map<span class="o">(</span><span class="k">function</span><span class="o">(</span>operator<span class="o">)</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">(</span>operator.id <span class="o">==</span> updatedOperator.id<span class="o">)</span> <span class="o">{</span>
+        <span class="k">return </span>updatedOperator;
+      <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="k">return </span>operator;
+      <span class="o">}</span>
+    <span class="o">})</span>;
+    updateElementUI<span class="o">()</span>;
+  <span class="o">}</span>
 
-  onOperatorListChange = function(updatedOperators) {
-    operators = updatedOperators;
-    updateElementUI();
-  }
+  onOperatorListChange <span class="o">=</span> <span class="k">function</span><span class="o">(</span>updatedOperators<span class="o">)</span> <span class="o">{</span>
+    operators <span class="o">=</span> updatedOperators;
+    updateElementUI<span class="o">()</span>;
+  <span class="o">}</span>
 
-  updateElementUI = function() {
-    filterAvailableOperators = function(operators) {
-      return operators.filter(function(operator) {
-        return operator.state.available;
-      });
-    }
+  updateElementUI <span class="o">=</span> <span class="k">function</span><span class="o">()</span> <span class="o">{</span>
+    filterAvailableOperators <span class="o">=</span> <span class="k">function</span><span class="o">(</span>operators<span class="o">)</span> <span class="o">{</span>
+      <span class="k">return </span>operators.filter<span class="o">(</span><span class="k">function</span><span class="o">(</span>operator<span class="o">)</span> <span class="o">{</span>
+        <span class="k">return </span>operator.state.available;
+      <span class="o">})</span>;
+    <span class="o">}</span>
 
-    var availableOperators = filterAvailableOperators(operators);
-    if (availableOperators.length == 0) {
-      alert("No operators are available.");
+    var availableOperators <span class="o">=</span> filterAvailableOperators<span class="o">(</span>operators<span class="o">)</span>;
+    <span class="k">if</span> <span class="o">(</span>availableOperators.length <span class="o">==</span> 0<span class="o">)</span> <span class="o">{</span>
+      alert<span class="o">(</span><span class="s2">"No operators are available."</span><span class="o">)</span>;
       // Update application to indicate that no operators are available
-    }
-    else {
-      alert("At least one operator is now available.");
+    <span class="o">}</span>
+    <span class="k">else</span> <span class="o">{</span>
+      alert<span class="o">(</span><span class="s2">"At least one operator is now available."</span><span class="o">)</span>;
       // Update application to indicate that at least one operator is available
-    }
-  }
+    <span class="o">}</span>
+  <span class="o">}</span>
 
-  api.addEventListener(api.EVENTS.OPERATOR_LIST_UPDATE, onOperatorListChange);
-  api.addEventListener(api.EVENTS.OPERATOR_STATUS_UPDATE, onOperatorStatusChange);
-});
+  api.addEventListener<span class="o">(</span>api.EVENTS.OPERATOR_LIST_UPDATE, onOperatorListChange<span class="o">)</span>;
+  api.addEventListener<span class="o">(</span>api.EVENTS.OPERATOR_STATUS_UPDATE, onOperatorStatusChange<span class="o">)</span>;
+<span class="o">})</span>;
 </code></pre>
 
 <h2 id="listeners">Listeners</h2>
-
-<p>The function <code class="prettyprint">addEventListener</code> is provided to add a callback for any of the events supported. The <code class="prettyprint">addEventListener</code> function accepts two parameters namely <code class="prettyprint">EventName</code> and <code class="prettyprint">Callback</code>. The <code class="prettyprint">EventName</code> parameter is one of the events suppported by the JS API and the <code class="prettyprint">Callback</code> is a function fired when the event is triggered.</p>
 <pre class="highlight plaintext"><code>addEventListener(&lt;EventName&gt;, &lt;Callback&gt;)
 </code></pre>
 <pre class="highlight plaintext"><code>salemoveApi.addEventListener(
@@ -226,12 +230,11 @@ salemoveApi.removeEventListener(
   salemoveApi.EVENTS.ENGAGEMENT_END,
   callback
 );
-`
 </code></pre>
 
-<h2 id="headers">Headers</h2>
+<p>The function <code class="prettyprint">addEventListener</code> is provided to add a callback for any of the events supported. The <code class="prettyprint">addEventListener</code> function accepts two parameters namely <code class="prettyprint">EventName</code> and <code class="prettyprint">Callback</code>. The <code class="prettyprint">EventName</code> parameter is one of the events suppported by the JS API and the <code class="prettyprint">Callback</code> is a function fired when the event is triggered.</p>
 
-<p>There are few REST end-points that can be accessed only by a currently online visitor. The visitor needs to send few headers to the API for authentication. The JS API provides the function <code class="prettyprint">getRequestHeaders</code> that returns the collection of Headers needed to make an AJAX request.</p>
+<h2 id="headers">Headers</h2>
 <pre class="highlight plaintext"><code>$.ajax({
   type: 'GET',
   url: 'https://api.salemove.com/visitor',
@@ -241,3 +244,5 @@ salemoveApi.removeEventListener(
   }
 });
 </code></pre>
+
+<p>There are few REST end-points that can be accessed only by a currently online visitor. The visitor needs to send few headers to the API for authentication. The JS API provides the function <code class="prettyprint">getRequestHeaders</code> that returns the collection of Headers needed to make an AJAX request.</p>
