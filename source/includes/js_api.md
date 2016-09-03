@@ -1,10 +1,5 @@
 # JavaScript API [Deprecated]
-
-SaleMove API V1 has been released please find the documentation in [here](https://js-sdk-docs.salemove.com/extra/README.md.html)
-
-SaleMove Legacy JS API can be used for handling specific events during the observation and engagement process. The API is bundled with the `salemove_integration` script. [Promises](https://js-sdk-docs.salemove.com/extra/README.md.html) are used to provide access to the JS SDK.
-
-```
+```shell
 sm.getApi().then(
     function(api){
       console.log("I got the api!", api);
@@ -13,6 +8,9 @@ sm.getApi().then(
     function(err){ console.log("An error occured: ", err)}
   );
 ```
+SaleMove API V1 has been released please find the documentation in [here](https://js-sdk-docs.salemove.com/extra/README.md.html)
+
+SaleMove Legacy JS API can be used for handling specific events during the observation and engagement process. The API is bundled with the `salemove_integration` script. [Promises](https://js-sdk-docs.salemove.com/extra/README.md.html) are used to provide access to the JS SDK.
 
 The promise is resolved as soon as the SaleMove is fully bootstrapped.
 
@@ -28,10 +26,7 @@ There are few events that are fired during the observatio and engagement process
 |`OPERATOR_STATUS_UPDATE`|Fired when an operator's attribute gest updated (e.g. availability status)||
 
 ### Engagement Start
-
-Fired when an engagement starts (proactive or reactive). The callback receives a JSON object with the engagement Id as a parameter.
-
-```
+```shell
 salemoveApi.addEventListener(
   salemoveApi.EVENTS.ENGAGEMENT_START,
   function(engagement){
@@ -39,12 +34,11 @@ salemoveApi.addEventListener(
   }
 );
 ```
+Fired when an engagement starts (proactive or reactive). The callback receives a JSON object with the engagement Id as a parameter.
 
 ### Engagement End
 
-Fired when an engagement ends either by the operator or the visitor. The callback receives a JSON object with the engagement Id as a parameter.
-
-```
+```shell
 salemoveApi.addEventListener(
   salemoveApi.EVENTS.ENGAGEMENT_END,
   function(engagement){
@@ -53,11 +47,10 @@ salemoveApi.addEventListener(
 );
 ```
 
-### Engagment List Update
+Fired when an engagement ends either by the operator or the visitor. The callback receives a JSON object with the engagement Id as a parameter.
 
-Fired when an operator goes online or offline. The callback receives an Array of online operators as a parameter. Every operator in the list contains the following attributes: id, name, picture, and state (availability and media availability).
-
-```
+### Operators List Update
+```shell
 salemoveApi.addEventListener(
   salemoveApi.EVENTS.OPERATOR_LIST_UPDATE,
   function(operatorList){
@@ -65,10 +58,9 @@ salemoveApi.addEventListener(
   }
 );
 ```
+> Output
 
-Output
-
-```
+```shell
 [{
   id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
   name: 'John Doe',
@@ -92,20 +84,10 @@ Output
   }
 }]
 ```
+Fired when an operator goes online or offline. The callback receives an Array of online operators as a parameter. Every operator in the list contains the following attributes: id, name, picture, and state (availability and media availability).
 
 ### Operator Status Update
-Fired when an operator updates his/her availability or his/her media availability. The callback receives an JSON object as a parameter. The object contains the following operator's attributes: id, name, picture, state (availability and media availability).
-
-|Operator Attribute|Description|
--------------------|-----------|
-|`id`|Operator Id|
-|`name`| Operator Name|
-|`picture`| An object with an attribute `url` containing the Operator's picture URL|
-|`state`|An object with two attributes `available` and `media`. The `available` attribute indicates if the operator is available for starting and engagement. The `media` attribute indicates what the operator is available for. The `media` attribute possible values are: `video`, `audio`, `chat`|
-
-
-
-```
+```shell
 salemoveApi.addEventListener(
   salemoveApi.EVENTS.OPERATOR_STATUS_UPDATE,
   function(operatorNewStatus){
@@ -114,9 +96,9 @@ salemoveApi.addEventListener(
 );
 ```
 
-Output
+> Output
 
-```
+```shell
 {
   id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
   name: 'John Doe',
@@ -130,9 +112,18 @@ Output
 }
 ```
 
-The following example keeps track of operators online and their availability statuses.
+Fired when an operator updates his/her availability or his/her media availability. The callback receives an JSON object as a parameter. The object contains the following operator's attributes: id, name, picture, state (availability and media availability).
 
-```
+|Operator Attribute|Description|
+-------------------|-----------|
+|`id`|Operator Id|
+|`name`| Operator Name|
+|`picture`| An object with an attribute `url` containing the Operator's picture URL|
+|`state`|An object with two attributes `available` and `media`. The `available` attribute indicates if the operator is available for starting and engagement. The `media` attribute indicates what the operator is available for. The `media` attribute possible values are: `video`, `audio`, `chat`|
+
+> The following example keeps track of operators online and their availability statuses.
+
+```shell
 sm.getApi().then(function(api) {
   var operators = [];
 
@@ -176,9 +167,6 @@ sm.getApi().then(function(api) {
 ```
 
 ## Listeners
-
-The function `addEventListener` is provided to add a callback for any of the events supported. The `addEventListener` function accepts two parameters namely `EventName` and `Callback`. The `EventName` parameter is one of the events suppported by the JS API and the `Callback` is a function fired when the event is triggered.
-
 ```
 addEventListener(<EventName>, <Callback>)
 ```
@@ -213,13 +201,12 @@ salemoveApi.removeEventListener(
   salemoveApi.EVENTS.ENGAGEMENT_END,
   callback
 );
-`
 ```
 
+The function `addEventListener` is provided to add a callback for any of the events supported. The `addEventListener` function accepts two parameters namely `EventName` and `Callback`. The `EventName` parameter is one of the events suppported by the JS API and the `Callback` is a function fired when the event is triggered.
+
+
 ## Headers
-
-There are few REST end-points that can be accessed only by a currently online visitor. The visitor needs to send few headers to the API for authentication. The JS API provides the function `getRequestHeaders` that returns the collection of Headers needed to make an AJAX request.
-
 ```
 $.ajax({
   type: 'GET',
@@ -230,6 +217,4 @@ $.ajax({
   }
 });
 ```
-
-
-
+There are few REST end-points that can be accessed only by a currently online visitor. The visitor needs to send few headers to the API for authentication. The JS API provides the function `getRequestHeaders` that returns the collection of Headers needed to make an AJAX request.

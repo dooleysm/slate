@@ -1,6 +1,5 @@
 # Exports
 
-
 A site has zero or more export configurations named `definitions`. A `definition` is a set of attributes that describe how leads are exported. A lead is an engagement or an offline message. When SaleMove generates a lead (engagement or offline message) it is exported to all the `definitions` configured and enabled for the Site which the leads belongs to.
 
 An export `definition` has the following parameters
@@ -14,14 +13,12 @@ An export `definition` has the following parameters
 |`crm_recipients`|`object`|A JSON object describing how the leads are sent via HTTP POST|
 |`template`|`string`|A template in `XML` or `JSON` format that will be used as a template for the content of the export. The template must be in UTF-8 encoding|
 
-
 The parameter `email_recipients` should include two attributes:
 
 |Attribute|Type| Description|
 |---------|----|------------|
 |`enabled`|`boolean`|It specifies if the export should be sent by email. Valid values are `true` and `false`|
 |`emails`|`array`|An array of email addresses that the export should be sent to|
-
 
 The parameter `crm_recipients` should include three attributes:
 
@@ -31,9 +28,7 @@ The parameter `crm_recipients` should include three attributes:
 |`url`|`string`|The URL where the export should be sent to|
 |`headers`|`headers`|A set of headers to be sent along with the HTTP POST. Tipically the headers are used for `Authorization`|
 
-
 The parameter `template` can contain `field tags`. A `field tag` is a `tag` that will be replaced with a value from the lead. As an example the `field tag` `visitor_name` will be replaces with the actual Visitor's name from the lead. The `field tag`s should be enclosed by braces `{}` so they can be parsed and replaced. From the previous example the `field tag` for the `visitor_name` should be included as `{visitor_name}` in the template. Below a table describing the `field tags` that can be included in the template.
-
 
 ## Engagements
 
@@ -61,7 +56,6 @@ The following `field tags` can be used in a template for `engagements`
 | `crm_forwarded` | `boolean` | Whether the crm export has been done already |
 | `summary_forwarded` | `boolean` | Whether the summary has been forwarded already |
 
-
 ### `collection_tags`
 
 There are some template tags that describe a collection of items such as a collection of operators who participated of the engagement or the collection of sites that were visited during the engagement. The tags that describe collections generate some `XML` or `JSON` content (based on the template's `content-type`. Those tags are:
@@ -70,12 +64,10 @@ There are some template tags that describe a collection of items such as a colle
 
 A collection of site-names that were visited during the engagement. It generates the following content.
 
-
 XML Template
 ```
 <?xml version='1.0' encoding='utf-8'?><export>{site_names}<gexport>
 ```
-
 XML Output
 ```
  "<?xml version='1.0' encoding='utf-8'?><export>
@@ -83,7 +75,6 @@ XML Output
         <site><name>second site<gname></site>
         <gexport>"
 ```
-
 JSON Template
 ```
 {"sites": {site_names}}
@@ -105,9 +96,7 @@ JSON Output
 
 #### `operators`
 
-
 A collection of operators who participated of the engagement. It generates the following content:
-
 
 XML Template
 ```
@@ -199,8 +188,6 @@ JSON Output
   ]
 }
 ```
-
-
 #### `chat_transcript`
 
 The collection of chat messages exchanged between the visitor and the operator during the engagement. It generates the following content:
@@ -230,7 +217,6 @@ XML Output
     </sender
   </message>
 </export>
-
 ```
 
 JSON Template
@@ -267,9 +253,7 @@ JSON Output
 
 ## Inbox Message
 
-
 ### `field_tags`
-
 
 | Field | Type | Description |
 |---|---|---|
@@ -279,13 +263,11 @@ JSON Output
 | `message` | `string` | Message left by visitor |
 | `recording_url` | `string` | Visitor's voice message recording URL |
 
-
 ### `collection_tags`
 
 #### `site_names`
 
 A collection of site-names that were visited during the engagement. It generates the following content.
-
 
 XML Template
 ```
@@ -457,22 +439,6 @@ Output
 ```
 
 ## POST `/sites/{site_id}/crm/exports`
-
-Creates a new export for the `{site_id}`. The operator whose API token is used to make the request should have rights on the site.
-
-The endpoint accepts the following parameters
-
-|Parameter|Required|Type|Description|
-|--------|--------|----|-----------|
-|`site_id`|Yes|`string`|The `site_id` who owns the export|
-|`name`|Yes|`string`|Look at the template definition for the description of this parameter|
-|`type`|Yes|`string`|Look at the template definition for the description of this parameter|
-|`content_type`|Yes|`string`|Look at the template definition for the description of this parameter|
-|`email_recipients`|Yes|`object`|Look at the template definition for the description of this parameter|
-|`crm_recipients`|Yes|`object`|Look at the template definition for the description of this parameter|
-|`template`|Yes|`string`|Look at the template definition for the description of this parameter|
-
-
 ```shell
 curl --include \
      --request POST \
@@ -565,15 +531,21 @@ puts response.body
 }
 
 ```
+Creates a new export for the `{site_id}`. The operator whose API token is used to make the request should have rights on the site.
 
-## GET `/sites/{site_id}/crm/exports/{id}`
-
-It fetches the information of the export with id `{id}`. The operator whose API token is used to make the request should have rights on the site.
+The endpoint accepts the following parameters
 
 |Parameter|Required|Type|Description|
-|---------|--------|----|-----------|
-|`site_id`|Yes|`string`|The `site_id` that owns the export definition|
-|`id`|Yes|`string`|The `id` of the export|
+|--------|--------|----|-----------|
+|`site_id`|Yes|`string`|The `site_id` who owns the export|
+|`name`|Yes|`string`|Look at the template definition for the description of this parameter|
+|`type`|Yes|`string`|Look at the template definition for the description of this parameter|
+|`content_type`|Yes|`string`|Look at the template definition for the description of this parameter|
+|`email_recipients`|Yes|`object`|Look at the template definition for the description of this parameter|
+|`crm_recipients`|Yes|`object`|Look at the template definition for the description of this parameter|
+|`template`|Yes|`string`|Look at the template definition for the description of this parameter|
+
+## GET `/sites/{site_id}/crm/exports/{id}`
 
 ```shell
 curl --include \
@@ -628,21 +600,14 @@ puts response.body
     "template": "<?xml version='1.0' encoding='UTF-8'?>\n<export><visitor_name>{visitor_name}</visitor_name>\n</export>"
 }
 ```
-
-## PUT `/sites/{site_id}/crm/exports/{id}`
-
-It updates the export with `id`. The operator whose API token is used to make the request should have right on the site.
+It fetches the information of the export with id `{id}`. The operator whose API token is used to make the request should have rights on the site.
 
 |Parameter|Required|Type|Description|
-|----------|--------|----|-----------|
+|---------|--------|----|-----------|
 |`site_id`|Yes|`string`|The `site_id` that owns the export definition|
 |`id`|Yes|`string`|The `id` of the export|
-|`name`|Yes|`string`|Look at the template definition for the description of this parameter|
-|`type`|Yes|`string`|Look at the template definition for the description of this parameter|
-|`content_type`|Yes|`string`|Look at the template definition for the description of this parameter|
-|`email_recipients`|Yes|`object`|Look at the template definition for the description of this parameter|
-|`crm_recipients`|Yes|`object`|Look at the template definition for the description of this parameter|
-|`template`|Yes|`string`|Look at the template definition for the description of this parameter|
+
+## PUT `/sites/{site_id}/crm/exports/{id}`
 
 ```shell
 curl --include \
@@ -735,17 +700,20 @@ puts response.body
     "template": "<?xml version='1.0' encoding='UTF-8'?>\n<export><visitor_name>{visitor_name}</visitor_name>\n</export>"
 }
 ```
+It updates the export with `id`. The operator whose API token is used to make the request should have right on the site.
 
-
+|Parameter|Required|Type|Description|
+|----------|--------|----|-----------|
+|`site_id`|Yes|`string`|The `site_id` that owns the export definition|
+|`id`|Yes|`string`|The `id` of the export|
+|`name`|Yes|`string`|Look at the template definition for the description of this parameter|
+|`type`|Yes|`string`|Look at the template definition for the description of this parameter|
+|`content_type`|Yes|`string`|Look at the template definition for the description of this parameter|
+|`email_recipients`|Yes|`object`|Look at the template definition for the description of this parameter|
+|`crm_recipients`|Yes|`object`|Look at the template definition for the description of this parameter|
+|`template`|Yes|`string`|Look at the template definition for the description of this parameter|
 
 ## DELETE `/sites/{site_id}/crm/exports/{id}`
-
-It deletes the export with `id`
-
-|Parameter|Type|Required|Description|
-|---------|----|--------|-----------|
-|`site_id`|`string`|Yes|The `site_id` that owns the export definition|
-|`id`|`string`|Yes|The `id` of the export|
 
 ```shell
 curl --include \
@@ -773,18 +741,14 @@ headers = {
 response = RestClient.delete "https://api.salemove.com/sites/#{site_id}/crm/exports/#{export_id}", headers
 puts response
 ```
-
-## GET `/sites/{site_id}/crm/exports`
-
-It fetches the collection of export definitions for the site with `site_id`. The operator whose API token is used to make the request should have rights on the site. The `templatate` definition is not included in this endpoint for each export definition. Please see the endpoint for fetching a single export definition for accessing the template definition.
-
+It deletes the export with `id`
 
 |Parameter|Type|Required|Description|
 |---------|----|--------|-----------|
 |`site_id`|`string`|Yes|The `site_id` that owns the export definition|
-|`page`|`integer`|No|The requested page if pagination is used|
-|`per_page`|`integer`|No|The number of exports included per page|
-|`order`|`string`|No|Specifies if the colletion should be sorted (`asc` or `desc`) by creation time. |
+|`id`|`string`|Yes|The `id` of the export|
+
+## GET `/sites/{site_id}/crm/exports`
 
 ```shell
 curl --include \
@@ -841,7 +805,12 @@ puts response.body
     }]
 }
 ```
+It fetches the collection of export definitions for the site with `site_id`. The operator whose API token is used to make the request should have rights on the site. The `templatate` definition is not included in this endpoint for each export definition. Please see the endpoint for fetching a single export definition for accessing the template definition.
 
-
-
+|Parameter|Type|Required|Description|
+|---------|----|--------|-----------|
+|`site_id`|`string`|Yes|The `site_id` that owns the export definition|
+|`page`|`integer`|No|The requested page if pagination is used|
+|`per_page`|`integer`|No|The number of exports included per page|
+|`order`|`string`|No|Specifies if the colletion should be sorted (`asc` or `desc`) by creation time. |
 

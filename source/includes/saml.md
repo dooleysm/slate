@@ -6,8 +6,13 @@ SaleMove supports two ways of SSO by means of SAML: Identity Provider (IdP) Init
 
 The SAML parameters can be configured programatically or by requesting help from your success maanager.
 
-
 ## POST `/saml`
+
+```shell
+```
+
+```ruby
+```
 
 It creates a SAML provider and it can be associated to a site.
 
@@ -21,11 +26,14 @@ It creates a SAML provider and it can be associated to a site.
 |`idp_name_attribute`|`string`|No|The name of the attribute within a SAML response where the operator's name is placed|
 |`idp_email_attribute`|`string`|No|The name of the attribute within a SAML response where the opeartor's emal is placed|
 
-
 Later the information of the new SAML provider can be fetched at the url `subdomain.app.salemove.com/saml/metadata`. Where the `subdomain` is the value of the parameter `subdomain` sent along with the POST request.
 
 ## PUT `/saml/{saml_id}`
 
+```shell
+```
+```ruby
+```
 It updates the configuration of a SAML provider.
 
 |Parameters|Type|Required|Description|
@@ -39,7 +47,6 @@ It updates the configuration of a SAML provider.
 |`auth_context`|`string`|No|The authentication context of the SAML|
 |`idp_name_attribute`|`string`|No|The name of the attribute within a SAML response where the operator's name is placed|
 |`idp_email_attribute`|`string`|No|The name of the attribute within a SAML response where the opeartor's emal is placed|
-
 
 ## Call your sucess manager
 

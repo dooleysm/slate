@@ -4,8 +4,6 @@ A Site has visitors and the information of those visitors can be fetched and upd
 
 ## GET `/sites/{site_id}/visitors/{visitor_id}`
 
-It fetches the visitor's information with id `visitor_id` for the site with id `site_id`. The operator whose API Token is used for making the request should have rights on the site.
-
 ```shell
 curl --include \
      --header "Authorization: Token $token" \
@@ -45,22 +43,9 @@ puts response.body
   "id": "bb40afd7-7f65-4869-93ea-48a61c783aba"
 }
 ```
+It fetches the visitor's information with id `visitor_id` for the site with id `site_id`. The operator whose API Token is used for making the request should have rights on the site.
 
 ## PUT `/sites/{site_id}/visitors/{visitor_id}`
-
-It updates the visitor's information with id `visitor_id` for the site with id `site_id`. The operator whose API token is used for making the request should have rights on the site.
-
-
-|Paramter|Type|Required|Description|
-|--------|----|--------|-----------|
-|`site_id`|`string`|Yes|The site id whose visitor's information will be updated|
-|`visitor_id`|`string`|Yes|The visitor whose information will be updated|
-|`name`|`string`|No|The visitor's name|
-|`email`|`string`|No|The visitor's email|
-|`phone`|`string`|No|The visitor's phone|
-|`note`|`string`|No|The visitor's notes.|
-|`note_updated_method`|`enum`|No|Specifies a method for updating the visitor's note. The default value is `replace`. Available values are `replace` and `append`. If the method is `replace` then the notes for the visitor will be overwriten by the field `note` in the request. If the method is `append` then the field `note` in the request will append to the existing visitor's notes.|
-|`custom_attributes`|`object`|No|An object with custom key-value pairs to be assigned to the visitor. The server treats all keys and values as strings and also returns them as strings. Nested key-value pairs are not supported.|
 
 ```shell
 curl --include \
@@ -129,5 +114,18 @@ puts response.body
   "id": "bb40afd7-7f65-4869-93ea-48a61c783aba"
 }
 ```
+It updates the visitor's information with id `visitor_id` for the site with id `site_id`. The operator whose API token is used for making the request should have rights on the site.
+
+|Paramter|Type|Required|Description|
+|--------|----|--------|-----------|
+|`site_id`|`string`|Yes|The site id whose visitor's information will be updated|
+|`visitor_id`|`string`|Yes|The visitor whose information will be updated|
+|`name`|`string`|No|The visitor's name|
+|`email`|`string`|No|The visitor's email|
+|`phone`|`string`|No|The visitor's phone|
+|`note`|`string`|No|The visitor's notes.|
+|`note_updated_method`|`enum`|No|Specifies a method for updating the visitor's note. The default value is `replace`. Available values are `replace` and `append`. If the method is `replace` then the notes for the visitor will be overwriten by the field `note` in the request. If the method is `append` then the field `note` in the request will append to the existing visitor's notes.|
+|`custom_attributes`|`object`|No|An object with custom key-value pairs to be assigned to the visitor. The server treats all keys and values as strings and also returns them as strings. Nested key-value pairs are not supported.|
+
 
 

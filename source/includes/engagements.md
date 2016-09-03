@@ -2,21 +2,6 @@
 
 ## GET /engagements
 
-Fetches a collection of engagements. The endpoint requires a list of `site_ids` as well as a set of `operator_ids`. The requester needs to have access to the sites and operators send along with the request. The results are paginated and sorted by engagement id in descending order.
-
-The endpoint accepts the following filters.
-
-|Parameter| Required |Type|Description|
-|--------|----------|----|-----------|
-|`operator_ids` | Yes | Array of strings | A list of operator ids whose engagements are requested.|
-|`site_ids`| Yes | Array of strings | A list of site ids whose engagements are requested.|
-|`start_date`| No | `iso8601` Date | The response will include engagements that happen from `start_date` forward in time.|
-|`end_date`| No | `iso8601` Date | The response will include engagement that happen on `end_date` or before `start_data`.|
-|`page`| No |  Number| If pagination is used then this parameter specifies what page is requested.|
-|`per_page`| No | Number | If pagination is used then this parameter specifies the number of engagements per page.|
-|`order`| No | [`asc`, `desc`]| It specifies if the results should be sorted in `ascending` or `descending` order. Engagements are sorted by starting time in descending order.|
-
-
 ```shell
 curl -X GET --include \
      --header "Authorization: Token API_TOKEN" \
@@ -131,11 +116,21 @@ puts response
     }]
 }
 ```
+Fetches a collection of engagements. The endpoint requires a list of `site_ids` as well as a set of `operator_ids`. The requester needs to have access to the sites and operators send along with the request. The results are paginated and sorted by engagement id in descending order.
 
+The endpoint accepts the following filters.
+
+|Parameter| Required |Type|Description|
+|--------|----------|----|-----------|
+|`operator_ids` | Yes | Array of strings | A list of operator ids whose engagements are requested.|
+|`site_ids`| Yes | Array of strings | A list of site ids whose engagements are requested.|
+|`start_date`| No | `iso8601` Date | The response will include engagements that happen from `start_date` forward in time.|
+|`end_date`| No | `iso8601` Date | The response will include engagement that happen on `end_date` or before `start_data`.|
+|`page`| No |  Number| If pagination is used then this parameter specifies what page is requested.|
+|`per_page`| No | Number | If pagination is used then this parameter specifies the number of engagements per page.|
+|`order`| No | [`asc`, `desc`]| It specifies if the results should be sorted in `ascending` or `descending` order. Engagements are sorted by starting time in descending order.|
 
 ## GET /engagement/:engagement_id
-
-Fetches a single engagement by ID. The Operator whose token is used for sending the request should be authorized to access the Site's information to which the engagement belongs.
 
 ```shell
 curl -X GET --include \
@@ -199,11 +194,9 @@ puts parsed_response
     ]
 }
 ```
-
+Fetches a single engagement by ID. The Operator whose token is used for sending the request should be authorized to access the Site's information to which the engagement belongs.
 
 ## GET /engagements/:engagement_id/chat_transcript
-
-Fetches an engagement's chat transcript. The operator whose token is used for sending the request should be authorized to access the Site's information to which the engagement belongs.
 
 ```shell
 curl -X GET --include \
@@ -271,10 +264,9 @@ puts parsed_response
     }
 }]
 ```
+Fetches an engagement's chat transcript. The operator whose token is used for sending the request should be authorized to access the Site's information to which the engagement belongs.
 
 ## POST /engagements/:engagement_id/export
-
-It exports the engagement using all exports definitions configured for the Site to which the engagement started on. The Operator whose token is used for sending the request should be authorized to access the Sites' information to which the engagement belongs. If the engagement is transfered to other sites and the Operator is not authorized in all the sites then the export will contain only the data concern to the sites that the Operator's is authorized to access.
 
 ```shell
 curl --include \
@@ -310,5 +302,5 @@ puts parsed_response
 ```
 {"success":true}
 ```
-
+It exports the engagement using all exports definitions configured for the Site to which the engagement started on. The Operator whose token is used for sending the request should be authorized to access the Sites' information to which the engagement belongs. If the engagement is transfered to other sites and the Operator is not authorized in all the sites then the export will contain only the data concern to the sites that the Operator's is authorized to access.
 

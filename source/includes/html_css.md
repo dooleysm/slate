@@ -4,8 +4,6 @@
 
 ### Prevent elements to be shown to the operator
 
-To prevent elements to be shown in the operator session during observation or engagement add the class `sm_cobrowsing_hidden_field` to the html elements.
-
 ```
 <div class='sm_cobrowsing_hidden_field'>
   This element will not be displayed to the operator
@@ -27,10 +25,9 @@ To prevent elements to be shown in the operator session during observation or en
   <!-- The entire form will not be displayed to the operator -->
 </form>
 ```
+To prevent elements to be shown in the operator session during observation or engagement add the class `sm_cobrowsing_hidden_field` to the html elements.
 
 ### Prevent fields' values to be shown to the operator
-
-To prevent a field value to be shown to the operator during observation or engagement add the class `sm_cobrowsing_masked_field` to the html elements.
 
 ```
 <form action="action" method="get">
@@ -43,10 +40,9 @@ Last name:
 <input type="submit" value="Submit" />
 </form>
 ```
+To prevent a field value to be shown to the operator during observation or engagement add the class `sm_cobrowsing_masked_field` to the html elements.
 
 ### Disable elements to the operator
-
-To disable an element so the operator can not interact with it during an observation or engagement add the class `sm_cobrowsing_disabled_field` to the element(s).
 
 ```
 <form action="action" method="get">
@@ -59,12 +55,9 @@ Last name:
 <input type="submit" value="Submit" />
 </form>
 ```
+To disable an element so the operator can not interact with it during an observation or engagement add the class `sm_cobrowsing_disabled_field` to the element(s).
 
 ## Contact Operator Button
-
-A Contact Operator Button is an element in the web page that when clicked on it opens the `media-selection` modal. To add a Contact Operator button can be a `div` or `span` element with the class `salemove-button`.
-
-The default look and feel of the button is as follows
 
 ```
 <div class="salemove-button">
@@ -82,7 +75,6 @@ The default look and feel of the button is as follows
     </a>
     <style>
         /* #3582FA - hover background color, #444444 - regular text color, #F4F4F4 - regular background color */
-        
         .salemove-button .salemove-button-inner {
             width: 188px !important;
             height: 39px !important;
@@ -116,9 +108,12 @@ The default look and feel of the button is as follows
     </style>
 </div>
 ```
+A Contact Operator Button is an element in the web page that when clicked on it opens the `media-selection` modal. To add a Contact Operator button can be a `div` or `span` element with the class `salemove-button`.
+
+The default look and feel of the button is as follows:
 
 ```
-Add image
+TODO Add image
 ```
 
 The button can be configued by means of the SaleMove JS-SDK -- Link to the SDK Docs). When using the SaleMove JS-SDK to configure the Contact Operator Button three things can be configured:
@@ -128,7 +123,6 @@ The button can be configued by means of the SaleMove JS-SDK -- Link to the SDK D
 |`withOperatorsHtml`| `string` |Look and feel when there are no operators online to handle the call|
 |`withoutOperatorsHtml`| `string` |Look and feel when there are operator online to handle the call|
 |`withoutOperatorsCallback`| `function` |A callback fired in case the visitor clicks on the Contact Operator Button and there are not operators online to handle the call|
-
 
 ```
 sm.getApi().then(
@@ -153,12 +147,6 @@ Add image of how it looks like
 ```
 
 ## Custom Contact Operator Widget
-
-It is possible to instrument any html element in the webpage to open the `media-selection` modal. To set an element to behave as a Custom Operator Widget add the attribute `data-sm-show-media-selection-on` with a string value with the name of the event that will trigger the `media-selection` modal. As an example, if the `media-selection` modal should be open on a `double-click` event on an `div` then such a `div` should look like `<div data-sm-show-media-selection-on="doubleclick"></div>`. The following [DOM event](http://www.w3schools.com/jsref/dom_obj_event.asp) are supported.
-
-
-Notice that this type of widget can not be configued using the SaleMove JavaScript SDK.
-
 ```
 <!--
 The link opens the media selection modal when the visitor clicks on it
@@ -173,15 +161,15 @@ The link opens the media selection modal when the visitor clicks on it
   </h3>
 </div>
 ```
+It is possible to instrument any html element in the webpage to open the `media-selection` modal. To set an element to behave as a Custom Operator Widget add the attribute `data-sm-show-media-selection-on` with a string value with the name of the event that will trigger the `media-selection` modal. As an example, if the `media-selection` modal should be open on a `double-click` event on an `div` then such a `div` should look like `<div data-sm-show-media-selection-on="doubleclick"></div>`. The following [DOM event](http://www.w3schools.com/jsref/dom_obj_event.asp) are supported.
+
+Notice that this type of widget can not be configued using the SaleMove JavaScript SDK.
 
 ## Hotlinks
 
 A Hotlink is a URL with a hash at the end. The Hash at the end of the URL describes an action that is triggered when the visitor loads such a URL. A Hotlink follows the pattern `http://[Client Domain]#[Action]. As an example if the visitor laods the Url `https://finantialadvisor.com#sm_show_media_selection` the media selection will be open when the visitor loads the `finantialadvisor.com` website.
 
 ### Open Media Selection Dialog
-
-To open the media selection dialog as soon as the page loads add the hash `#sm_show_media_selection` `URL-hash`. A typical use case for this action is to open the `media-selection` dialog inmediately after the visitor clicks on a link and navigates to a new page.
-
 ```
 <!--
 With site address:      http://www.site.com
@@ -191,11 +179,9 @@ The ‘hotlink' would be: http://www.site.com#sm_show_media_selection
 <a href='http://www.site.com#sm_show_media_selection'>...</a>
 ...
 ```
+To open the media selection dialog as soon as the page loads add the hash `#sm_show_media_selection` `URL-hash`. A typical use case for this action is to open the `media-selection` dialog inmediately after the visitor clicks on a link and navigates to a new page.
 
 ### Expand Reactive Tab
-
-To expand the Reactive Tab for few seconds as soon as the page loads add the has `sm_show_reactive_tab_X_seconds` where `X` is the number of seconds that the reactive tab should be expanded to the visitor. As an example if the visitor loads the Url `https://finantialadvisor.com#sm_show_reactive_tab_20_seconds` the Reactive Tab will be expanded and shown to the visitor for `20` `seconds`. A typical use case for this action is to open the `operator selector` inmediately after the visitor clicks on a link and navigates to a new page.
-
 ```
 <!--
 With site address:      http://www.site.com
@@ -205,10 +191,9 @@ The 'hotlink' would be: http://www.site.com#sm_show_reactive_tab_20_seconds.
 <a href='http://www.site.com#sm_show_reactive_tab_20_seconds'>...</a>
 ...
 ```
+To expand the Reactive Tab for few seconds as soon as the page loads add the has `sm_show_reactive_tab_X_seconds` where `X` is the number of seconds that the reactive tab should be expanded to the visitor. As an example if the visitor loads the Url `https://finantialadvisor.com#sm_show_reactive_tab_20_seconds` the Reactive Tab will be expanded and shown to the visitor for `20` `seconds`. A typical use case for this action is to open the `operator selector` inmediately after the visitor clicks on a link and navigates to a new page.
 
 ### Show Notification & Save Visitor Information
-
-This composed action updates the visitor's information and shows a desktop notification to the online operators notifying about the presence of the visitor. This action hash patter is as follows:
 
 ```
 /* Show notification and save visitor's contact information */
@@ -224,6 +209,9 @@ Show notification and save visitor's contact information
 ```
 sm_show_notification?name=visitor+name&phone=56567775&email=visitor@email.com&note=visitor+note&custom_attributes[attribute1]=attribute1+value&custom_attributes[attribute2]=attribute2+value
 ```
+
+This composed action updates the visitor's information and shows a desktop notification to the online operators notifying about the presence of the visitor. This action hash patter is as follows:
+
 
 Show notification with a message and save visitor's contact information
 
