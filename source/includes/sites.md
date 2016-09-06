@@ -54,7 +54,7 @@ curl --include \
      --header "Accept: application/vnd.salemove.v1+json" \
      --data-binary "    {
       \"name\": \"New site name\",
-      \"domains\": [\"sub.whitelisteddomain.com\"]
+      \"addresses\": [\"sub.whitelisteddomain.com\"]
     }" \
 'https://api.salemove.com/sites'
 ```
@@ -69,7 +69,7 @@ token = ARGV[0].strip
 
 values = {
   "name": "My New Site",
-  "domains": [ "sub.whitelisteddomain.com" ]
+  "addresses": [ "sub.whitelisteddomain.com" ]
 }
 
 headers = {
@@ -87,7 +87,7 @@ puts response.body
 {
   "href": "https://api.salemove.com/sites/05dd4b39-52df-401a-9dd7-1e1af0aff783",
   "id": "05dd4b39-52df-401a-9dd7-1e1af0aff783",
-  "hostnames": ["sub.whitelisteddomain.com"],
+  "addresses": ["sub.whitelisteddomain.com"],
   "name": "New site name",
   "salemove_enabled": false
 }
@@ -98,7 +98,7 @@ An operator with `manager` privileges can use the API token associated to the ac
 |Parameter|Type|Required|Description|
 |---------|----|--------|-----------|
 |`name`|`string`|Yes|The name for the new site|
-|`domains`|`array`|Yes|A list of site's addresses|
+|`addresses`|`array`|Yes|A list of site's addresses|
 |`clone_from_id`|`string`|No|The new site will be configured using this `site_id` as template. The new site will copy the visuals, teams and business rules from the `site_id` passed in this parameter.|
 
 ## GET `/sites/{id}`
