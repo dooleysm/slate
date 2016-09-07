@@ -21,9 +21,9 @@ includes:
   - statistics
   - exports
   - saml
+  - surveys
   - js_api
   - html_css
-
 
 search: true
 ---
@@ -61,7 +61,7 @@ X-Frame-Options: SAMEORIGIN
 YYYY-MM-DDTHH:MM:SSZ
 ```
 
-All API access is over HTTPS, and accessed from the `https://api.salemove.com` endpoint. All data is sent and received as `JSON`.
+All API access is over HTTPS, and accessed from the `https://api.salemove.com` endpoint. All data is sent and received as `JSON`. The only supported cryptographic protocol is TLS 1.2.
 
 Blank fields are included as `null` instead of being ommited.
 
