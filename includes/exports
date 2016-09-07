@@ -46,6 +46,11 @@
 <td>boolean</td>
 <td>Specifies if the export is active. If this flag is set to <code class="prettyprint">false</code> then the export will not be used. Valid values are <code class="prettyprint">true</code> and <code class="prettyprint">false</code></td>
 </tr>
+<tr>
+<td>updated_by</td>
+<td>string</td>
+<td>Email of the operator, who updated the export template most recently. This field is only returned in responses and cannot be sent in requests</td>
+</tr>
 </tbody></table>
 
 <p>The parameter <code class="prettyprint">email_recipients</code> should include two attributes:</p>
@@ -58,13 +63,13 @@
 </tr>
 </thead><tbody>
 <tr>
-<td><code class="prettyprint">enabled</code></td>
-<td><code class="prettyprint">boolean</code></td>
+<td>enabled</td>
+<td>boolean</td>
 <td>It specifies if the export should be sent by email. Valid values are <code class="prettyprint">true</code> and <code class="prettyprint">false</code></td>
 </tr>
 <tr>
-<td><code class="prettyprint">emails</code></td>
-<td><code class="prettyprint">array</code></td>
+<td>emails</td>
+<td>array</td>
 <td>An array of email addresses that the export should be sent to</td>
 </tr>
 </tbody></table>
@@ -79,18 +84,18 @@
 </tr>
 </thead><tbody>
 <tr>
-<td><code class="prettyprint">enabled</code></td>
-<td><code class="prettyprint">boolean</code></td>
+<td>enabled</td>
+<td>boolean</td>
 <td>It specifies if the export should be sent by HTTP POST. Valid values are <code class="prettyprint">true</code> and <code class="prettyprint">false</code></td>
 </tr>
 <tr>
-<td><code class="prettyprint">url</code></td>
-<td><code class="prettyprint">string</code></td>
+<td>url</td>
+<td>string</td>
 <td>The URL where the export should be sent to</td>
 </tr>
 <tr>
-<td><code class="prettyprint">headers</code></td>
-<td><code class="prettyprint">headers</code></td>
+<td>headers</td>
+<td>headers</td>
 <td>A set of headers to be sent along with the HTTP POST. Tipically the headers are used for <code class="prettyprint">Authorization</code></td>
 </tr>
 </tbody></table>
@@ -111,88 +116,88 @@
 </tr>
 </thead><tbody>
 <tr>
-<td><code class="prettyprint">visitor_name</code></td>
-<td><code class="prettyprint">string</code></td>
+<td>visitor_name</td>
+<td>string</td>
 <td>Visitor name</td>
 </tr>
 <tr>
-<td><code class="prettyprint">visitor_email</code></td>
-<td><code class="prettyprint">string</code></td>
+<td>visitor_email</td>
+<td>string</td>
 <td>Visitor email</td>
 </tr>
 <tr>
-<td><code class="prettyprint">visitor_phone</code></td>
-<td><code class="prettyprint">string</code></td>
+<td>visitor_phone</td>
+<td>string</td>
 <td>Visitor phone</td>
 </tr>
 <tr>
-<td><code class="prettyprint">visitor_last_name</code></td>
-<td><code class="prettyprint">string</code></td>
+<td>visitor_last_name</td>
+<td>string</td>
 <td>Visitor last name</td>
 </tr>
 <tr>
-<td><code class="prettyprint">notes</code></td>
-<td><code class="prettyprint">string</code></td>
+<td>notes</td>
+<td>string</td>
 <td>Notes about Visitor</td>
 </tr>
 <tr>
-<td><code class="prettyprint">engagement_id</code></td>
-<td><code class="prettyprint">integer</code></td>
+<td>engagement_id</td>
+<td>integer</td>
 <td>The engagement ID</td>
 </tr>
 <tr>
-<td><code class="prettyprint">engagement_duration</code></td>
-<td><code class="prettyprint">integer</code></td>
+<td>engagement_duration</td>
+<td>integer</td>
 <td>The engagement duration in seconds</td>
 </tr>
 <tr>
-<td><code class="prettyprint">engagement_started_at</code></td>
-<td><code class="prettyprint">datetime</code></td>
+<td>engagement_started_at</td>
+<td>datetime</td>
 <td>The engagement start timestamp</td>
 </tr>
 <tr>
-<td><code class="prettyprint">engagement_ended_at</code></td>
-<td><code class="prettyprint">datetime</code></td>
+<td>engagement_ended_at</td>
+<td>datetime</td>
 <td>The engagement end timestamp</td>
 </tr>
 <tr>
-<td><code class="prettyprint">engagement_type</code></td>
-<td><code class="prettyprint">string</code></td>
+<td>engagement_type</td>
+<td>string</td>
 <td>The engagement type, either <code class="prettyprint">reactive</code> or <code class="prettyprint">proactive</code></td>
 </tr>
 <tr>
-<td><code class="prettyprint">end_reason</code></td>
-<td><code class="prettyprint">string</code></td>
+<td>end_reason</td>
+<td>string</td>
 <td>The end reason of the engagement. One of: <code class="prettyprint">visitor_left</code>, <code class="prettyprint">operator_left</code>, <code class="prettyprint">visitor_hung_up</code>, <code class="prettyprint">operator_hung_up</code></td>
 </tr>
 <tr>
-<td><code class="prettyprint">cobrowsing_used</code></td>
-<td><code class="prettyprint">boolean</code></td>
+<td>cobrowsing_used</td>
+<td>boolean</td>
 <td>Whether cobrowsing was used in the engagement</td>
 </tr>
 <tr>
-<td><code class="prettyprint">video_used</code></td>
-<td><code class="prettyprint">boolean</code></td>
+<td>video_used</td>
+<td>boolean</td>
 <td>Whether video was used in the engagement</td>
 </tr>
 <tr>
-<td><code class="prettyprint">audio_used</code></td>
-<td><code class="prettyprint">boolean</code></td>
+<td>audio_used</td>
+<td>boolean</td>
 <td>Whether audio was used in the engagement</td>
 </tr>
 <tr>
-<td><code class="prettyprint">engagement_flagged</code></td>
-<td><code class="prettyprint">boolean</code></td>
+<td>engagement_flagged</td>
+<td>boolean</td>
 <td>Whether the engagement has been flagged</td>
 </tr>
 <tr>
-<td><code class="prettyprint">crm_forwarded</code></td>
-<td><code class="prettyprint">boolean</code></td>
+<td>crm_forwarded</td>
+<td>boolean</td>
 <td>Whether the crm export has been done already</td>
 </tr>
 <tr>
-<td><code class="prettyprint">summary_forwarded</code></td>
-<td><code class="prettyprint">boolean</code></td>
+<td>summary_forwarded</td>
+<td>boolean</td>
 <td>Whether the summary has been forwarded already</td>
 </tr>
 </tbody></table>
@@ -631,7 +636,8 @@ JSON Template
       }
   },
   </span><span class="se">\"</span><span class="s2">template</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">&lt;?xml version='1.0' encoding='UTF-8'?&gt;</span><span class="se">\n</span><span class="s2">&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;</span><span class="se">\n</span><span class="s2">&lt;/export&gt;</span><span class="se">\"</span><span class="s2">,
-  </span><span class="se">\"</span><span class="s2">enabled</span><span class="se">\"</span><span class="s2">: true
+  </span><span class="se">\"</span><span class="s2">enabled</span><span class="se">\"</span><span class="s2">: true,
+  </span><span class="se">\"</span><span class="s2">updated_by</span><span class="se">\"</span><span class="s2">:i </span><span class="se">\"</span><span class="s2">operator@email.com</span><span class="se">\"</span><span class="s2">
 }
 "</span> <span class="se">\</span>
   <span class="s2">"https://api.salemove.com/sites/</span><span class="nv">$siteId</span><span class="s2">/crm/exports/"</span>
@@ -663,7 +669,8 @@ JSON Template
     <span class="p">}</span>
   <span class="p">},</span>
   <span class="s2">"template"</span><span class="p">:</span> <span class="s2">"&lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;&lt;/export&gt;"</span><span class="p">,</span>
-  <span class="s2">"enabled"</span><span class="p">:</span> <span class="kp">true</span>
+  <span class="s2">"enabled"</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span>
+  <span class="s2">"updated_by"</span><span class="p">:</span> <span class="s2">"operator@email.com"</span>
 <span class="p">}</span>
 
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
@@ -698,7 +705,8 @@ JSON Template
         </span><span class="p">}</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;?xml version='1.0' encoding='UTF-8'?&gt;\n&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;\n&lt;/export&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"updated_by"</span><span class="p">:</span><span class="w"> </span><span class="s2">"operator@email.com"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 
 </span></code></pre>
@@ -808,7 +816,8 @@ JSON Template
         </span><span class="p">}</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;?xml version='1.0' encoding='UTF-8'?&gt;\n&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;\n&lt;/export&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"updated_by"</span><span class="p">:</span><span class="w"> </span><span class="s2">"operator@email.com"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -858,7 +867,8 @@ JSON Template
       }
   },
   </span><span class="se">\"</span><span class="s2">template</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">&lt;?xml version='1.0' encoding='UTF-8'?&gt;</span><span class="se">\n</span><span class="s2">&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;</span><span class="se">\n</span><span class="s2">&lt;/export&gt;</span><span class="se">\"</span><span class="s2">,
-  </span><span class="se">\"</span><span class="s2">enabled</span><span class="se">\"</span><span class="s2">: true
+  </span><span class="se">\"</span><span class="s2">enabled</span><span class="se">\"</span><span class="s2">: true,
+  </span><span class="se">\"</span><span class="s2">updated_by</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">operator@email.com</span><span class="se">\"</span><span class="s2">
 }
 "</span> <span class="se">\</span>
   <span class="s2">"https://api.salemove.com/sites/</span><span class="nv">$siteId</span><span class="s2">/crm/exports/</span><span class="nv">$exportId</span><span class="s2">"</span>
@@ -891,7 +901,8 @@ JSON Template
     <span class="p">}</span>
   <span class="p">},</span>
   <span class="s2">"template"</span><span class="p">:</span> <span class="s2">"&lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;&lt;/export&gt;"</span><span class="p">,</span>
-  <span class="s2">"enabled"</span><span class="p">:</span> <span class="kp">true</span>
+  <span class="s2">"enabled"</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span>
+  <span class="s2">"updated_by"</span><span class="p">:</span> <span class="s2">"operator@email.com"</span>
 <span class="p">}</span>
 
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
@@ -926,7 +937,8 @@ JSON Template
         </span><span class="p">}</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;?xml version='1.0' encoding='UTF-8'?&gt;\n&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;\n&lt;/export&gt;"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"updated_by"</span><span class="p">:</span><span class="w"> </span><span class="s2">"operator@email.com"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -1079,6 +1091,7 @@ JSON Template
       </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"engagement"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"content_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/xml"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"updated_by"</span><span class="p">:</span><span class="w"> </span><span class="s2">"operator@email.com"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"email_recipient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
         </span><span class="nt">"emails"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example@example.com"</span><span class="p">]</span><span class="w">
