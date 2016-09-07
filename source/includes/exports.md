@@ -13,21 +13,22 @@ An export `definition` has the following parameters
 |crm_recipients|object|A JSON object describing how the leads are sent via HTTP POST|
 |template|string|A template in `XML` or `JSON` format that will be used as a template for the content of the export. The template must be in UTF-8 encoding|
 |enabled|boolean|Specifies if the export is active. If this flag is set to `false` then the export will not be used. Valid values are `true` and `false`|
+|updated_by|string|Email of the operator, who updated the export template most recently. This field is only returned in responses and cannot be sent in requests|
 
 The parameter `email_recipients` should include two attributes:
 
 |Attribute|Type| Description|
 |---------|----|------------|
-|`enabled`|`boolean`|It specifies if the export should be sent by email. Valid values are `true` and `false`|
-|`emails`|`array`|An array of email addresses that the export should be sent to|
+|enabled|boolean|It specifies if the export should be sent by email. Valid values are `true` and `false`|
+|emails|array|An array of email addresses that the export should be sent to|
 
 The parameter `crm_recipients` should include three attributes:
 
 |Attribute|Type|Description|
 |---------|----|-----------|
-|`enabled`|`boolean`|It specifies if the export should be sent by HTTP POST. Valid values are `true` and `false`|
-|`url`|`string`|The URL where the export should be sent to|
-|`headers`|`headers`|A set of headers to be sent along with the HTTP POST. Tipically the headers are used for `Authorization`|
+|enabled|boolean|It specifies if the export should be sent by HTTP POST. Valid values are `true` and `false`|
+|url|string|The URL where the export should be sent to|
+|headers|headers|A set of headers to be sent along with the HTTP POST. Tipically the headers are used for `Authorization`|
 
 The parameter `template` can contain `field tags`. A `field tag` is a `tag` that will be replaced with a value from the lead. As an example the `field tag` `visitor_name` will be replaces with the actual Visitor's name from the lead. The `field tag`s should be enclosed by braces `{}` so they can be parsed and replaced. From the previous example the `field tag` for the `visitor_name` should be included as `{visitor_name}` in the template. Below a table describing the `field tags` that can be included in the template.
 
@@ -39,23 +40,23 @@ The following `field tags` can be used in a template for `engagements`
 
 | Field | Type | Description |
 |---|---|---|
-| `visitor_name` | `string` | Visitor name |
-| `visitor_email` | `string` | Visitor email |
-| `visitor_phone` | `string` | Visitor phone |
-| `visitor_last_name` | `string` | Visitor last name |
-| `notes` | `string` | Notes about Visitor |
-| `engagement_id` | `integer` | The engagement ID |
-| `engagement_duration` | `integer` | The engagement duration in seconds |
-| `engagement_started_at` | `datetime` | The engagement start timestamp |
-| `engagement_ended_at` | `datetime` | The engagement end timestamp |
-| `engagement_type` | `string` | The engagement type, either `reactive` or `proactive` |
-| `end_reason` | `string` | The end reason of the engagement. One of: `visitor_left`, `operator_left`, `visitor_hung_up`, `operator_hung_up` |
-| `cobrowsing_used` | `boolean` | Whether cobrowsing was used in the engagement |
-| `video_used` | `boolean` | Whether video was used in the engagement |
-| `audio_used` | `boolean` | Whether audio was used in the engagement |
-| `engagement_flagged` | `boolean` | Whether the engagement has been flagged |
-| `crm_forwarded` | `boolean` | Whether the crm export has been done already |
-| `summary_forwarded` | `boolean` | Whether the summary has been forwarded already |
+|visitor_name|string| Visitor name |
+|visitor_email|string| Visitor email |
+|visitor_phone|string| Visitor phone |
+|visitor_last_name|string| Visitor last name |
+|notes|string| Notes about Visitor |
+|engagement_id|integer| The engagement ID |
+|engagement_duration|integer| The engagement duration in seconds |
+|engagement_started_at|datetime| The engagement start timestamp |
+|engagement_ended_at|datetime| The engagement end timestamp |
+|engagement_type|string| The engagement type, either `reactive` or `proactive` |
+|end_reason|string| The end reason of the engagement. One of: `visitor_left`, `operator_left`, `visitor_hung_up`, `operator_hung_up` |
+|cobrowsing_used|boolean| Whether cobrowsing was used in the engagement |
+|video_used|boolean| Whether video was used in the engagement |
+|audio_used|boolean| Whether audio was used in the engagement |
+|engagement_flagged|boolean| Whether the engagement has been flagged |
+|crm_forwarded|boolean| Whether the crm export has been done already |
+|summary_forwarded|boolean| Whether the summary has been forwarded already |
 
 ### `collection_tags`
 
@@ -467,7 +468,8 @@ curl --include \
       }
   },
   \"template\": \"<?xml version='1.0' encoding='UTF-8'?>\n<export><visitor_name>{visitor_name}</visitor_name>\n</export>\",
-  \"enabled\": true
+  \"enabled\": true,
+  \"updated_by\":i \"operator@email.com\"
 }
 " \
   "https://api.salemove.com/sites/$siteId/crm/exports/"
@@ -501,7 +503,8 @@ values = {
     }
   },
   "template": "<?xml version='1.0' encoding='UTF-8'?><export><visitor_name>{visitor_name}</visitor_name></export>",
-  "enabled": true
+  "enabled": true,
+  "updated_by": "operator@email.com"
 }
 
 headers = {
@@ -536,7 +539,8 @@ puts response.body
         }
     },
     "template": "<?xml version='1.0' encoding='UTF-8'?>\n<export><visitor_name>{visitor_name}</visitor_name>\n</export>",
-    "enabled": true
+    "enabled": true,
+    "updated_by": "operator@email.com"
 }
 
 ```
@@ -607,7 +611,8 @@ puts response.body
         }
     },
     "template": "<?xml version='1.0' encoding='UTF-8'?>\n<export><visitor_name>{visitor_name}</visitor_name>\n</export>",
-    "enabled": true
+    "enabled": true,
+    "updated_by": "operator@email.com"
 }
 ```
 It fetches the information of the export with id `{id}`. The operator whose API token is used to make the request should have rights on the site.
@@ -641,7 +646,8 @@ curl --include \
       }
   },
   \"template\": \"<?xml version='1.0' encoding='UTF-8'?>\n<export><visitor_name>{visitor_name}</visitor_name>\n</export>\",
-  \"enabled\": true
+  \"enabled\": true,
+  \"updated_by\": \"operator@email.com\"
 }
 " \
   "https://api.salemove.com/sites/$siteId/crm/exports/$exportId"
@@ -676,7 +682,8 @@ values = {
     }
   },
   "template": "<?xml version='1.0' encoding='UTF-8'?><export><visitor_name>{visitor_name}</visitor_name></export>",
-  "enabled": true
+  "enabled": true,
+  "updated_by": "operator@email.com"
 }
 
 headers = {
@@ -710,7 +717,8 @@ puts response.body
         }
     },
     "template": "<?xml version='1.0' encoding='UTF-8'?>\n<export><visitor_name>{visitor_name}</visitor_name>\n</export>",
-    "enabled": true
+    "enabled": true,
+    "updated_by": "operator@email.com"
 }
 ```
 It updates the export with `id`. The operator whose API token is used to make the request should have right on the site.
@@ -805,6 +813,7 @@ puts response.body
       "type": "engagement",
       "content_type": "application/xml",
       "enabled": true,
+      "updated_by": "operator@email.com",
       "email_recipient": {
         "enabled": false,
         "emails": ["example@example.com"]
