@@ -1,0 +1,5 @@
+<h1 id="surveys">Surveys</h1>
+
+<p>Surveys enable operators and visitors to give feedback and extra details about engagements.</p>
+
+<h2 id="get-engagements-engagement_id-visitor_survey">GET <code class="prettyprint">/engagements/:engagement_id/visitor_survey</code></h2>

@@ -48,7 +48,7 @@
      --header <span class="s2">"Accept: application/vnd.salemove.v1+json"</span> <span class="se">\</span>
      --data-binary <span class="s2">"    {
       </span><span class="se">\"</span><span class="s2">name</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">New site name</span><span class="se">\"</span><span class="s2">,
-      </span><span class="se">\"</span><span class="s2">domains</span><span class="se">\"</span><span class="s2">: [</span><span class="se">\"</span><span class="s2">sub.whitelisteddomain.com</span><span class="se">\"</span><span class="s2">]
+      </span><span class="se">\"</span><span class="s2">addresses</span><span class="se">\"</span><span class="s2">: [</span><span class="se">\"</span><span class="s2">sub.whitelisteddomain.com</span><span class="se">\"</span><span class="s2">]
     }"</span> <span class="se">\</span>
 <span class="s1">'https://api.salemove.com/sites'</span>
 </code></pre>
@@ -61,7 +61,7 @@
 
 <span class="n">values</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"My New Site"</span><span class="p">,</span>
-  <span class="s2">"domains"</span><span class="p">:</span> <span class="p">[</span> <span class="s2">"sub.whitelisteddomain.com"</span> <span class="p">]</span>
+  <span class="s2">"addresses"</span><span class="p">:</span> <span class="p">[</span> <span class="s2">"sub.whitelisteddomain.com"</span> <span class="p">]</span>
 <span class="p">}</span>
 
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
@@ -79,7 +79,7 @@
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/sites/05dd4b39-52df-401a-9dd7-1e1af0aff783"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"05dd4b39-52df-401a-9dd7-1e1af0aff783"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"hostnames"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"sub.whitelisteddomain.com"</span><span class="p">],</span><span class="w">
+  </span><span class="nt">"addresses"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"sub.whitelisteddomain.com"</span><span class="p">],</span><span class="w">
   </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"New site name"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"salemove_enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -102,7 +102,7 @@
 <td>The name for the new site</td>
 </tr>
 <tr>
-<td><code class="prettyprint">domains</code></td>
+<td><code class="prettyprint">addresses</code></td>
 <td><code class="prettyprint">array</code></td>
 <td>Yes</td>
 <td>A list of site&rsquo;s addresses</td>
