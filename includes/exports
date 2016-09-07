@@ -12,34 +12,39 @@
 </tr>
 </thead><tbody>
 <tr>
-<td><code class="prettyprint">name</code></td>
-<td><code class="prettyprint">string</code></td>
+<td>name</td>
+<td>string</td>
 <td>A name that describes the export</td>
 </tr>
 <tr>
-<td><code class="prettyprint">type</code></td>
-<td><code class="prettyprint">string</code></td>
+<td>type</td>
+<td>string</td>
 <td>The type of lead it is meant to export. Valid values are <code class="prettyprint">engagement</code> or <code class="prettyprint">inbox_message</code></td>
 </tr>
 <tr>
-<td><code class="prettyprint">content_type</code></td>
-<td><code class="prettyprint">string</code></td>
+<td>content_type</td>
+<td>string</td>
 <td>It specifies the <code class="prettyprint">content-type</code> of the export definition. Valid values are <code class="prettyprint">applicationgxml</code> and <code class="prettyprint">application/json</code></td>
 </tr>
 <tr>
-<td><code class="prettyprint">email_recipients</code></td>
-<td><code class="prettyprint">object</code></td>
+<td>email_recipients</td>
+<td>object</td>
 <td>A JSON object describing how the leads are sent by email</td>
 </tr>
 <tr>
-<td><code class="prettyprint">crm_recipients</code></td>
-<td><code class="prettyprint">object</code></td>
+<td>crm_recipients</td>
+<td>object</td>
 <td>A JSON object describing how the leads are sent via HTTP POST</td>
 </tr>
 <tr>
-<td><code class="prettyprint">template</code></td>
-<td><code class="prettyprint">string</code></td>
+<td>template</td>
+<td>string</td>
 <td>A template in <code class="prettyprint">XML</code> or <code class="prettyprint">JSON</code> format that will be used as a template for the content of the export. The template must be in UTF-8 encoding</td>
+</tr>
+<tr>
+<td>enabled</td>
+<td>boolean</td>
+<td>Specifies if the export is active. If this flag is set to <code class="prettyprint">false</code> then the export will not be used. Valid values are <code class="prettyprint">true</code> and <code class="prettyprint">false</code></td>
 </tr>
 </tbody></table>
 
@@ -206,10 +211,15 @@
 </code>
 XML Output
 <code class="prettyprint">
- &quot;&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;&lt;export&gt;
-        &lt;site&gt;&lt;name&gt;first site&lt;gname&gt;&lt;/site&gt;
-        &lt;site&gt;&lt;name&gt;second site&lt;gname&gt;&lt;/site&gt;
-        &lt;gexport&gt;&quot;
+ &quot;&lt;?xml version=&#39;1.0&#39; encoding=&#39;utf-8&#39;?&gt;
+  &lt;export&gt;
+    &lt;site&gt;
+      &lt;name&gt;first site&lt;name&gt;
+    &lt;/site&gt;
+    &lt;site&gt;
+      &lt;name&gt;second site&lt;name&gt;
+    &lt;/site&gt;
+  &lt;export&gt;&quot;
 </code>
 JSON Template
 <code class="prettyprint">
@@ -620,7 +630,8 @@ JSON Template
         </span><span class="se">\"</span><span class="s2">Accept</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">application/xml</span><span class="se">\"</span><span class="s2">
       }
   },
-  </span><span class="se">\"</span><span class="s2">template</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">&lt;?xml version='1.0' encoding='UTF-8'?&gt;</span><span class="se">\n</span><span class="s2">&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;</span><span class="se">\n</span><span class="s2">&lt;/export&gt;</span><span class="se">\"</span><span class="s2">
+  </span><span class="se">\"</span><span class="s2">template</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">&lt;?xml version='1.0' encoding='UTF-8'?&gt;</span><span class="se">\n</span><span class="s2">&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;</span><span class="se">\n</span><span class="s2">&lt;/export&gt;</span><span class="se">\"</span><span class="s2">,
+  </span><span class="se">\"</span><span class="s2">enabled</span><span class="se">\"</span><span class="s2">: true
 }
 "</span> <span class="se">\</span>
   <span class="s2">"https://api.salemove.com/sites/</span><span class="nv">$siteId</span><span class="s2">/crm/exports/"</span>
@@ -651,7 +662,8 @@ JSON Template
       <span class="s2">"Accept"</span><span class="p">:</span> <span class="s2">"application/xml"</span>
     <span class="p">}</span>
   <span class="p">},</span>
-  <span class="s2">"template"</span><span class="p">:</span> <span class="s2">"&lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;&lt;/export&gt;"</span>
+  <span class="s2">"template"</span><span class="p">:</span> <span class="s2">"&lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;&lt;/export&gt;"</span><span class="p">,</span>
+  <span class="s2">"enabled"</span><span class="p">:</span> <span class="kp">true</span>
 <span class="p">}</span>
 
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
@@ -685,7 +697,8 @@ JSON Template
             </span><span class="nt">"Accept"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/xml"</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;?xml version='1.0' encoding='UTF-8'?&gt;\n&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;\n&lt;/export&gt;"</span><span class="w">
+    </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;?xml version='1.0' encoding='UTF-8'?&gt;\n&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;\n&lt;/export&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span><span class="p">}</span><span class="w">
 
 </span></code></pre>
@@ -794,7 +807,8 @@ JSON Template
             </span><span class="nt">"Authorization"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Some Auth Token"</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;?xml version='1.0' encoding='UTF-8'?&gt;\n&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;\n&lt;/export&gt;"</span><span class="w">
+    </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;?xml version='1.0' encoding='UTF-8'?&gt;\n&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;\n&lt;/export&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -843,7 +857,8 @@ JSON Template
         </span><span class="se">\"</span><span class="s2">Accept</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">application/xml</span><span class="se">\"</span><span class="s2">
       }
   },
-  </span><span class="se">\"</span><span class="s2">template</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">&lt;?xml version='1.0' encoding='UTF-8'?&gt;</span><span class="se">\n</span><span class="s2">&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;</span><span class="se">\n</span><span class="s2">&lt;/export&gt;</span><span class="se">\"</span><span class="s2">
+  </span><span class="se">\"</span><span class="s2">template</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">&lt;?xml version='1.0' encoding='UTF-8'?&gt;</span><span class="se">\n</span><span class="s2">&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;</span><span class="se">\n</span><span class="s2">&lt;/export&gt;</span><span class="se">\"</span><span class="s2">,
+  </span><span class="se">\"</span><span class="s2">enabled</span><span class="se">\"</span><span class="s2">: true
 }
 "</span> <span class="se">\</span>
   <span class="s2">"https://api.salemove.com/sites/</span><span class="nv">$siteId</span><span class="s2">/crm/exports/</span><span class="nv">$exportId</span><span class="s2">"</span>
@@ -875,7 +890,8 @@ JSON Template
       <span class="s2">"Accept"</span><span class="p">:</span> <span class="s2">"application/xml"</span>
     <span class="p">}</span>
   <span class="p">},</span>
-  <span class="s2">"template"</span><span class="p">:</span> <span class="s2">"&lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;&lt;/export&gt;"</span>
+  <span class="s2">"template"</span><span class="p">:</span> <span class="s2">"&lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;&lt;/export&gt;"</span><span class="p">,</span>
+  <span class="s2">"enabled"</span><span class="p">:</span> <span class="kp">true</span>
 <span class="p">}</span>
 
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
@@ -909,7 +925,8 @@ JSON Template
             </span><span class="nt">"Accept"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/xml"</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;?xml version='1.0' encoding='UTF-8'?&gt;\n&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;\n&lt;/export&gt;"</span><span class="w">
+    </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;?xml version='1.0' encoding='UTF-8'?&gt;\n&lt;export&gt;&lt;visitor_name&gt;{visitor_name}&lt;/visitor_name&gt;\n&lt;/export&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -1052,27 +1069,30 @@ JSON Template
 <p>Generates the output</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"last_page"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/sites/47e2cb4c-d3d2-48ea-9a8f-604ed837410f/crm/exports?page=1"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"exports"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
-        </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/sites/47e2cb4c-d3d2-48ea-9a8f-604ed837410f/crm/templates/0168099b-1d90-418d-bbd0-15b96edd55a8"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0168099b-1d90-418d-bbd0-15b96edd55a8"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My Template"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"site_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"47e2cb4c-d3d2-48ea-9a8f-604ed837410f"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"engagement"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"content_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/xml"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"email_recipient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"emails"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example@example.com"</span><span class="p">]</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="nt">"crm_recipient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://leads.client.com/engagements"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-                </span><span class="nt">"Accept"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/xml"</span><span class="p">,</span><span class="w">
-                </span><span class="nt">"Authorization"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Basic sPPA0AMgcDpFOHA0WTdyMg==\n"</span><span class="w">
-            </span><span class="p">}</span><span class="w">
+  </span><span class="nt">"last_page"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/sites/47e2cb4c-d3d2-48ea-9a8f-604ed837410f/crm/exports?page=1"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"exports"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.salemove.com/sites/47e2cb4c-d3d2-48ea-9a8f-604ed837410f/crm/templates/0168099b-1d90-418d-bbd0-15b96edd55a8"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0168099b-1d90-418d-bbd0-15b96edd55a8"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My Template"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"site_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"47e2cb4c-d3d2-48ea-9a8f-604ed837410f"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"engagement"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"content_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/xml"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"email_recipient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"emails"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example@example.com"</span><span class="p">]</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"crm_recipient"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://leads.client.com/engagements"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"Accept"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/xml"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"Authorization"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Basic sPPA0AMgcDpFOHA0WTdyMg==\n"</span><span class="w">
         </span><span class="p">}</span><span class="w">
-    </span><span class="p">}]</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
