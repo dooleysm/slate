@@ -6,12 +6,13 @@ An export `definition` has the following parameters
 
 |Parameter|Type|Description|
 |-------|-----|-----------|
-|`name`|`string`|A name that describes the export|
-|`type`|`string`|The type of lead it is meant to export. Valid values are `engagement` or `inbox_message`|
-|`content_type`|`string`|It specifies the `content-type` of the export definition. Valid values are `applicationgxml` and `application/json`|
-|`email_recipients`|`object`|A JSON object describing how the leads are sent by email|
-|`crm_recipients`|`object`|A JSON object describing how the leads are sent via HTTP POST|
-|`template`|`string`|A template in `XML` or `JSON` format that will be used as a template for the content of the export. The template must be in UTF-8 encoding|
+|name|string|A name that describes the export|
+|type|string|The type of lead it is meant to export. Valid values are `engagement` or `inbox_message`|
+|content_type|string|It specifies the `content-type` of the export definition. Valid values are `applicationgxml` and `application/json`|
+|email_recipients|object|A JSON object describing how the leads are sent by email|
+|crm_recipients|object|A JSON object describing how the leads are sent via HTTP POST|
+|template|string|A template in `XML` or `JSON` format that will be used as a template for the content of the export. The template must be in UTF-8 encoding|
+|enabled|boolean|Specifies if the export is active. If this flag is set to `false` then the export will not be used. Valid values are `true` and `false`|
 
 The parameter `email_recipients` should include two attributes:
 
@@ -70,10 +71,15 @@ XML Template
 ```
 XML Output
 ```
- "<?xml version='1.0' encoding='utf-8'?><export>
-        <site><name>first site<gname></site>
-        <site><name>second site<gname></site>
-        <gexport>"
+ "<?xml version='1.0' encoding='utf-8'?>
+  <export>
+    <site>
+      <name>first site<name>
+    </site>
+    <site>
+      <name>second site<name>
+    </site>
+  <export>"
 ```
 JSON Template
 ```
@@ -460,7 +466,8 @@ curl --include \
         \"Accept\": \"application/xml\"
       }
   },
-  \"template\": \"<?xml version='1.0' encoding='UTF-8'?>\n<export><visitor_name>{visitor_name}</visitor_name>\n</export>\"
+  \"template\": \"<?xml version='1.0' encoding='UTF-8'?>\n<export><visitor_name>{visitor_name}</visitor_name>\n</export>\",
+  \"enabled\": true
 }
 " \
   "https://api.salemove.com/sites/$siteId/crm/exports/"
@@ -493,7 +500,8 @@ values = {
       "Accept": "application/xml"
     }
   },
-  "template": "<?xml version='1.0' encoding='UTF-8'?><export><visitor_name>{visitor_name}</visitor_name></export>"
+  "template": "<?xml version='1.0' encoding='UTF-8'?><export><visitor_name>{visitor_name}</visitor_name></export>",
+  "enabled": true
 }
 
 headers = {
@@ -527,7 +535,8 @@ puts response.body
             "Accept": "application/xml"
         }
     },
-    "template": "<?xml version='1.0' encoding='UTF-8'?>\n<export><visitor_name>{visitor_name}</visitor_name>\n</export>"
+    "template": "<?xml version='1.0' encoding='UTF-8'?>\n<export><visitor_name>{visitor_name}</visitor_name>\n</export>",
+    "enabled": true
 }
 
 ```
@@ -597,7 +606,8 @@ puts response.body
             "Authorization": "Some Auth Token"
         }
     },
-    "template": "<?xml version='1.0' encoding='UTF-8'?>\n<export><visitor_name>{visitor_name}</visitor_name>\n</export>"
+    "template": "<?xml version='1.0' encoding='UTF-8'?>\n<export><visitor_name>{visitor_name}</visitor_name>\n</export>",
+    "enabled": true
 }
 ```
 It fetches the information of the export with id `{id}`. The operator whose API token is used to make the request should have rights on the site.
@@ -630,7 +640,8 @@ curl --include \
         \"Accept\": \"application/xml\"
       }
   },
-  \"template\": \"<?xml version='1.0' encoding='UTF-8'?>\n<export><visitor_name>{visitor_name}</visitor_name>\n</export>\"
+  \"template\": \"<?xml version='1.0' encoding='UTF-8'?>\n<export><visitor_name>{visitor_name}</visitor_name>\n</export>\",
+  \"enabled\": true
 }
 " \
   "https://api.salemove.com/sites/$siteId/crm/exports/$exportId"
@@ -664,7 +675,8 @@ values = {
       "Accept": "application/xml"
     }
   },
-  "template": "<?xml version='1.0' encoding='UTF-8'?><export><visitor_name>{visitor_name}</visitor_name></export>"
+  "template": "<?xml version='1.0' encoding='UTF-8'?><export><visitor_name>{visitor_name}</visitor_name></export>",
+  "enabled": true
 }
 
 headers = {
@@ -697,7 +709,8 @@ puts response.body
             "Accept": "application/xml"
         }
     },
-    "template": "<?xml version='1.0' encoding='UTF-8'?>\n<export><visitor_name>{visitor_name}</visitor_name>\n</export>"
+    "template": "<?xml version='1.0' encoding='UTF-8'?>\n<export><visitor_name>{visitor_name}</visitor_name>\n</export>",
+    "enabled": true
 }
 ```
 It updates the export with `id`. The operator whose API token is used to make the request should have right on the site.
@@ -782,27 +795,30 @@ puts response.body
 
 ```
 {
-    "last_page": "https://api.salemove.com/sites/47e2cb4c-d3d2-48ea-9a8f-604ed837410f/crm/exports?page=1",
-    "exports": [{
-        "href": "https://api.salemove.com/sites/47e2cb4c-d3d2-48ea-9a8f-604ed837410f/crm/templates/0168099b-1d90-418d-bbd0-15b96edd55a8",
-        "id": "0168099b-1d90-418d-bbd0-15b96edd55a8",
-        "name": "My Template",
-        "site_id": "47e2cb4c-d3d2-48ea-9a8f-604ed837410f",
-        "type": "engagement",
-        "content_type": "application/xml",
-        "email_recipient": {
-            "enabled": false,
-            "emails": ["example@example.com"]
-        },
-        "crm_recipient": {
-            "url": "https://leads.client.com/engagements",
-            "enabled": true,
-            "headers": {
-                "Accept": "application/xml",
-                "Authorization": "Basic sPPA0AMgcDpFOHA0WTdyMg==\n"
-            }
+  "last_page": "https://api.salemove.com/sites/47e2cb4c-d3d2-48ea-9a8f-604ed837410f/crm/exports?page=1",
+  "exports": [
+    {
+      "href": "https://api.salemove.com/sites/47e2cb4c-d3d2-48ea-9a8f-604ed837410f/crm/templates/0168099b-1d90-418d-bbd0-15b96edd55a8",
+      "id": "0168099b-1d90-418d-bbd0-15b96edd55a8",
+      "name": "My Template",
+      "site_id": "47e2cb4c-d3d2-48ea-9a8f-604ed837410f",
+      "type": "engagement",
+      "content_type": "application/xml",
+      "enabled": true,
+      "email_recipient": {
+        "enabled": false,
+        "emails": ["example@example.com"]
+      },
+      "crm_recipient": {
+        "url": "https://leads.client.com/engagements",
+        "enabled": true,
+        "headers": {
+          "Accept": "application/xml",
+          "Authorization": "Basic sPPA0AMgcDpFOHA0WTdyMg==\n"
         }
-    }]
+      }
+    }
+  ]
 }
 ```
 It fetches the collection of export definitions for the site with `site_id`. The operator whose API token is used to make the request should have rights on the site. The `templatate` definition is not included in this endpoint for each export definition. Please see the endpoint for fetching a single export definition for accessing the template definition.
