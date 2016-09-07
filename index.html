@@ -3158,6 +3158,106 @@ JSON Template
 </tr>
 </tbody></table>
 
+          <h1 id="surveys">Surveys</h1>
+
+<p>Surveys enable operators and visitors to give feedback and extra details about engagements.</p>
+
+<h2 id="get-engagements-engagement_-quot-id-quot-visitor_survey">GET <code class="prettyprint">/engagements/:engagement_&quot;id&quot;/visitor_survey</code></h2>
+<pre class="highlight shell"><code></code></pre>
+<pre class="highlight ruby"><code></code></pre>
+
+<blockquote>
+<p>Generates the output</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"questions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">54545211</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"boolean"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Would you recommend this agent?"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">54545212</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"scale"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"How helpful was your chat representative?"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">54545213</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"single_choice"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"What was the order value?"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"choices"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2340</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"$0-100"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2341</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"$101-200"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2342</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"$200+"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">54545214</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"text"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Additional Feedback"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"answers"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">54545211</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"response"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">54545212</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"response"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">54545213</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"response"</span><span class="p">:</span><span class="w"> </span><span class="mi">2341</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">54545214</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"response"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Best experience ever!"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>It fetches the survey filled by the visitor after an engagement.</p>
+
+<h2 id="put-engagements-engagement_id-visitor_survey-answers">PUT <code class="prettyprint">/engagements/:engagement_id/visitor_survey/answers</code></h2>
+<pre class="highlight shell"><code></code></pre>
+<pre class="highlight ruby"><code></code></pre>
+
+<blockquote>
+<p>Geerates the output</p>
+</blockquote>
+<pre class="highlight plaintext"><code>[
+  {
+    "id": 54545211,
+    "response": true
+  },
+  {
+    "id": 54545212,
+    "response": 4
+  },
+  {
+    "id": 54545213,
+    "response": 2341
+  },
+  {
+    "id": 54545214,
+    "response": "Best experience ever!"
+  }
+]
+</code></pre>
+
+<p>Submits visitor survey response for the given engagement id.</p>
+
           <h1 id="javascript-api-deprecated">JavaScript API [Deprecated]</h1>
 <pre class="highlight shell"><code>sm.getApi<span class="o">()</span>.then<span class="o">(</span>
     <span class="k">function</span><span class="o">(</span>api<span class="o">){</span>
